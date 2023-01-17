@@ -4,7 +4,7 @@ import {
   Route,
   BrowserRouter as Router,
 } from "react-router-dom";
-import NotFound from "./../pages/not-found";
+import { useSelector } from 'react-redux';
 
 import {
 	AuthedComponent,
@@ -16,9 +16,10 @@ import {
 	AuthedRoute,
 	PublicRoute
 } from './routes';
+import NotFound from "./../pages/not-found";
 
 const Routes = () => {
-	const token = false;
+	const { token } = useSelector(({ auth }) => auth);
 	return (
 		<Router>
 			<WrapperRoutes>
