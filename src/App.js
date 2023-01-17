@@ -1,9 +1,14 @@
-import './App.css';
+import { AnimatePresence } from "framer-motion";
 
+import './App.css';
 import Routes from './routes';
 
 function App() {
-  return <Routes />
+  return (
+    <AnimatePresence mode='wait'>
+      <Routes />
+    </AnimatePresence>
+  )
 }
 
 export default App;
