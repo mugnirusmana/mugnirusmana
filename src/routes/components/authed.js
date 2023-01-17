@@ -5,29 +5,26 @@ import { AuthedTemplate } from './../templates';
 
 const AuthedComponent = ({component: Component, token}) => {
 	const navigateLocation = useLocation();
-	const nextLocation = navigateLocation?.pathname;
-	let nextPath;
-	if(nextLocation) {
-		const nextQueryParams = navigateLocation?.search??'';
-		nextPath = `${nextLocation}${nextQueryParams}`;
-	}
+	const pathName = navigateLocation?.pathname;
+	const queryParams = navigateLocation?.search??'';
 
 	if(token) {
-    return (
+		const nextPathAuthed = localStorage.getItem('nextPathAuthed');
+		if(pathName === nextPathAuthed) localStorage.removeItem('nextPathAuthed');
+		return (
 			<AuthedTemplate>
 				<Component />
 			</AuthedTemplate>
-    )
+		)
 	} else {
-		if (nextPath) {
-			const getNextPath = localStorage.getItem('nextPath');
-			if(getNextPath) {
-				localStorage.removeItem('nextPath');
-			} else {
-				localStorage.setItem('nextPath', nextPath);
-			}
+		let nextPath;
+		if(pathName) {
+			nextPath = `${pathName}${queryParams}`;
+			localStorage.setItem('nextPathAuthed', nextPath);
 		}
-		return <Navigate to={"/login"} />
+		const nextPathUnauthed = localStorage.getItem('nextPathUnauthed');
+
+		return <Navigate to={nextPathUnauthed??"/login"} />
 	}
 }
 
