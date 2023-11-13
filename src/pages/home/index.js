@@ -1,16 +1,57 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Loader from './components/loader';
+import Envelope from "./components/envelope";
+import Menu from "./components/menu";
+import { getWindowDimensions } from './../../helper';
 
 const Home = () => {
-  const auth = useSelector(({ auth }) => auth);
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [showLoader, setShowLoader] = useState(true);
+  const [showEnvelope, setShowEnvelope] = useState(false);
+  const [activeMenu, setActiveMenu] = useState('home');
+  const [showMenu, setShowMenu] = useState(true);
+
+  useEffect(() => {
+    const loaderTimeout = setTimeout(() => {
+      setShowLoader(false);
+      setShowEnvelope(true);
+      clearTimeout(loaderTimeout);
+    }, 5000);
+
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearTimeout(loaderTimeout);
+      window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (windowDimensions.width <= 1023) {
+      setShowMenu(false);
+    }
+  }, [windowDimensions]);
+
   return (
-    <div className="w-full h-screen flex flex-col text-center items-center justify-center">
-      Home
-      <Link
-        to={auth?.token ? '/dashboard' : '/login'}
-        className="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-      >{auth?.token ? 'Dashboard' : 'Login'}</Link>
+    <div className="w-full min-h-screen h-screen relative">
+      <Loader
+        show={showLoader}
+        windowDimensions={windowDimensions}
+      />
+      <Envelope
+        show={showEnvelope}
+        windowDimensions={windowDimensions}
+      />
+      <Menu
+        active={activeMenu}
+        show={showMenu}
+        onClickMenu={(menu) => setActiveMenu(menu)}
+        onShowMenu={(status) => setShowMenu(status)}
+      />
     </div>
   );
 };
