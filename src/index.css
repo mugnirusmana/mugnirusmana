@@ -15,3 +15,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.hide-scroll::-webkit-scrollbar { 
+  display: none; 
+}

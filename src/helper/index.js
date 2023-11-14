@@ -1,7 +1,10 @@
 export const getWindowDimensions = () => {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
+  const { innerWidth: width, innerHeight: height, scrollY: position } = window;
+  let data = {
     width,
-    height
+    height,
+    position,
+    bottom: position+height
   };
+  return data;
 }

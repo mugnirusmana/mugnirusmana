@@ -5,10 +5,12 @@ module.exports = {
   ],
   theme: {
     screens: {
+      'mobile-md': '380px',
+      'mobile-lg': '420px',
       'tablet': '640px',
       'tablet-md': '820px',
       'tablet-lg': '900px',
-      'laptop': '1024px',
+      'desktop': '1025px',
     },
     extend: {
       colors: {

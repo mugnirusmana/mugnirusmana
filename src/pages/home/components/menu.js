@@ -6,6 +6,7 @@ const Menu = (props) => {
   let {
     active,
     show,
+    windowDimensions,
     onClickMenu,
     onShowMenu,
   } = props;
@@ -64,13 +65,13 @@ const Menu = (props) => {
   const setShowMenu = () => {
     if (!show) {
       return {
-        header: 'left-[-220px] tablet:left-[-420px] laptop:left-[0px] top-[0px] laptop:top-[-140px]',
-        breadcumTop: 'top-[1rem] left-[0.2rem] rotate-[45deg]',
-        breadcumBottom: 'bottom-[1.05rem] left-[0.2rem] rotate-[-45deg]',
+        header: 'left-[-220px] tablet:left-[-420px] desktop:left-[0px] top-[0px] desktop:top-[-140px]',
+        breadcumTop: 'top-[1rem] left-[0.3rem] rotate-[45deg]',
+        breadcumBottom: 'bottom-[1.05rem] left-[0.3rem] rotate-[-45deg]',
       }
     } else {
       return {
-        header: 'left-[0px] tablet:left-[0px] laptop:left-[0px] top-[0px] laptop:top-[0px]',
+        header: 'left-[0px] tablet:left-[0px] desktop:left-[0px] top-[0px] desktop:top-[0px]',
         breadcumTop: 'top-2 left-1 rotate-[0deg]',
         breadcumBottom: 'bottom-2 left-1 rotate-[0deg]',
       }
@@ -97,35 +98,31 @@ const Menu = (props) => {
 
   return (
     <div
-      className={`w-[220px] transition-all duration-300 ease-in-out tablet:w-[420px] laptop:w-screen h-full laptop:h-[150px] flex flex-col laptop:flex-row items-start justify-start laptop:items-center laptop:justify-center backdrop-blur-lg gap-5 laptop:gap-10 text-sm tablet:text-lg px-4 py-6 fixed drop-shadow-md bg-white laptop:bg-transparent border-r border-r-dark-pink laptop:border-r-transparent ${setShowMenu().header}`}
+      className={`w-[220px] transition-all duration-300 ease-in-out tablet:w-[420px] desktop:w-screen h-full desktop:h-[150px] flex flex-col desktop:flex-row items-start justify-start desktop:items-center desktop:justify-center backdrop-blur-lg gap-5 desktop:gap-10 text-sm tablet:text-lg px-4 py-6 fixed shadow-md bg-white desktop:bg-transparent border-r border-r-dark-pink desktop:border-r-transparent z-[70] ${setShowMenu().header}`}
       onMouseEnter={() => {
         if (onShowMenu && triggerShowMenu && !show) {
           setTriggerShowMenu(false);
           return onShowMenu(!show);
         } else {
-          return {}
+          return {};
         }
       }}
       onMouseLeave={() => {
-        if (onShowMenu) {
-          if(triggerShowMenu) {
-            setTriggerShowMenu(false);
-            return onShowMenu(!show);
-          } else {
-            return {}
-          }
+        if (onShowMenu && triggerShowMenu && windowDimensions?.position >= 300) {
+          setTriggerShowMenu(false);
+          return onShowMenu(!show);
         } else {
-          return {}
+          return {};
         }
       }}
     >
       <div
-        className={`laptop:hidden absolute transition-all duration-300 ease-in-out top-5 -right-[40px] w-[40px] h-[40px] rounded-tr-sm rounded-br-sm bg-white border-t border-r border-b border-t-dark-pink border-r-dark-pink border-b-dark-pink flex items-center justify-center cursor-pointer`}
+        className={`desktop:hidden absolute transition-all duration-300 ease-in-out top-5 -right-[40px] w-[40px] h-[40px] rounded-tr-sm rounded-br-sm bg-white border-t border-r border-b border-t-dark-pink border-r-dark-pink border-b-dark-pink flex items-center justify-center cursor-pointer`}
         onClick={() => {
           if (onShowMenu) {
             return onShowMenu(!show);
           } else {
-            return {}
+            return {};
           }
         }}
       >
