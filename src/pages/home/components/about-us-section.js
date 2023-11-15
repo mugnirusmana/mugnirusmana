@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import Header from './header';
 
 import Left from './../../../assets/svgs/left.svg';
@@ -8,7 +10,6 @@ import Shape11 from './../../../assets/svgs/shape11.svg';
 import Bg from './../../../assets/images/bg-2.png'
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
-import { useEffect, useRef } from 'react';
 
 const AboutUs = (props) => {
   let { getRef }= props;

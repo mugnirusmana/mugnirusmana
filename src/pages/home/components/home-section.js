@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import Shape2 from './../../../assets/svgs/shape2.svg';
 import Shape3DarkPink from './../../../assets/svgs/shape3-dark-pink.svg';
 import Shape5DarkPink from './../../../assets/svgs/shape5-dark-pink.svg';
@@ -10,7 +12,6 @@ import Right from './../../../assets/svgs/right.svg';
 import Couple from './../../../assets/images/bg-2.png';
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
-import { useEffect, useRef } from 'react';
 
 const HomeSection = (props) => {
   let {
@@ -51,7 +52,7 @@ const HomeSection = (props) => {
           <span className="text-4xl font-whisper tablet:text-8xl desktop:text-9xl">nova ~</span>
         </div>
         <img src={Shape7} className="h-[50px] my-2 tablet:h-[100px] desktop:h-[unset]" alt="shape" />
-        <span className="capitalize font-dancing-script text-sm tablet:text-lg desktop:text-xl text-[#A5AA9C]">- save the date -</span>
+        <span className="capitalize font-dancing-script text-sm tablet:text-lg desktop:text-xl text-[#657251]">- save the date -</span>
         <div className="w-fit flex flex-row items-center text-2xl gap-2 tablet:text-4xl desktop:text-6xl">
           <span className="font-ingrid-darling">january</span>
           <span className="font-ingrid-darling">01,</span>

@@ -6,6 +6,7 @@ import Envelope from "./components/envelope";
 import Menu from "./components/menu";
 import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
+import OurStorySection from './components/our-story-section';
 
 import { getWindowDimensions } from './../../helper';
 import ScrollToTop from "./components/scrollToTop";
@@ -19,8 +20,14 @@ const Home = () => {
   const [showToTop, setShowToTop] = useState(false);
   const [homeRef, setHomeRef] = useState(null);
   const [aboutUsRef, setAboutUsRef] = useState(null);
+  const [ourStoryRef, setOurStoryRef] = useState(null);
+  const [eventsyRef, setEventsRef] = useState(null);
+  const [bridesmaidGroomsmanRef, setBridesmaidGroomsmanRef] = useState(null);
+  const [galleryRef, setGalleryRef] = useState(null);
+  const [reservationRef, setReservationRef] = useState(null);
 
   const offSetHideMenuDesktopSize = 300;
+  const desktopSize = 1025;
   const scrollRef = useRef();
 
   const listMenu = [
@@ -34,26 +41,36 @@ const Home = () => {
       label: 'About Us',
       slug: 'about_us',
       ref: aboutUsRef,
+      nextRef: ourStoryRef,
     },
     {
       label: 'Our Story',
-      slug: 'our_story'
+      slug: 'our_story',
+      ref: ourStoryRef,
+      nextRef: eventsyRef,
     },
     {
       label: 'Events',
-      slug: 'events'
+      slug: 'events',
+      ref: eventsyRef,
+      nextRef: bridesmaidGroomsmanRef,
     },
     {
       label: 'Bridesmaids & Groomsman',
-      slug: 'bridesmaids_groomsman'
+      slug: 'bridesmaids_groomsman',
+      ref: bridesmaidGroomsmanRef,
+      nextRef: galleryRef,
     },
     {
       label: 'Gallery',
-      slug: 'gallery'
+      slug: 'gallery',
+      ref: galleryRef,
+      nextRef: reservationRef,
     },
     {
       label: 'Reservation',
-      slug: 'reservation'
+      slug: 'reservation',
+      ref: reservationRef,
     }
   ];
 
@@ -77,7 +94,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (windowDimensions.width <= 1024) {
+    if (windowDimensions.width <= (desktopSize-1)) {
       setShowMenu(false); //for tablet & mobile size
     } else {
       if (windowDimensions.position >= offSetHideMenuDesktopSize) {
@@ -98,9 +115,8 @@ const Home = () => {
 
   const updateActiveMenu = () => {
     let { position } = windowDimensions;
-    
     if (homeRef?.current) {
-      listMenu?.map((item, index) => {
+      listMenu?.map((item) => {
         let currentRef = item?.ref
         let nextRef = item?.nextRef;
         if (nextRef) {
@@ -108,7 +124,7 @@ const Home = () => {
             setActiveMenu(item?.slug);
           }
         } else {
-          if (position === currentRef?.current?.offsetTop) {
+          if (position >= currentRef?.current?.offsetTop) {
             setActiveMenu(item?.slug);
           }
         }
@@ -122,6 +138,7 @@ const Home = () => {
       ref={scrollRef}
       className="w-full min-h-screen h-screen relative scroll-smooth overflow-x-hidden hide-scroll"
       onScroll={_.debounce(() => {
+        if (windowDimensions.width <= 1024) setShowMenu(false);
         setWindowDimensions({
           ...windowDimensions,
           position: scrollRef?.current?.scrollTop,
@@ -144,13 +161,18 @@ const Home = () => {
         windowDimensions={windowDimensions}
         listMenu={listMenu}
         offSetHideMenuDesktopSize={offSetHideMenuDesktopSize}
-        onClickMenu={(menu) => setActiveMenu(menu)}
+        desktopSize={desktopSize}
+        onClickMenu={(menu) => {
+          setActiveMenu(menu);
+        }}
         onShowMenu={(status) => setShowMenu(status)}
       />
 
       <ScrollToTop
         show={showToTop}
-        onScrollToTop={() => homeRef?.current?.scrollIntoView({ behavior: 'smooth' })}
+        onScrollToTop={() => {
+          homeRef?.current?.scrollIntoView({ behavior: 'smooth' })
+        }}
       />
 
       <HomeSection
@@ -160,6 +182,10 @@ const Home = () => {
 
       <AboutUsSection
         getRef={(ref) => setAboutUsRef(ref)}
+      />
+
+      <OurStorySection
+        getRef={(ref) => setOurStoryRef(ref)}
       />
 
     </div>

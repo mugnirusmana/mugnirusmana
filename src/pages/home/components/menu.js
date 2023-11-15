@@ -8,6 +8,7 @@ const Menu = (props) => {
     show,
     windowDimensions,
     offSetHideMenuDesktopSize,
+    desktopSize,
     onClickMenu,
     onShowMenu,
     listMenu
@@ -30,14 +31,14 @@ const Menu = (props) => {
     if (active === selected) {
       return 'text-dark-pink border-b-dark-pink';
     } else {
-      return 'text-medium-pink border-b-transparent';
+      return 'text-medium-pink desktop:text-[#E9A3D4] border-b-transparent';
     }
   }
 
   const setShowMenu = () => {
     if (!show) {
       return {
-        header: 'left-[-220px] tablet:left-[-420px] desktop:left-[0px] top-[0px] desktop:top-[-140px]',
+        header: 'left-[-220px] tablet:left-[-420px] desktop:left-[0px] top-[0px] desktop:top-[-120px]',
         breadcumTop: 'top-[1rem] left-[0.3rem] rotate-[45deg]',
         breadcumBottom: 'bottom-[1.05rem] left-[0.3rem] rotate-[-45deg]',
       }
@@ -55,7 +56,7 @@ const Menu = (props) => {
       return (
         <span
           key={index}
-          className={`w-fit h-fit cursor-pointer font-bold transition-all duration-200 ease-in-out whitespace-nowrap border-b-2 ${setActiveMenu(item?.slug)} hover:text-dark-pink hover:border-b-dark-pink`}
+          className={`w-fit h-fit cursor-pointer font-bold transition-all duration-500 ease-in-out whitespace-nowrap border-b-2 ${setActiveMenu(item?.slug)} hover:text-dark-pink hover:border-b-dark-pink`}
           onClick={() => {
             if (onClickMenu) {
               if(item?.ref?.current) item?.ref?.current?.scrollIntoView({ behavior: 'smooth' })
@@ -74,8 +75,9 @@ const Menu = (props) => {
       className={`w-[220px] transition-all duration-300 ease-in-out tablet:w-[420px] desktop:w-screen h-full desktop:h-[150px] flex flex-col desktop:flex-row items-start justify-start desktop:items-center desktop:justify-center backdrop-blur-lg gap-5 desktop:gap-10 text-sm tablet:text-lg px-4 py-6 fixed shadow-md bg-white desktop:bg-transparent border-r border-r-dark-pink desktop:border-r-transparent z-[70] ${setShowMenu().header}`}
       onMouseEnter={() => {
         if (onShowMenu && triggerShowMenu && !show) {
+          let isShow = windowDimensions?.width >= desktopSize ? !show : true;
           setTriggerShowMenu(false);
-          return onShowMenu(!show);
+          return onShowMenu(isShow);
         } else {
           return {};
         }
@@ -83,7 +85,8 @@ const Menu = (props) => {
       onMouseLeave={() => {
         if (onShowMenu && triggerShowMenu && windowDimensions?.position >= offSetHideMenuDesktopSize) {
           setTriggerShowMenu(false);
-          return onShowMenu(!show);
+          let isShow = windowDimensions?.width >= desktopSize ? !show : false;
+          return onShowMenu(isShow);
         } else {
           return {};
         }
