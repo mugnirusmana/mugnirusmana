@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import _ from 'lodash';
+
 import Loader from './components/loader';
 import Envelope from "./components/envelope";
 import Menu from "./components/menu";
+import HomeSection from './components/home-section';
+import AboutUsSection from './components/about-us-section';
+import OurStorySection from './components/our-story-section';
+
 import { getWindowDimensions } from './../../helper';
+import ScrollToTop from "./components/scrollToTop";
 
 const Home = () => {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
@@ -10,6 +17,62 @@ const Home = () => {
   const [showEnvelope, setShowEnvelope] = useState(false);
   const [activeMenu, setActiveMenu] = useState('home');
   const [showMenu, setShowMenu] = useState(true);
+  const [showToTop, setShowToTop] = useState(false);
+  const [homeRef, setHomeRef] = useState(null);
+  const [aboutUsRef, setAboutUsRef] = useState(null);
+  const [ourStoryRef, setOurStoryRef] = useState(null);
+  const [eventsyRef, setEventsRef] = useState(null);
+  const [bridesmaidGroomsmanRef, setBridesmaidGroomsmanRef] = useState(null);
+  const [galleryRef, setGalleryRef] = useState(null);
+  const [reservationRef, setReservationRef] = useState(null);
+
+  const offSetHideMenuDesktopSize = 300;
+  const desktopSize = 1025;
+  const scrollRef = useRef();
+
+  const listMenu = [
+    {
+      label: 'Home',
+      slug: 'home',
+      ref: homeRef,
+      nextRef: aboutUsRef,
+    },
+    {
+      label: 'About Us',
+      slug: 'about_us',
+      ref: aboutUsRef,
+      nextRef: ourStoryRef,
+    },
+    {
+      label: 'Our Story',
+      slug: 'our_story',
+      ref: ourStoryRef,
+      nextRef: eventsyRef,
+    },
+    {
+      label: 'Events',
+      slug: 'events',
+      ref: eventsyRef,
+      nextRef: bridesmaidGroomsmanRef,
+    },
+    {
+      label: 'Bridesmaids & Groomsman',
+      slug: 'bridesmaids_groomsman',
+      ref: bridesmaidGroomsmanRef,
+      nextRef: galleryRef,
+    },
+    {
+      label: 'Gallery',
+      slug: 'gallery',
+      ref: galleryRef,
+      nextRef: reservationRef,
+    },
+    {
+      label: 'Reservation',
+      slug: 'reservation',
+      ref: reservationRef,
+    }
+  ];
 
   useEffect(() => {
     const loaderTimeout = setTimeout(() => {
@@ -18,7 +81,7 @@ const Home = () => {
       clearTimeout(loaderTimeout);
     }, 5000);
 
-    function handleResize() {
+    const handleResize = () => {
       setWindowDimensions(getWindowDimensions());
     }
 
@@ -31,27 +94,100 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (windowDimensions.width <= 1023) {
-      setShowMenu(false);
+    if (windowDimensions.width <= (desktopSize-1)) {
+      setShowMenu(false); //for tablet & mobile size
+    } else {
+      if (windowDimensions.position >= offSetHideMenuDesktopSize) {
+        setShowMenu(false); //for desktop size
+      } else {
+        setShowMenu(true);
+      }
     }
+
+    if (windowDimensions.position > offSetHideMenuDesktopSize) {
+      setShowToTop(true);
+    } else {
+      setShowToTop(false);
+    }
+
+    updateActiveMenu();
   }, [windowDimensions]);
 
+  const updateActiveMenu = () => {
+    let { position } = windowDimensions;
+    if (homeRef?.current) {
+      listMenu?.map((item) => {
+        let currentRef = item?.ref
+        let nextRef = item?.nextRef;
+        if (nextRef) {
+          if (position >= currentRef?.current?.offsetTop && position < nextRef?.current?.offsetTop) {
+            setActiveMenu(item?.slug);
+          }
+        } else {
+          if (position >= currentRef?.current?.offsetTop) {
+            setActiveMenu(item?.slug);
+          }
+        }
+        return item;
+      })
+    }
+  }
+
   return (
-    <div className="w-full min-h-screen h-screen relative">
+    <div
+      ref={scrollRef}
+      className="w-full min-h-screen h-screen relative scroll-smooth overflow-x-hidden hide-scroll"
+      onScroll={_.debounce(() => {
+        if (windowDimensions.width <= 1024) setShowMenu(false);
+        setWindowDimensions({
+          ...windowDimensions,
+          position: scrollRef?.current?.scrollTop,
+        });
+      }, 300)}
+    >
       <Loader
         show={showLoader}
         windowDimensions={windowDimensions}
       />
+
       <Envelope
         show={showEnvelope}
         windowDimensions={windowDimensions}
       />
+
       <Menu
         active={activeMenu}
         show={showMenu}
-        onClickMenu={(menu) => setActiveMenu(menu)}
+        windowDimensions={windowDimensions}
+        listMenu={listMenu}
+        offSetHideMenuDesktopSize={offSetHideMenuDesktopSize}
+        desktopSize={desktopSize}
+        onClickMenu={(menu) => {
+          setActiveMenu(menu);
+        }}
         onShowMenu={(status) => setShowMenu(status)}
       />
+
+      <ScrollToTop
+        show={showToTop}
+        onScrollToTop={() => {
+          homeRef?.current?.scrollIntoView({ behavior: 'smooth' })
+        }}
+      />
+
+      <HomeSection
+        onClickDown={() => aboutUsRef?.current?.scrollIntoView({ behavior: 'smooth' })}
+        getRef={(ref) => setHomeRef(ref)}
+      />
+
+      <AboutUsSection
+        getRef={(ref) => setAboutUsRef(ref)}
+      />
+
+      <OurStorySection
+        getRef={(ref) => setOurStoryRef(ref)}
+      />
+
     </div>
   );
 };
