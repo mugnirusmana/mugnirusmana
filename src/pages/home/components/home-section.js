@@ -10,12 +10,26 @@ import Right from './../../../assets/svgs/right.svg';
 import Couple from './../../../assets/images/bg-2.png';
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
+import { useEffect, useRef } from 'react';
 
 const HomeSection = (props) => {
-  let { onClickDown } = props;
+  let {
+    onClickDown,
+    getRef,
+  } = props;
+  const ref = useRef()
+
+  useEffect(() => {
+    if(getRef) {
+      return getRef(ref);
+    }
+  }, [])
 
   return (
-    <div className="w-screen min-h-screen h-screen bg-light-pink text-dark-pink flex flex-col-reverse desktop:flex-row items-center justify-center relative gap-10">
+    <div
+      ref={ref}
+      className="w-screen min-h-screen h-screen bg-light-pink text-dark-pink flex flex-col-reverse desktop:flex-row items-center justify-center relative gap-10"
+    >
       <div className="w-fit h-fit flex flex-row items-center justify-center relative mb-24 mobile-md:mb-36 mobile-lg:mb-52 desktop:mb-[unset] desktop:ml-60 desktop:mr-20 z-[1] desktop:mt-20">
         <img src={Couple} className="w-[150px] h-[150px] tablet:w-[250px] tablet:h-[250px] desktop:w-[350px] desktop:h-[350px] rounded-full object-cover border-4 border-dark-pink" alt="couple"/>
 

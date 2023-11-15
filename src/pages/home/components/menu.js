@@ -7,39 +7,11 @@ const Menu = (props) => {
     active,
     show,
     windowDimensions,
+    offSetHideMenuDesktopSize,
     onClickMenu,
     onShowMenu,
+    listMenu
   } = props;
-  const menus = [
-    {
-      label: 'Home',
-      slug: 'home'
-    },
-    {
-      label: 'About Us',
-      slug: 'about_us'
-    },
-    {
-      label: 'Our Story',
-      slug: 'our_story'
-    },
-    {
-      label: 'Events',
-      slug: 'events'
-    },
-    {
-      label: 'Bridesmaids & Groomsman',
-      slug: 'bridesmaids_groomsman'
-    },
-    {
-      label: 'Gallery',
-      slug: 'gallery'
-    },
-    {
-      label: 'Reservation',
-      slug: 'reservation'
-    }
-  ];
   let intervalMenu = null;
   const [triggerShowMenu, setTriggerShowMenu] = useState(true);
 
@@ -79,13 +51,14 @@ const Menu = (props) => {
   }
 
   const renderListMenu = () => {
-    return menus?.map((item, index) => {
+    return listMenu?.map((item, index) => {
       return (
         <span
           key={index}
           className={`w-fit h-fit cursor-pointer font-bold transition-all duration-200 ease-in-out whitespace-nowrap border-b-2 ${setActiveMenu(item?.slug)} hover:text-dark-pink hover:border-b-dark-pink`}
           onClick={() => {
             if (onClickMenu) {
+              if(item?.ref?.current) item?.ref?.current?.scrollIntoView({ behavior: 'smooth' })
               return onClickMenu(item?.slug);
             } else {
               return {};
@@ -108,7 +81,7 @@ const Menu = (props) => {
         }
       }}
       onMouseLeave={() => {
-        if (onShowMenu && triggerShowMenu && windowDimensions?.position >= 300) {
+        if (onShowMenu && triggerShowMenu && windowDimensions?.position >= offSetHideMenuDesktopSize) {
           setTriggerShowMenu(false);
           return onShowMenu(!show);
         } else {
