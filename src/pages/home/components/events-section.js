@@ -22,6 +22,7 @@ const EventsSection = (props) => {
       return {}
     }
   }, [])
+  
   return (
     <div ref={ref} className="w-screen min-h-screen relative">
       <img src={Bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>

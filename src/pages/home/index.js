@@ -8,6 +8,7 @@ import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
 import EventsSection from "./components/events-section";
+import BridesmaidsGroomsmanSection from "./components/bridesmaids-groomsman-section";
 
 import { getWindowDimensions } from './../../helper';
 import ScrollToTop from "./components/scrollToTop";
@@ -186,6 +187,8 @@ const Home = () => {
       <OurStorySection getRef={(ref) => setOurStoryRef(ref)} />
 
       <EventsSection getRef={(ref) => setEventsRef(ref)} />
+
+      <BridesmaidsGroomsmanSection getRef={(ref) => setBridesmaidsGroomsmanRef(ref)} />
 
     </div>
   );
