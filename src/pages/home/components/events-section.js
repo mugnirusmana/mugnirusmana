@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 
 import Header from './header';
 
-import Bg from './../../../assets/images/bg-2.png';
+import Bg from './../../../assets/images/bg-1.png';
 import Ceremonial from './../../../assets/images/akad.jpg';
 import Party from './../../../assets/images/resepsi.jpeg';
 import Traditional from './../../../assets/images/mulung-mantu.jpg';
@@ -23,7 +23,7 @@ const EventsSection = (props) => {
     }
   }, [])
   return (
-    <div ref={ref} className="w-screen min-h-screen desktop:h-screen relative">
+    <div ref={ref} className="w-screen min-h-screen relative">
       <img src={Bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-30" />
 
@@ -34,7 +34,7 @@ const EventsSection = (props) => {
         dropShadow={true}
       />
       
-      <div className="w-full flex flex-col p-5 text-dark-pink tablet:items-center desktop:p-10">
+      <div className="w-full desktop:h-full flex flex-col p-5 text-dark-pink tablet:items-center desktop:p-10">
 
         <div className="w-full h-fit flex flex-col gap-5 font-puppies text-lg desktop:text-2xl tablet:flex-row tablet:w-1/2 desktop:w-full desktop:gap-10">
           <div className="w-full flex flex-row gap-5 desktop:gap-10">
@@ -59,9 +59,9 @@ const EventsSection = (props) => {
           </div>
         </div>
 
-        <div className="w-full flex flex-col gap-5 mt-5 tablet:items-center desktop:flex-row desktop:gap-10 desktop:mt-10">
+        <div className="w-full flex flex-col gap-5 mt-5 tablet:items-center desktop:flex-row desktop:gap-10 desktop:mt-10 desktop:items-start desktop:h-full">
 
-          <div className="w-full bg-light-pink rounded-md shadow-lg drop-shadow-lg relative tablet:w-1/2 desktop:w-full">
+          <div className="w-full bg-light-pink rounded-md shadow-lg drop-shadow-lg relative tablet:w-1/2 desktop:w-full desktop:h-full">
             <img src={Left} className="h-[40%] absolute left-0 bottom-0" alt="shape"/>
             <img src={Right} className="h-[40%] absolute right-0 bottom-0 -scale-y-100" alt="shape"/>
 
@@ -78,7 +78,7 @@ const EventsSection = (props) => {
                   <span>09:00 - 10:00</span>
                 </div>
               </div>
-              <div className="w-full flex flex-row gap-5 justify-center text-sm">
+              <div className="w-full flex flex-row gap-5 justify-center text-sm z-[1]">
                 <i className="fa-solid fa-location-dot"></i>
                 <span className="text-center">Streen A No 123, 4 Floor</span>
               </div>
@@ -86,7 +86,7 @@ const EventsSection = (props) => {
             </div>
           </div>
 
-          <div className="w-full bg-light-pink rounded-md shadow-lg drop-shadow-lg relative tablet:w-1/2 desktop:w-full">
+          <div className="w-full bg-light-pink rounded-md shadow-lg drop-shadow-lg relative tablet:w-1/2 desktop:w-full desktop:h-full">
             <img src={Left} className="h-[40%] absolute left-0 bottom-0" alt="shape"/>
             <img src={Right} className="h-[40%] absolute right-0 bottom-0 -scale-y-100" alt="shape"/>
 
@@ -103,7 +103,7 @@ const EventsSection = (props) => {
                   <span>09:00 - 10:00</span>
                 </div>
               </div>
-              <div className="w-full flex flex-row gap-5 justify-center text-sm">
+              <div className="w-full flex flex-row gap-5 justify-center text-sm z-[1]">
                 <i className="fa-solid fa-location-dot"></i>
                 <span className="text-center">Streen A No 123, 4 Floor</span>
               </div>
@@ -111,7 +111,7 @@ const EventsSection = (props) => {
             </div>
           </div>
 
-          <div className="w-full bg-light-pink rounded-md shadow-lg drop-shadow-lg relative tablet:w-1/2 desktop:w-full">
+          <div className="w-full bg-light-pink rounded-md shadow-lg drop-shadow-lg relative tablet:w-1/2 desktop:w-full desktop:h-full">
             <img src={Left} className="h-[40%] absolute left-0 bottom-0" alt="shape"/>
             <img src={Right} className="h-[40%] absolute right-0 bottom-0 -scale-y-100" alt="shape"/>
 
@@ -128,7 +128,7 @@ const EventsSection = (props) => {
                   <span>09:00 - 10:00</span>
                 </div>
               </div>
-              <div className="w-full flex flex-row gap-5 justify-center text-sm">
+              <div className="w-full flex flex-row gap-5 justify-center text-sm z-[1]">
                 <i className="fa-solid fa-location-dot"></i>
                 <span className="text-center">Streen A No 123, 4 Floor</span>
               </div>
