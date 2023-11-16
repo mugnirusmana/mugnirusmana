@@ -22,8 +22,8 @@ const Home = () => {
   const [homeRef, setHomeRef] = useState(null);
   const [aboutUsRef, setAboutUsRef] = useState(null);
   const [ourStoryRef, setOurStoryRef] = useState(null);
-  const [eventsyRef, setEventsRef] = useState(null);
-  const [bridesmaidGroomsmanRef, setBridesmaidGroomsmanRef] = useState(null);
+  const [eventsRef, setEventsRef] = useState(null);
+  const [bridesmaidsGroomsmanRef, setBridesmaidsGroomsmanRef] = useState(null);
   const [galleryRef, setGalleryRef] = useState(null);
   const [reservationRef, setReservationRef] = useState(null);
 
@@ -48,18 +48,18 @@ const Home = () => {
       label: 'Our Story',
       slug: 'our_story',
       ref: ourStoryRef,
-      nextRef: eventsyRef,
+      nextRef: eventsRef,
     },
     {
       label: 'Events',
       slug: 'events',
-      ref: eventsyRef,
-      nextRef: bridesmaidGroomsmanRef,
+      ref: eventsRef,
+      nextRef: bridesmaidsGroomsmanRef,
     },
     {
       label: 'Bridesmaids & Groomsman',
       slug: 'bridesmaids_groomsman',
-      ref: bridesmaidGroomsmanRef,
+      ref: bridesmaidsGroomsmanRef,
       nextRef: galleryRef,
     },
     {
