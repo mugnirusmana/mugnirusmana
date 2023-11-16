@@ -7,6 +7,7 @@ import Menu from "./components/menu";
 import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
+import EventsSection from "./components/events-section";
 
 import { getWindowDimensions } from './../../helper';
 import ScrollToTop from "./components/scrollToTop";
@@ -180,13 +181,11 @@ const Home = () => {
         getRef={(ref) => setHomeRef(ref)}
       />
 
-      <AboutUsSection
-        getRef={(ref) => setAboutUsRef(ref)}
-      />
+      <AboutUsSection getRef={(ref) => setAboutUsRef(ref)} />
 
-      <OurStorySection
-        getRef={(ref) => setOurStoryRef(ref)}
-      />
+      <OurStorySection getRef={(ref) => setOurStoryRef(ref)} />
+
+      <EventsSection getRef={(ref) => setEventsRef(ref)} />
 
     </div>
   );

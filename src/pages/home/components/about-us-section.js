@@ -7,11 +7,11 @@ import Right from './../../../assets/svgs/right.svg';
 import Shape10 from './../../../assets/svgs/shape10.svg';
 import Shape11 from './../../../assets/svgs/shape11.svg';
 
-import Bg from './../../../assets/images/bg-2.png'
+import Bg from './../../../assets/images/bg-2.png';
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
 
-const AboutUs = (props) => {
+const AboutUsSection = (props) => {
   let { getRef }= props;
   const ref = useRef()
 
@@ -95,4 +95,4 @@ const AboutUs = (props) => {
   )
 }
 
-export default AboutUs;
+export default AboutUsSection;
