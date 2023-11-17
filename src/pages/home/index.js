@@ -7,6 +7,9 @@ import Menu from "./components/menu";
 import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
+import EventsSection from "./components/events-section";
+import BridesmaidsGroomsmanSection from "./components/bridesmaids-groomsman-section";
+import GallerySection from "./components/gallery-section";
 
 import { getWindowDimensions } from './../../helper';
 import ScrollToTop from "./components/scrollToTop";
@@ -21,9 +24,9 @@ const Home = () => {
   const [homeRef, setHomeRef] = useState(null);
   const [aboutUsRef, setAboutUsRef] = useState(null);
   const [ourStoryRef, setOurStoryRef] = useState(null);
-  const [eventsyRef, setEventsRef] = useState(null);
-  const [bridesmaidGroomsmanRef, setBridesmaidGroomsmanRef] = useState(null);
-  const [galleryRef, setGalleryRef] = useState(null);
+  const [eventsRef, setEventsRef] = useState(null);
+  const [bridesmaidsGroomsmanRef, setBridesmaidsGroomsmanRef] = useState(null);
+  const galleryRef = useRef();
   const [reservationRef, setReservationRef] = useState(null);
 
   const offSetHideMenuDesktopSize = 300;
@@ -47,18 +50,18 @@ const Home = () => {
       label: 'Our Story',
       slug: 'our_story',
       ref: ourStoryRef,
-      nextRef: eventsyRef,
+      nextRef: eventsRef,
     },
     {
       label: 'Events',
       slug: 'events',
-      ref: eventsyRef,
-      nextRef: bridesmaidGroomsmanRef,
+      ref: eventsRef,
+      nextRef: bridesmaidsGroomsmanRef,
     },
     {
       label: 'Bridesmaids & Groomsman',
       slug: 'bridesmaids_groomsman',
-      ref: bridesmaidGroomsmanRef,
+      ref: bridesmaidsGroomsmanRef,
       nextRef: galleryRef,
     },
     {
@@ -180,13 +183,15 @@ const Home = () => {
         getRef={(ref) => setHomeRef(ref)}
       />
 
-      <AboutUsSection
-        getRef={(ref) => setAboutUsRef(ref)}
-      />
+      <AboutUsSection getRef={(ref) => setAboutUsRef(ref)} />
 
-      <OurStorySection
-        getRef={(ref) => setOurStoryRef(ref)}
-      />
+      <OurStorySection getRef={(ref) => setOurStoryRef(ref)} />
+
+      <EventsSection getRef={(ref) => setEventsRef(ref)} />
+
+      <BridesmaidsGroomsmanSection getRef={(ref) => setBridesmaidsGroomsmanRef(ref)} />
+
+      <GallerySection ref={galleryRef} />
 
     </div>
   );
