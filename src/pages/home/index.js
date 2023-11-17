@@ -9,6 +9,7 @@ import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
 import EventsSection from "./components/events-section";
 import BridesmaidsGroomsmanSection from "./components/bridesmaids-groomsman-section";
+import GallerySection from "./components/gallery-section";
 
 import { getWindowDimensions } from './../../helper';
 import ScrollToTop from "./components/scrollToTop";
@@ -25,7 +26,7 @@ const Home = () => {
   const [ourStoryRef, setOurStoryRef] = useState(null);
   const [eventsRef, setEventsRef] = useState(null);
   const [bridesmaidsGroomsmanRef, setBridesmaidsGroomsmanRef] = useState(null);
-  const [galleryRef, setGalleryRef] = useState(null);
+  const galleryRef = useRef();
   const [reservationRef, setReservationRef] = useState(null);
 
   const offSetHideMenuDesktopSize = 300;
@@ -189,6 +190,8 @@ const Home = () => {
       <EventsSection getRef={(ref) => setEventsRef(ref)} />
 
       <BridesmaidsGroomsmanSection getRef={(ref) => setBridesmaidsGroomsmanRef(ref)} />
+
+      <GallerySection ref={galleryRef} />
 
     </div>
   );
