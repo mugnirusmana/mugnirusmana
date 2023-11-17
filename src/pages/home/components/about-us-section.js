@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Header from './header';
 
@@ -11,16 +11,8 @@ import Bg from './../../../assets/images/bg-2.png';
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
 
-const AboutUsSection = (props) => {
-  let { getRef }= props;
-  const ref = useRef()
+const AboutUsSection = React.forwardRef((props, ref) => {
 
-  useEffect(() => {
-    if(getRef) {
-      return getRef(ref);
-    }
-  }, [])
-  
   return (
     <div ref={ref} className="w-screen min-h-screen tablet-lg:h-screen flex flex-col gap-5 relative">
       <Header
@@ -93,6 +85,6 @@ const AboutUsSection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default AboutUsSection;

@@ -22,11 +22,11 @@ const Home = () => {
   const [activeMenu, setActiveMenu] = useState('home');
   const [showMenu, setShowMenu] = useState(true);
   const [showToTop, setShowToTop] = useState(false);
-  const [homeRef, setHomeRef] = useState(null);
-  const [aboutUsRef, setAboutUsRef] = useState(null);
-  const [ourStoryRef, setOurStoryRef] = useState(null);
-  const [eventsRef, setEventsRef] = useState(null);
-  const [bridesmaidsGroomsmanRef, setBridesmaidsGroomsmanRef] = useState(null);
+  const homeRef = useRef();
+  const aboutUsRef = useRef();
+  const ourStoryRef = useRef();
+  const eventsRef = useRef();
+  const bridesmaidsGroomsmanRef = useRef();
   const galleryRef = useRef();
   const reservationRef = useRef();
 
@@ -181,18 +181,18 @@ const Home = () => {
 
       <HomeSection
         onClickDown={() => aboutUsRef?.current?.scrollIntoView({ behavior: 'smooth' })}
-        getRef={(ref) => setHomeRef(ref)}
+        ref={homeRef}
       />
 
-      <AboutUsSection getRef={(ref) => setAboutUsRef(ref)} />
+      <AboutUsSection ref={aboutUsRef} />
 
-      <OurStorySection getRef={(ref) => setOurStoryRef(ref)} />
+      <OurStorySection ref={ourStoryRef} />
 
-      <EventsSection getRef={(ref) => setEventsRef(ref)} />
+      <EventsSection ref={eventsRef} />
 
-      <BridesmaidsGroomsmanSection getRef={(ref) => setBridesmaidsGroomsmanRef(ref)} />
+      <BridesmaidsGroomsmanSection ref={bridesmaidsGroomsmanRef} />
 
-      {/* <GallerySection ref={galleryRef} /> */}
+      <GallerySection ref={galleryRef} />
 
       <ReservationSection ref={reservationRef} onSubmit={(data) => {console.log('data ', data)}} />
 

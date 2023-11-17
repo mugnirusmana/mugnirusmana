@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Header from './header';
 
@@ -11,17 +11,7 @@ import Right from './../../../assets/svgs/right.svg';
 import Shape8 from './../../../assets/svgs/shape8.svg';
 import Shape9 from './../../../assets/svgs/shape9.svg';
 
-const BridesmaidsGroomsmanSection = (props) => {
-  let { getRef }= props;
-  const ref = useRef();
-
-  useEffect(() => {
-    if (getRef) {
-      return getRef(ref);
-    } else {
-      return {}
-    }
-  }, []);
+const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="w-screen min-h-screen relative bg-light-pink flex flex-col">
@@ -179,6 +169,6 @@ const BridesmaidsGroomsmanSection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default BridesmaidsGroomsmanSection;

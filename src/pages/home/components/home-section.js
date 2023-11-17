@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Shape2 from './../../../assets/svgs/shape2.svg';
 import Shape3DarkPink from './../../../assets/svgs/shape3-dark-pink.svg';
@@ -13,18 +13,10 @@ import Couple from './../../../assets/images/bg-2.png';
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
 
-const HomeSection = (props) => {
+const HomeSection = React.forwardRef((props, ref) => {
   let {
     onClickDown,
-    getRef,
   } = props;
-  const ref = useRef()
-
-  useEffect(() => {
-    if(getRef) {
-      return getRef(ref);
-    }
-  }, [])
 
   return (
     <div
@@ -82,6 +74,6 @@ const HomeSection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default HomeSection;

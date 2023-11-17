@@ -1,5 +1,5 @@
 
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Header from './header';
 
@@ -11,17 +11,44 @@ import Traditional from './../../../assets/images/mulung-mantu.jpg';
 import Left from './../../../assets/svgs/left.svg';
 import Right from './../../../assets/svgs/right.svg';
 
-const EventsSection = (props) => {
-  let { getRef }= props;
-  const ref = useRef();
+const EventsSection = React.forwardRef((props, ref) => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [countDown, setCountDown] = useState({days: 0, hours: 0, minutes: 0, seconds: 0});
 
   useEffect(() => {
-    if (getRef) {
-      return getRef(ref);
-    } else {
-      return {}
-    }
+    setSelectedDate('11/17/2023 22:49');
   }, [])
+
+  useEffect(() => {
+    let  intervalTimer = null;
+    if (selectedDate) {
+      const endDate = new Date(selectedDate);
+      const _second = 1000;
+      const _minute = _second * 60;
+      const _hour = _minute * 60;
+      const _day = _hour * 24;
+
+      const showRemaining = () => {
+        let now = new Date();
+        let distance = endDate - now;
+        if (distance <= 0) {
+          clearInterval(intervalTimer);
+        } else {
+          let days = Math.floor(distance / _day);
+          let hours = Math.floor((distance % _day) / _hour);
+          let minutes = Math.floor((distance % _hour) / _minute);
+          let seconds = Math.floor((distance % _minute) / _second);
+          setCountDown({days, hours, minutes, seconds});
+        }
+      }
+
+      intervalTimer = setInterval(showRemaining, 1000);
+    }
+
+    return () => {
+      if (intervalTimer) clearInterval(intervalTimer);
+    }
+  }, [selectedDate]);
   
   return (
     <div ref={ref} className="w-screen min-h-screen relative">
@@ -31,31 +58,30 @@ const EventsSection = (props) => {
       <Header
         title={'Events'}
         textColor={'text-light-pink'}
-        // zIndex={'z-[1]'}
         dropShadow={true}
       />
       
       <div className="w-full desktop:h-full flex flex-col p-5 text-dark-pink tablet:items-center desktop:p-10">
 
         <div className="w-full h-fit flex flex-col gap-5 font-puppies text-lg desktop:text-2xl tablet:flex-row tablet:w-1/2 desktop:w-full desktop:gap-10">
-          <div className="w-full flex flex-row gap-5 desktop:gap-10">
+          <div className={`w-full flex flex-row gap-5 desktop:gap-10`}>
             <div className="w-full h-[70px] bg-light-pink shadow-lg drop-shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
               <span className="font-bold">Days</span>
-              <span className="desktop:text-lg">0</span>
+              <span className="desktop:text-lg font-bold">{countDown?.days}</span>
             </div>
             <div className="w-full h-[70px] bg-light-pink shadow-lg drop-shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
               <span className="font-bold">Hours</span>
-              <span className="desktop:text-lg">0</span>
+              <span className="desktop:text-lg font-bold">{countDown?.hours}</span>
             </div>
           </div>
-          <div className="w-full flex flex-row gap-5 desktop:gap-10">
+          <div className={`w-full flex flex-row gap-5 desktop:gap-10`}>
             <div className="w-full h-[70px] bg-light-pink shadow-lg drop-shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
               <span className="font-bold">Minutes</span>
-              <span className="desktop:text-lg">0</span>
+              <span className="desktop:text-lg font-bold">{countDown?.minutes}</span>
             </div>
             <div className="w-full h-[70px] bg-light-pink shadow-lg drop-shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
               <span className="font-bold">Seconds</span>
-              <span className="desktop:text-lg">0</span>
+              <span className="desktop:text-lg font-bold">{countDown?.seconds}</span>
             </div>
           </div>
         </div>
@@ -141,6 +167,6 @@ const EventsSection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default EventsSection;

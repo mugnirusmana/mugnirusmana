@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Header from './header';
 
@@ -10,15 +10,7 @@ import Right from './../../../assets/svgs/right.svg';
 import Left from './../../../assets/svgs/left.svg';
 import Shape11 from './../../../assets/svgs/shape11.svg';
 
-const OurStorySection = (props) => {
-  let { getRef }= props;
-  const ref = useRef()
-
-  useEffect(() => {
-    if(getRef) {
-      return getRef(ref);
-    }
-  }, [])
+const OurStorySection = React.forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="w-screen min-h-screen bg-light-pink pb-5 tablet:pb-20 flex flex-col relative">
@@ -91,6 +83,6 @@ const OurStorySection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default OurStorySection;
