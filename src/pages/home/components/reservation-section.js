@@ -107,9 +107,9 @@ const ReservationSection = React.forwardRef((props, ref) => {
     if (!fullname) {
       result.isError = true;
       setErrorFullname('Fullname is required');
-    } else if (fullname?.length > 30) {
+    } else if (fullname?.length > 50) {
       result.isError = true;
-      setErrorFullname('Fullname max 30 characters');
+      setErrorFullname('Fullname max 50 characters');
     } else if (!fullnameRegex.test(fullname)) {
       result.isError = true;
       setErrorFullname('Full format is invalid (<span class="font-bold italic">Only aplhabet and space</span>)');
@@ -136,9 +136,9 @@ const ReservationSection = React.forwardRef((props, ref) => {
       setErrorAttendance('Attendance is required');
     }
 
-    if (comment && comment?.length > 250) {
+    if (comment && comment?.length > 230) {
       result.isError = true;
-      setErrorComment('Comment max 120 character');
+      setErrorComment('Comment max 230 character');
     }
 
     return result;
@@ -195,7 +195,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
               className="font-bold cursor-pointer w-fit"
               onClick={() => fullNameRef?.current?.focus()}
             >Full Name <span className="text-red-500">*</span></div>
-            <input ref={fullNameRef} name="full_name" type="text" className="h-[30px] px-2 outline-none rounded" placeholder="Fill your full name here" autoComplete="off" maxLength={30} value={fullname} onChange={(e) => setFullname(e?.currentTarget?.value)}/>
+            <input ref={fullNameRef} name="full_name" type="text" className="h-[30px] px-2 outline-none rounded" placeholder="Fill your full name here" autoComplete="off" maxLength={50} value={fullname} onChange={(e) => setFullname(e?.currentTarget?.value)}/>
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorFullname}}></span>
           </div>
 
@@ -204,7 +204,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
               className="font-bold cursor-pointer w-fit"
               onClick={() => emailRef?.current?.focus()}
             >Email <span className="text-red-500">*</span></div>
-            <input ref={emailRef} name="email" type="email" className="h-[30px] px-2 outline-none rounded" placeholder="Fill your email here" autoComplete="off" maxLength={30} value={email} onChange={(e) => setEmail(e?.currentTarget?.value)}/>
+            <input ref={emailRef} name="email" type="email" className="h-[30px] px-2 outline-none rounded" placeholder="Fill your email here" autoComplete="off" maxLength={50} value={email} onChange={(e) => setEmail(e?.currentTarget?.value)}/>
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorEmail}}></span>
           </div>
 
@@ -265,7 +265,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
               className="font-bold cursor-pointer w-fit"
               onClick={() => commentRef?.current?.focus()}
             >Comment</div>
-            <textarea ref={commentRef} name="textarea" className="min-h-[90px] max-h-[90px] h-[90px] px-2 pt-1 outline-none rounded" placeholder="Fill your comment here" autoComplete="off" maxLength={120} defaultValue={comment} onChange={(e) => setComment(e?.currentTarget?.value)} />
+            <textarea ref={commentRef} name="textarea" className="min-h-[90px] max-h-[90px] h-[90px] px-2 pt-1 outline-none rounded" placeholder="Fill your comment here" autoComplete="off" maxLength={230} defaultValue={comment} onChange={(e) => setComment(e?.currentTarget?.value)} />
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorComment}}></span>
           </div>
 

@@ -63,7 +63,7 @@ const HomeSection = React.forwardRef((props, ref) => {
       <div
         className='w-[20px] h-[30px] tablet:w-[30px] tablet:h-[50px] desktop:w-[40px] desktop:h-[60px] absolute bottom-5 desktop:bottom-10 border-2 border-dark-pink rounded-md text-dark-pink flex items-center justify-center text-center text-sm left-[calc(50%_-_20px)] cursor-pointer z-[20] animate-bounce backdrop-blur-lg'
         onClick={() => {
-          if(onClickDown) {
+          if (onClickDown) {
             return onClickDown();
           } else {
             return {};

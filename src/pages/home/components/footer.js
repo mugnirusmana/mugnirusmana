@@ -35,13 +35,13 @@ const Footer = (props) => {
             className="cursor-pointer text-white flex flex-row items-center justify-center text-xs"
             onClick={() => openUrl('mailto:mugnirusmana95@gmail.com')}
           >
-            <i class="fa-solid fa-envelope"></i>
+            <i className="fa-solid fa-envelope"></i>
           </div>
           <div
             className="cursor-pointer text-white flex flex-row items-center justify-center text-xs"
             onClick={() => openUrl('https://t.me/mugniruaman95')}
           >
-            <i class="fa-brands fa-telegram"></i>
+            <i className="fa-brands fa-telegram"></i>
           </div>
         </div>
       </div>

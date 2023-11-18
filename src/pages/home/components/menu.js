@@ -60,7 +60,7 @@ const Menu = (props) => {
             className={`w-fit h-fit cursor-pointer font-bold transition-all duration-500 ease-in-out whitespace-nowrap border-b-2 ${setActiveMenu(item?.slug)} hover:text-dark-pink hover:border-b-dark-pink`}
             onClick={() => {
               if (onClickMenu) {
-                if(item?.ref?.current) item?.ref?.current?.scrollIntoView({ behavior: 'smooth' })
+                if (item?.ref?.current) item?.ref?.current?.scrollIntoView({ behavior: 'smooth' })
                 return onClickMenu(item?.slug);
               } else {
                 return {};

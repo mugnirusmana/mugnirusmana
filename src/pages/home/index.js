@@ -11,6 +11,7 @@ import EventsSection from "./components/events-section";
 import BridesmaidsGroomsmanSection from "./components/bridesmaids-groomsman-section";
 import GallerySection from "./components/gallery-section";
 import ReservationSection from "./components/reservation-section";
+import CommentSection from './components/comment-section';
 import EndSection from "./components/end-section";
 import Footer from "./components/footer";
 
@@ -141,11 +142,11 @@ const Home = () => {
         let currentRef = item?.ref
         let nextRef = item?.nextRef;
         if (nextRef) {
-          if (position >= currentRef?.current?.offsetTop && position < nextRef?.current?.offsetTop) {
+          if (position >= currentRef?.current?.offsetTop-0.5 && position < nextRef?.current?.offsetTop) {
             setActiveMenu(item?.slug);
           }
         } else {
-          if (position >= currentRef?.current?.offsetTop) {
+          if (position >= currentRef?.current?.offsetTop-0.5) {
             setActiveMenu(item?.slug);
           }
         }
@@ -212,6 +213,8 @@ const Home = () => {
       <GallerySection ref={galleryRef} />
 
       <ReservationSection ref={reservationRef} onSubmit={(data) => {console.log('data ', data)}} />
+
+      <CommentSection />
 
       <EndSection ref={endRef} />
 

@@ -8,9 +8,9 @@ const AuthedComponent = ({component: Component, token}) => {
 	const pathName = navigateLocation?.pathname;
 	const queryParams = navigateLocation?.search??'';
 
-	if(token) {
+	if (token) {
 		const nextPathAuthed = localStorage.getItem('nextPathAuthed');
-		if(pathName === nextPathAuthed) localStorage.removeItem('nextPathAuthed');
+		if (pathName === nextPathAuthed) localStorage.removeItem('nextPathAuthed');
 		return (
 			<AuthedTemplate>
 				<Component />
@@ -18,7 +18,7 @@ const AuthedComponent = ({component: Component, token}) => {
 		)
 	} else {
 		let nextPath;
-		if(pathName) {
+		if (pathName) {
 			nextPath = `${pathName}${queryParams}`;
 			localStorage.setItem('nextPathAuthed', nextPath);
 		}
