@@ -169,7 +169,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
   }
 
   return (
-    <div ref={ref} className="w-full min-h-screen tablet:h-screen desktop:h-auto flex flex-col items-center relative">
+    <div ref={ref} className="w-full min-h-screen tablet-lg:h-screen desktop:h-auto flex flex-col items-center relative">
       <Header
         title={'Reservation'}
         textColor={'text-light-pink'}

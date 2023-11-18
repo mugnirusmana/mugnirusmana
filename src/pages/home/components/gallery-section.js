@@ -34,23 +34,23 @@ const GallerySection = React.forwardRef((props, ref) => {
       <div className="w-full h-full flex flex-row px-5 pb-5 tablet:px-20 desktop:px-32 z-[1]">
         <div className="w-full h-full flex flex-col desktop:flex-row rounded-md shadow-lg drop-shadow-lg">
           <div className="w-full h-full backdrop-blur-lg">
-            <img src={Gallery1} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer rounded-tl-md rounded-tr-md desktop:rounded-tr-none desktop:rounded-bl-md" alt="gallery" />
+            <img src={Gallery1} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 cursor-pointer rounded-tl-md rounded-tr-md desktop:rounded-tr-none desktop:rounded-bl-md" alt="gallery" />
           </div>
           <div className="w-full h-full flex flex-col tablet:flex-col">
             <div className="w-full h-full flex flex-col tablet:flex-row">
               <div className="w-full h-full backdrop-blur-lg">
-                <img src={Gallery2} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer" alt="gallery" />
+                <img src={Gallery2} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 cursor-pointer" alt="gallery" />
               </div>
               <div className="w-full h-full backdrop-blur-lg">
-                <img src={Gallery3} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer desktop:rounded-tr-md" alt="gallery" />
+                <img src={Gallery3} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 cursor-pointer desktop:rounded-tr-md" alt="gallery" />
               </div>
             </div>
             <div className="w-full h-full flex flex-col tablet:flex-row">
               <div className="w-full h-full backdrop-blur-lg">
-                <img src={Gallery4} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer tablet:rounded-bl-md desktop:rounded-bl-none" alt="gallery" />
+                <img src={Gallery4} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 cursor-pointer tablet:rounded-bl-md desktop:rounded-bl-none" alt="gallery" />
               </div>
               <div className="w-full h-full backdrop-blur-lg">
-                <img src={Gallery5} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer rounded-bl-md rounded-br-md tablet:rounded-bl-none" alt="gallery" />
+                <img src={Gallery5} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 cursor-pointer rounded-bl-md rounded-br-md tablet:rounded-bl-none" alt="gallery" />
               </div>
             </div>
           </div>

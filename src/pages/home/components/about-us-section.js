@@ -40,9 +40,6 @@ const AboutUsSection = React.forwardRef((props, ref) => {
                 <i className="fa-brands fa-facebook"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
               </div>
             </div>
@@ -67,9 +64,6 @@ const AboutUsSection = React.forwardRef((props, ref) => {
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-facebook"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>

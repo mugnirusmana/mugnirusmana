@@ -11,6 +11,8 @@ import EventsSection from "./components/events-section";
 import BridesmaidsGroomsmanSection from "./components/bridesmaids-groomsman-section";
 import GallerySection from "./components/gallery-section";
 import ReservationSection from "./components/reservation-section";
+import EndSection from "./components/end-section";
+import Footer from "./components/footer";
 
 import { getWindowDimensions } from './../../helper';
 import ScrollToTop from "./components/scrollToTop";
@@ -29,6 +31,7 @@ const Home = () => {
   const bridesmaidsGroomsmanRef = useRef();
   const galleryRef = useRef();
   const reservationRef = useRef();
+  const endRef = useRef();
 
   const offSetHideMenuDesktopSize = 300;
   const desktopSize = 1025;
@@ -38,43 +41,57 @@ const Home = () => {
     {
       label: 'Home',
       slug: 'home',
+      show: true,
       ref: homeRef,
       nextRef: aboutUsRef,
     },
     {
       label: 'About Us',
       slug: 'about_us',
+      show: true,
       ref: aboutUsRef,
       nextRef: ourStoryRef,
     },
     {
       label: 'Our Story',
       slug: 'our_story',
+      show: true,
       ref: ourStoryRef,
       nextRef: eventsRef,
     },
     {
       label: 'Events',
       slug: 'events',
+      show: true,
       ref: eventsRef,
       nextRef: bridesmaidsGroomsmanRef,
     },
     {
       label: 'Bridesmaids & Groomsman',
       slug: 'bridesmaids_groomsman',
+      show: true,
       ref: bridesmaidsGroomsmanRef,
       nextRef: galleryRef,
     },
     {
       label: 'Gallery',
       slug: 'gallery',
+      show: true,
       ref: galleryRef,
       nextRef: reservationRef,
     },
     {
       label: 'Reservation',
       slug: 'reservation',
+      show: true,
       ref: reservationRef,
+      nextRef: endRef,
+    },
+    {
+      label: 'End Section',
+      slug: 'endsection',
+      show: false,
+      ref: endRef,
     }
   ];
 
@@ -195,6 +212,10 @@ const Home = () => {
       <GallerySection ref={galleryRef} />
 
       <ReservationSection ref={reservationRef} onSubmit={(data) => {console.log('data ', data)}} />
+
+      <EndSection ref={endRef} />
+
+      <Footer />
 
     </div>
   );
