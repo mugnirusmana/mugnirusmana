@@ -21,14 +21,14 @@ const Dashboard = () => {
             <span className="font-bold">Total Participant</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>100</span>
-              <i class="fa-solid fa-users"></i>
+              <i className="fa-solid fa-users"></i>
             </div>
           </div>
           <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md drop-shadow-md">
             <span className="font-bold">Total Will Not Attend</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>100</span>
-              <i class="fa-solid fa-user-xmark"></i>
+              <i className="fa-solid fa-user-xmark"></i>
             </div>
           </div>
           
@@ -38,7 +38,7 @@ const Dashboard = () => {
             <span className="font-bold">Total Will Attend</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>100</span>
-              <i class="fa-solid fa-user"></i>
+              <i className="fa-solid fa-user"></i>
             </div>
           </div>
           <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md drop-shadow-md">
@@ -48,7 +48,7 @@ const Dashboard = () => {
             >Total Comments</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>100</span>
-              <i class="fa-solid fa-comment"></i>
+              <i className="fa-solid fa-comment"></i>
             </div>
           </div>
         </div>

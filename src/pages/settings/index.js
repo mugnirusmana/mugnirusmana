@@ -39,19 +39,19 @@ const Settings = () => {
                 <span>Sosmed Link</span>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="groom_link_tiktok" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Groom Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="groom_link_facebook" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Groom Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="groom_link_instagram" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Groom Link Instagram" />
                 </div>
@@ -89,19 +89,19 @@ const Settings = () => {
                 <span>Sosmed Link</span>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="brides_link_tiktok" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Brides Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="brides_link_facebook" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Brides Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="brides_link_instagram" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Brides Link Instagram" />
                 </div>
@@ -239,19 +239,19 @@ const Settings = () => {
                 </select>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="brides_groom_tiktok_1" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="brides_groom_facebook_1" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="brides_groom_instagram_1" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Instagram" />
                 </div>
@@ -281,19 +281,19 @@ const Settings = () => {
                 </select>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="brides_groom_tiktok_2" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="brides_groom_facebook_2" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="brides_groom_instagram_2" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Instagram" />
                 </div>
@@ -323,19 +323,19 @@ const Settings = () => {
                 </select>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="brides_groom_tiktok_3" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="brides_groom_facebook_3" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="brides_groom_instagram_3" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Instagram" />
                 </div>
@@ -367,19 +367,19 @@ const Settings = () => {
                 </select>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="brides_groom_tiktok_4" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="brides_groom_facebook_4" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="brides_groom_instagram_4" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Instagram" />
                 </div>
@@ -409,19 +409,19 @@ const Settings = () => {
                 </select>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="brides_groom_tiktok_5" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="brides_groom_facebook_5" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="brides_groom_instagram_5" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Instagram" />
                 </div>
@@ -451,19 +451,19 @@ const Settings = () => {
                 </select>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-tiktok"></i>
+                    <i className="fa-brands fa-tiktok"></i>
                   </div>
                   <input type="text" name="brides_groom_tiktok_6" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Tiktok" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-facebook"></i>
                   </div>
                   <input type="text" name="brides_groom_facebook_6" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Facebook" />
                 </div>
                 <div className="w-full flex flex-row">
                   <div className="w-[40px] rounded-full flex items-center justify-center mr-2">
-                    <i class="fa-brands fa-instagram"></i>
+                    <i className="fa-brands fa-instagram"></i>
                   </div>
                   <input type="text" name="brides_groom_instagram_6" className="w-full bg-white outline-none border border-sky-500 rounded px-2" placeholder="Link Instagram" />
                 </div>

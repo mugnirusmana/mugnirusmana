@@ -3,6 +3,7 @@ import React from "react";
 import BreadCrumb from "../../components/breadcrumb";
 
 const ScanQr = () => {
+
   return (
     <div className="w-full h-full flex flex-col">
       <BreadCrumb
@@ -12,7 +13,9 @@ const ScanQr = () => {
         ]}
       />
 
-      <div className="w-full h-full flex"></div>
+      <div className="w-full h-full flex items-center justify-center bg-white">
+
+      </div>
     </div>
   );
 };
