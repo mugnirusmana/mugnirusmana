@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import {
   signIn,
@@ -12,19 +11,39 @@ const Login = () => {
   const auth = useSelector(({ auth }) => auth);
 
   const [field, setField] = useState({
-    username: '',
-    password: ''
+    username: {
+      value: '',
+      type: 'text',
+      isError: false,
+      errorMessage: '',
+    },
+    password: {
+      value: '',
+      type: 'password',
+      isError: false,
+      errorMessage: '',
+    }
   });
 
   const onSubmit = () => {
-    let {
-      username,
-      password
-    } = field;
-    if (!username || !password) {
-      alert('Please fill all the fields');
+    let resultValidateUsername = validateUsername(field?.username?.value);
+    let resultValidatePassword = validatePassword(field?.password?.value);
+
+    if (!resultValidateUsername?.isError && !resultValidatePassword?.isError) {
+      dispatch(signIn({username: field?.username?.value, password: field?.password?.value}));
     } else {
-      dispatch(signIn(field));
+      setField({
+        username: {
+          ...field?.username,
+          isError: resultValidateUsername?.isError,
+          errorMessage: resultValidateUsername?.errorMessage
+        },
+        password: {
+          ...field?.password,
+          isError: resultValidatePassword?.isError,
+          errorMessage: resultValidatePassword?.errorMessage
+        }
+      })
     }
   }
 
@@ -55,84 +74,97 @@ const Login = () => {
     }
   }, [auth]);
 
+  const validateUsername = (value) => {
+    let result = {
+      isError: false,
+      errorMessage: '',
+    }
+    let name = 'Username';
+
+    if(!value) {
+      result.isError = true;
+      result.errorMessage = `${name} is required`;
+    }
+
+    return result;
+  }
+
+  const validatePassword = (value) => {
+    let result = {
+      isError: false,
+      errorMessage: '',
+    }
+    let name = 'Password';
+
+    if(!value) {
+      result.isError = true;
+      result.errorMessage = `${name} is required`;
+    }
+
+    return result;
+  }
+
   return (
-    <div className="gradient-form bg-gray-200 h-screen">
-      <div className="container py-12 px-6 h-full">
-        <div className="ml-40 flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-          <div className="xl:w-10/12">
-            <div className="block bg-white shadow-lg rounded-lg">
-              <div className="lg:flex lg:flex-wrap g-0">
-                <div className="lg:w-full px-4 md:px-0 flex items-center justify-center">
-                  <div className="w-6/12 md:p-12 md:mx-6">
-                    <div className="text-center">
-                      <Link to={'/'}>
-                        <h4 className="text-xl font-semibold mt-1 mb-12 pb-1">LOGIN FORM</h4>
-                      </Link>
-                    </div>
-                    <div>
-                      <p className="mb-4 text-center">Please login to your account</p>
-                      <div className="mb-4">
-                        <input
-                          type="text"
-                          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder="Username"
-                          disabled={auth?.isLoading}
-                          value={field?.username}
-                          onChange={(val) => {
-                            setField({
-                              ...field,
-                              username: val.target.value
-                            })
-                          }}
-                        />
-                      </div>
-                      <div className="mb-4">
-                        <input
-                          type="password"
-                          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder="Password"
-                          disabled={auth?.isLoading}
-                          value={field?.password}
-                          onChange={(val) => {
-                            setField({
-                              ...field,
-                              password: val.target.value
-                            })
-                          }}
-                        />
-                      </div>
-                      <div className="text-center pt-1 mb-12 pb-1">
-                        <button
-                          className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 bg-gradient-to-r from-[#ee7724] to-[#b44593]"
-                          type="button"
-                          data-mdb-ripple="true"
-                          data-mdb-ripple-color="light"
-                          onClick={onSubmit}
-                        >
-                          {auth?.isLoading ? `Loading` : 'Log In'}
-                        </button>
-                        <Link className="text-gray-500" to="/forgot-password">Forgot password?</Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* <div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none bg-gradient-to-r from-[#ee7724] to-[#b44593]">
-                  <div className="text-white px-4 py-6 md:p-12 md:mx-6">
-                    <h4 className="text-xl font-semibold mb-6">We are more than just a company</h4>
-                    <p className="text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                      consequat.
-                    </p>
-                  </div>
-                </div> */}
-              </div>
-            </div>
+    <form className="w-full tablet:w-[400px] h-fit p-10 rounded-md bg-white shadow-md drop-shadow-md flex flex-col gap-5">
+      <span className="text-center font-bold mb-5">Login To Your Account</span>
+      <div className="w-full">
+        <input
+          type="text"
+          className={`h-[40px] rounded w-full outline-none bg-[#E8F0FF] px-2 borde ${field?.username?.isError ? 'border-red-400' : 'border-transparent'}`}
+          placeholder="Username"
+          value={field?.username?.value}
+          onChange={(e) => {
+            let resultValidate = validateUsername(e?.currentTarget?.value);
+            setField({...field, username: {
+              ...field.username,
+              value: e?.currentTarget?.value,
+              isError: resultValidate?.isError,
+              errorMessage: resultValidate?.errorMessage,
+            }})
+          }}
+        />
+        <span className="text-red-400 text-xs">{field?.username?.isError ? field?.username?.errorMessage : ''}</span>
+      </div>
+      <div className="w-full mb-5">
+        <div className="w-full h-[40px] flex flex-row bg-[#E8F0FF] rounded">
+          <input
+            type={field?.password?.type}
+            className={`h-full rounded w-full bg-[#E8F0FF] outline-none px-2 borde ${field?.password?.isError ? 'border-red-400' : 'border-transparent'}`}
+            placeholder="Password"
+            value={field?.password?.value}
+            autoComplete="on"
+            onChange={(e) => {
+              let resultValidate = validatePassword(e?.currentTarget?.value);
+              setField({...field, password: {
+                ...field.password,
+                value: e?.currentTarget?.value,
+                isError: resultValidate?.isError,
+                errorMessage: resultValidate?.errorMessage,
+              }})
+            }}
+          />
+          <div
+            className="w-[50px] h-full cursor-pointer rounded flex flex-row items-center justify-center"
+            onClick={() => {
+              setField({
+                ...field,
+                password: {
+                  ...field?.password,
+                  type: field?.password?.type === 'password' ? 'text' : 'password',
+                }
+              })
+            }}
+          >
+            {field?.password?.type === 'password' ? <i className="fa-solid fa-lock"></i> : <i className="fa-solid fa-lock-open"></i>}
           </div>
         </div>
+        <span className="text-red-400 text-xs">{field?.password?.isError ? field?.password?.errorMessage : ''}</span>
       </div>
-    </div>
+      <div
+        className="w-full h-[40px] bg-sky-600 rounded cursor-pointer flex items-center justify-center text-center font-bold text-white"
+        onClick={onSubmit}
+      >{auth?.isLoading ? 'Loading...' : 'LOGIN'}</div>
+    </form>
   );
 };
 

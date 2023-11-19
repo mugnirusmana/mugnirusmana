@@ -1,10 +1,9 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
-import Profile from './../pages/profile';
+import Comments from '../pages/comments';
 
 // imports unauthed pages
 import Login from './../pages/login';
-import ForgotPassword from './../pages/forgot-password';
 
 // imports public pages
 import Home from './../pages/home';
@@ -16,8 +15,18 @@ const AuthedRoute = [
 		exact: true,
 	},
 	{
-		path: "/profile",
-		component: Profile,
+		path: "/comments",
+		component: Comments,
+		exact: true,
+	},
+	{
+		path: "/scan-qr",
+		component: Comments,
+		exact: true,
+	},
+	{
+		path: "/settings",
+		component: Comments,
 		exact: true,
 	}
 ];
@@ -26,11 +35,6 @@ const UnauthedRoute = [
 	{
 		path: "/login",
 		component: Login,
-		exact: true,
-	},
-	{
-		path: "/forgot-password",
-		component: ForgotPassword,
 		exact: true,
 	}
 ];
