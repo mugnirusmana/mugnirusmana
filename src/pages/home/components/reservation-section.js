@@ -186,7 +186,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
           <span>We are looking forward to your presence</span>
         </div>
         
-        <div className="w-full h-fit tablet:h-full flex flex-col items-center justify-between bg-light-pink rounded-md p-5 tablet:p-10 text-dark-pink shadow-lg drop-shadow-lg gap-5 desktop:gap-5 relative">
+        <div className="w-full h-fit tablet:h-full flex flex-col items-center justify-between bg-light-pink rounded-md p-5 tablet:p-10 text-dark-pink shadow-lg gap-5 desktop:gap-5 relative">
           <img src={Right} className="h-full absolute right-0 top-0" alt="shape" />
           <span className="font-bold text-xl z-[1]">FORM RESERVATION</span>
 
@@ -271,11 +271,11 @@ const ReservationSection = React.forwardRef((props, ref) => {
 
           <div className="w-full flex flex-col desktop:flex-row gap-5">
             <div
-              className="w-full desktop:w-1/3 transition-all duration-300 ease-in-out flex items-center justify-center text-center py-4 rounded-md font-bold shadow-lg drop-shadow-lg cursor-pointer bg-white desktop:bg-transparent hover:bg-white"
+              className="w-full desktop:w-1/3 transition-all duration-300 ease-in-out flex items-center justify-center text-center py-4 rounded-md font-bold shadow-lg cursor-pointer bg-white desktop:bg-transparent hover:bg-white"
               onClick={() => resetForm()}
             >RESET</div>
             <div
-              className="w-full transition-all duration-300 ease-in-out flex items-center justify-center text-center py-4 rounded-md font-bold shadow-lg drop-shadow-lg cursor-pointer bg-white desktop:bg-transparent hover:bg-white"
+              className="w-full transition-all duration-300 ease-in-out flex items-center justify-center text-center py-4 rounded-md font-bold shadow-lg cursor-pointer bg-white desktop:bg-transparent hover:bg-white"
               onClick={() => {
                 if (onSubmit) {
                   let result = validateForm();

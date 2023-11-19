@@ -31,7 +31,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
 
       <div className="w-full h-full flex flex-col gap-5 desktop:gap-10 px-5 pb-5 desktop:px-32 desktop:pb-20 z-[1]">
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -50,7 +50,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -69,7 +69,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -90,7 +90,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
           </div>
         </div>
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -109,7 +109,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -128,7 +128,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>

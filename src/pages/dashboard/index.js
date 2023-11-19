@@ -17,14 +17,14 @@ const Dashboard = () => {
 
       <div className="w-full h-full flex flex-col tablet:flex-row gap-5 pb-14 desktop:pb-0 text-xs tablet:text-md desktop:text-xl text-sky-900">
         <div className="w-full h-full flex flex-col gap-5 desktop:pb-0">
-          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md drop-shadow-md">
+          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
             <span className="font-bold">Total Participant</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>100</span>
               <i className="fa-solid fa-users"></i>
             </div>
           </div>
-          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md drop-shadow-md">
+          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
             <span className="font-bold">Total Will Not Attend</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>100</span>
@@ -34,14 +34,14 @@ const Dashboard = () => {
           
         </div>
         <div className="w-full h-full flex flex-col gap-5 desktop:pb-0">
-          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md drop-shadow-md">
+          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
             <span className="font-bold">Total Will Attend</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>100</span>
               <i className="fa-solid fa-user"></i>
             </div>
           </div>
-          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md drop-shadow-md">
+          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
             <span
               className="font-bold cursor-pointer"
               onClick={() => navigate('/comments')}

@@ -112,7 +112,7 @@ const Login = () => {
   }
 
   return (
-    <form className="w-full tablet:w-[400px] h-fit p-10 rounded-md bg-white shadow-md drop-shadow-md flex flex-col gap-5">
+    <form className="w-full tablet:w-[400px] h-fit p-10 rounded-md bg-white shadow-md flex flex-col gap-5">
       <span className="text-center font-bold mb-5">Login To Your Account</span>
       <div className="w-full">
         <input

@@ -26,7 +26,7 @@ const AboutUsSection = React.forwardRef((props, ref) => {
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-30" />
 
       <div className="w-full h-full flex flex-col z-[1] items-center gap-5 pb-5 tablet:pb-20 desktop:flex-row desktop:px-20 desktop:pb-32">
-        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg drop-shadow-lg flex flex-col-reverse items-center p-5 tablet:p-10 relative desktop:flex-row-reverse desktop:gap-5">
+        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg flex flex-col-reverse items-center p-5 tablet:p-10 relative desktop:flex-row-reverse desktop:gap-5">
           <img src={Groom} className="w-[80px] h-[80px] tablet:w-[200px] tablet:h-[200px] rounded-full object-cover mt-5 border-4 border-dark-pink z-[1]" alt="groom"/>
           <div className="w-full flex flex-col items-center desktop:items-end text-dark-pink z-[1]">
             <span className="font-estonia font-bold text-4xl text-center desktop:text-right">Ade Mugni Rusmana</span>
@@ -50,9 +50,9 @@ const AboutUsSection = React.forwardRef((props, ref) => {
           <img src={Shape11} className="h-[30%] absolute left-0 bottom-0" alt="shape" />
         </div>
 
-        <i className="fa-solid fa-heart text-light-pink hidden tablet:block px-5 text-4xl drop-shadow-lg"></i>
+        <i className="fa-solid fa-heart text-light-pink hidden tablet:block px-5 text-4xl"></i>
 
-        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg drop-shadow-lg flex flex-col items-center p-5 tablet:p-10 relative desktop:flex-row desktop:gap-5">
+        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg flex flex-col items-center p-5 tablet:p-10 relative desktop:flex-row desktop:gap-5">
           <img src={Bride} className="w-[80px] h-[80px] tablet:w-[200px] tablet:h-[200px] rounded-full object-cover mt-5 border-4 border-dark-pink z-[1]" alt="groom"/>
           <div className="w-full flex flex-col items-center desktop:items-start text-dark-pink z-[1]">
             <span className="font-estonia font-bold text-4xl text-center desktop:text-left">Nova Helmyna</span>

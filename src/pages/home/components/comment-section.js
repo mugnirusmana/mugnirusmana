@@ -54,7 +54,7 @@ const CommentSection = () => {
   const renderListComment = () => {
     return dataList?.map((item, index) => {
       return (
-        <div key={index} className={`w-[80%] transition-all duration-[2000ms] ease-in-out tablet:w-[600px] flex flex-col items-center justify-between min-h-[250px] bg-light-pink rounded-md drop-shadow-lg shadow-lg p-10 absolute bottom-10 ${index === activeIndex ? ' opacity-100' : 'opacity-0'}`}>
+        <div key={index} className={`w-[80%] transition-all duration-[2000ms] ease-in-out tablet:w-[600px] flex flex-col items-center justify-between min-h-[250px] bg-light-pink rounded-md shadow-lg p-10 absolute bottom-10 ${index === activeIndex ? ' opacity-100' : 'opacity-0'}`}>
           <div className="w-full h-fit flex flex-col">
             <span className="font-bold font-whisper text-2xl">{item?.name}</span>
             <span className="text-xs">{item?.date}</span>
