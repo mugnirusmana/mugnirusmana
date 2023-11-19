@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { sideMenu } from './sideMenuSlice';
 // import { AUTH } from "./../services";
 
 const initialState = {
@@ -51,11 +52,16 @@ export const authSlice = createSlice({
 // this is for dispatch
 export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed } = authSlice.actions;
 
-export const signIn = (params) => {
+export const signIn = (params, width, desktopSize) => {
   return async (dispatch, getState) => {
     dispatch(logIn());
     setTimeout(() => {
       const data = { data: { token: "fakeToken" } };
+      if (width < desktopSize) {
+        dispatch(sideMenu(false));
+      } else {
+        dispatch(sideMenu(true));
+      }
       dispatch(logInSuccess(data));
     }, 1500);
   };

@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Loader from './components/loader';
 import Envelope from "./components/envelope";
 import Menu from "./components/menu";
+import ScrollToTop from "./components/scrollToTop";
 import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
@@ -16,7 +17,6 @@ import EndSection from "./components/end-section";
 import Footer from "./components/footer";
 
 import { getWindowDimensions } from './../../helper';
-import ScrollToTop from "./components/scrollToTop";
 
 const Home = () => {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());

@@ -32,7 +32,7 @@ const GallerySection = React.forwardRef((props, ref) => {
       <img src={Right} className="h-[60%] absolute right-0 bottom-0 -scale-y-100" alt="shape"/>
 
       <div className="w-full h-full flex flex-row px-5 pb-5 tablet:px-20 desktop:px-32 z-[1]">
-        <div className="w-full h-full flex flex-col desktop:flex-row rounded-md shadow-lg drop-shadow-lg">
+        <div className="w-full h-full flex flex-col desktop:flex-row rounded-md shadow-lg">
           <div className="w-full h-full backdrop-blur-lg">
             <img src={Gallery1} className="w-full h-[400px] tablet:h-full object-cover transition-all duration-300 ease-in-out opacity-90 cursor-pointer rounded-tl-md rounded-tr-md desktop:rounded-tr-none desktop:rounded-bl-md" alt="gallery" />
           </div>

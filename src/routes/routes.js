@@ -1,6 +1,8 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
 import Comments from '../pages/comments';
+import ScanQr from '../pages/scan-qr';
+import Settings from '../pages/settings';
 
 // imports unauthed pages
 import Login from './../pages/login';
@@ -21,12 +23,12 @@ const AuthedRoute = [
 	},
 	{
 		path: "/scan-qr",
-		component: Comments,
+		component: ScanQr,
 		exact: true,
 	},
 	{
 		path: "/settings",
-		component: Comments,
+		component: Settings,
 		exact: true,
 	}
 ];

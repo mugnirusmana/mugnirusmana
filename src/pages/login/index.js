@@ -6,10 +6,13 @@ import {
   defaultSignIn
 } from './../../redux/authSlice';
 
+import { getWindowDimensions } from './../../helper';
+
 const Login = () => {
   const dispatch = useDispatch();
   const auth = useSelector(({ auth }) => auth);
-
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const desktopSize = 1025;
   const [field, setField] = useState({
     username: {
       value: '',
@@ -30,7 +33,7 @@ const Login = () => {
     let resultValidatePassword = validatePassword(field?.password?.value);
 
     if (!resultValidateUsername?.isError && !resultValidatePassword?.isError) {
-      dispatch(signIn({username: field?.username?.value, password: field?.password?.value}));
+      dispatch(signIn({username: field?.username?.value, password: field?.password?.value}, windowDimensions?.width, desktopSize));
     } else {
       setField({
         username: {
@@ -50,8 +53,12 @@ const Login = () => {
   useEffect(() => {
     dispatch(defaultSignIn());
 
+    const handleResize = () => setWindowDimensions(getWindowDimensions())
+    window.addEventListener('resize', handleResize);
+
     return () => {
       dispatch(defaultSignIn());
+      window.removeEventListener('resize', handleResize);
     }
   }, []);
 
