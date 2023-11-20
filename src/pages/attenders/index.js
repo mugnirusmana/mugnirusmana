@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
+import SelectOption from "../../components/select-option";
 
 const Attenders = () => {
   const [filter, setFilter] = useState({
     keyword: '',
-    attendance: '0',
-    status: '0',
+    attendance: {},
+    status: {},
   })
   const [currnetPage, setCurrentPage] = useState('');
   const [perPage, setPerPage] = useState('');
@@ -16,6 +17,9 @@ const Attenders = () => {
       label: 'Name',
       object: 'name',
       titlePosition: 'left',
+      customRender: (data) => {
+        return <span className="whitespace-nowrap">{data?.name}</span>
+      }
     },
     {
       label: 'Participants',
@@ -23,11 +27,11 @@ const Attenders = () => {
       titlePosition: 'left',
       customRender: (data) => {
         if (data?.participants > 3) {
-          return <span>More then 3 People</span>
+          return <span className="whitespace-nowrap">More then 3 People</span>
         } else if (data?.participants === 1) {
-          return <span>1 Person</span>
+          return <span className="whitespace-nowrap">1 Person</span>
         } else {
-          return <span>{data?.participants} Pople</span>
+          return <span className="whitespace-nowrap">{data?.participants} Pople</span>
         }
       }
     },
@@ -36,9 +40,9 @@ const Attenders = () => {
       object: 'attendance',
       customRender: (data) => {
         if (data?.attendance === 1) {
-          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white">Will Attend</span></div>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Will Attend</span></div>
         } else {
-          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white">Will Not Attend</span></div>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Will Not Attend</span></div>
         }
       }
     },
@@ -47,9 +51,9 @@ const Attenders = () => {
       object: 'status',
       customRender: (data) => {
         if (data?.status === 1) {
-          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white">Displayed</span></div>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Displayed</span></div>
         } else {
-          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white">Not Displayed</span></div>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Displayed</span></div>
         }
       }
     }
@@ -87,7 +91,7 @@ const Attenders = () => {
   const onReset = () => {
     let resetField = {
       keyword: '',
-      attendance: '0',
+      attendance: {},
       status: '0',
     }
     setFilter(resetField);
@@ -96,11 +100,11 @@ const Attenders = () => {
 
   const getListData = (resetParams = {}) => {
     let params = {
-      keyword: resetParams?.keyword??filter?.keyword,
-      attendance: resetParams?.attendance??filter?.attendance,
-      status: resetParams?.status??filter?.status,
-      page: currnetPage,
-      perPage: perPage,
+      keyword: resetParams ? resetParams?.keyword??null : filter?.keyword??null,
+      attendance: resetParams ? resetParams?.attendance?.value??null : filter?.attendance?.value??null,
+      status: resetParams ? resetParams?.status?.value??null : filter?.status?.value??null,
+      page: currnetPage ? parseInt(currnetPage) : 1,
+      perPage: perPage ? parseInt(perPage) : 10,
     }
 
     console.log('get data ', params);
@@ -123,7 +127,6 @@ const Attenders = () => {
           perPage={perPage}
           currentPage={currnetPage}
           showInfo={true}
-          showTitleFooter={true}
           withNumber={true}
           withAction={true}
           renderAction={(data) => (
@@ -167,7 +170,7 @@ const Attenders = () => {
                   <span className="text-xs">Keyword</span>
                   <input
                     type={'text'}
-                    className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900"
+                    className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900 text-xs"
                     placeholder="Search by name"
                     value={filter?.keyword}
                     onChange={(e) => setFilter({...filter, keyword: e?.currentTarget?.value})}
@@ -175,27 +178,33 @@ const Attenders = () => {
                 </div>
                 <div className="w-full flex flex-col gap-1">
                   <span className="text-xs">Attendance</span>
-                  <select
-                    className="w-full outline-none border border-sky-900 rounded h-[30px]"
+                  <SelectOption
+                    isLoading={false}
+                    placeholder={'Select Attendance'}
+                    options={[{label: 'Will Attend', value: '1'}, {label: 'Will Not Attend', value: '2'}]}
+                    objectLabel={'label'}
+                    objectUniq={'value'}
                     value={filter?.attendance}
-                    onChange={(e) => setFilter({...filter, attendance: e?.currentTarget?.value})}
-                  >
-                    <option value="0">All</option>
-                    <option value="1">Will Attend</option>
-                    <option value="2">Will Not Attend</option>
-                  </select>
+                    showClear={true}
+                    onClear={(data) => setFilter({...filter, attendance: data})}
+                    showSearch={false}
+                    onChange={(data) => setFilter({...filter, attendance: data})}
+                  />
                 </div>
                 <div className="w-full flex flex-col gap-1">
                   <span className="text-xs">Status</span>
-                  <select
-                    className="w-full outline-none border border-sky-900 rounded h-[30px]"
+                  <SelectOption
+                    isLoading={false}
+                    placeholder={'Select Status'}
+                    options={[{label: 'Displayed', value: '1'}, {label: 'Not Displayed', value: '2'}]}
+                    objectLabel={'label'}
+                    objectUniq={'value'}
                     value={filter?.status}
-                    onChange={(e) => setFilter({...filter, status: e?.currentTarget?.value})}
-                  >
-                    <option value="0">All</option>
-                    <option value="1">Displayed</option>
-                    <option value="2">Not Displayed</option>
-                  </select>
+                    showClear={true}
+                    onClear={(data) => setFilter({...filter, status: data})}
+                    showSearch={false}
+                    onChange={(data) => setFilter({...filter, status: data})}
+                  />
                 </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1">
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
