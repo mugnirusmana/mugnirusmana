@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Header from './header';
 
@@ -11,17 +11,7 @@ import Right from './../../../assets/svgs/right.svg';
 import Shape8 from './../../../assets/svgs/shape8.svg';
 import Shape9 from './../../../assets/svgs/shape9.svg';
 
-const BridesmaidsGroomsmanSection = (props) => {
-  let { getRef }= props;
-  const ref = useRef();
-
-  useEffect(() => {
-    if (getRef) {
-      return getRef(ref);
-    } else {
-      return {}
-    }
-  }, []);
+const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="w-screen min-h-screen relative bg-light-pink flex flex-col">
@@ -41,7 +31,7 @@ const BridesmaidsGroomsmanSection = (props) => {
 
       <div className="w-full h-full flex flex-col gap-5 desktop:gap-10 px-5 pb-5 desktop:px-32 desktop:pb-20 z-[1]">
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -56,14 +46,11 @@ const BridesmaidsGroomsmanSection = (props) => {
                 <i className="fa-brands fa-facebook"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -78,14 +65,11 @@ const BridesmaidsGroomsmanSection = (props) => {
                 <i className="fa-brands fa-facebook"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -98,9 +82,6 @@ const BridesmaidsGroomsmanSection = (props) => {
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-facebook"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
@@ -109,7 +90,7 @@ const BridesmaidsGroomsmanSection = (props) => {
           </div>
         </div>
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -124,14 +105,11 @@ const BridesmaidsGroomsmanSection = (props) => {
                 <i className="fa-brands fa-facebook"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -146,14 +124,11 @@ const BridesmaidsGroomsmanSection = (props) => {
                 <i className="fa-brands fa-facebook"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
               </div>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg drop-shadow-lg">
+          <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
             <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
@@ -166,9 +141,6 @@ const BridesmaidsGroomsmanSection = (props) => {
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-facebook"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
@@ -179,6 +151,6 @@ const BridesmaidsGroomsmanSection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default BridesmaidsGroomsmanSection;

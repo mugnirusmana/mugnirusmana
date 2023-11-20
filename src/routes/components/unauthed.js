@@ -8,9 +8,9 @@ const UnauthedComponent = ({component: Component, token}) => {
 	const pathName = navigateLocation?.pathname;
 	const queryParams = navigateLocation?.search??'';
 
-	if(!token) {
+	if (!token) {
 		const nextPathUnauthed = localStorage.getItem('nextPathUnauthed');
-		if(pathName === nextPathUnauthed) localStorage.removeItem('nextPathUnauthed');
+		if (pathName === nextPathUnauthed) localStorage.removeItem('nextPathUnauthed');
 		return (
 			<UnauthedTemplate>
 				<Component />
@@ -18,7 +18,7 @@ const UnauthedComponent = ({component: Component, token}) => {
 		)
 	} else {
 		let nextPath;
-		if(pathName) {
+		if (pathName) {
 			nextPath = `${pathName}${queryParams}`;
 			localStorage.setItem('nextPathUnauthed', nextPath);
 		}

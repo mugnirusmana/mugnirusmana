@@ -4,15 +4,19 @@ import _ from 'lodash';
 import Loader from './components/loader';
 import Envelope from "./components/envelope";
 import Menu from "./components/menu";
+import ScrollToTop from "./components/scrollToTop";
 import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
 import EventsSection from "./components/events-section";
 import BridesmaidsGroomsmanSection from "./components/bridesmaids-groomsman-section";
 import GallerySection from "./components/gallery-section";
+import ReservationSection from "./components/reservation-section";
+import CommentSection from './components/comment-section';
+import EndSection from "./components/end-section";
+import Footer from "./components/footer";
 
 import { getWindowDimensions } from './../../helper';
-import ScrollToTop from "./components/scrollToTop";
 
 const Home = () => {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
@@ -21,13 +25,14 @@ const Home = () => {
   const [activeMenu, setActiveMenu] = useState('home');
   const [showMenu, setShowMenu] = useState(true);
   const [showToTop, setShowToTop] = useState(false);
-  const [homeRef, setHomeRef] = useState(null);
-  const [aboutUsRef, setAboutUsRef] = useState(null);
-  const [ourStoryRef, setOurStoryRef] = useState(null);
-  const [eventsRef, setEventsRef] = useState(null);
-  const [bridesmaidsGroomsmanRef, setBridesmaidsGroomsmanRef] = useState(null);
+  const homeRef = useRef();
+  const aboutUsRef = useRef();
+  const ourStoryRef = useRef();
+  const eventsRef = useRef();
+  const bridesmaidsGroomsmanRef = useRef();
   const galleryRef = useRef();
-  const [reservationRef, setReservationRef] = useState(null);
+  const reservationRef = useRef();
+  const endRef = useRef();
 
   const offSetHideMenuDesktopSize = 300;
   const desktopSize = 1025;
@@ -37,43 +42,57 @@ const Home = () => {
     {
       label: 'Home',
       slug: 'home',
+      show: true,
       ref: homeRef,
       nextRef: aboutUsRef,
     },
     {
       label: 'About Us',
       slug: 'about_us',
+      show: true,
       ref: aboutUsRef,
       nextRef: ourStoryRef,
     },
     {
       label: 'Our Story',
       slug: 'our_story',
+      show: true,
       ref: ourStoryRef,
       nextRef: eventsRef,
     },
     {
       label: 'Events',
       slug: 'events',
+      show: true,
       ref: eventsRef,
       nextRef: bridesmaidsGroomsmanRef,
     },
     {
       label: 'Bridesmaids & Groomsman',
       slug: 'bridesmaids_groomsman',
+      show: true,
       ref: bridesmaidsGroomsmanRef,
       nextRef: galleryRef,
     },
     {
       label: 'Gallery',
       slug: 'gallery',
+      show: true,
       ref: galleryRef,
       nextRef: reservationRef,
     },
     {
       label: 'Reservation',
       slug: 'reservation',
+      show: true,
       ref: reservationRef,
+      nextRef: endRef,
+    },
+    {
+      label: 'End Section',
+      slug: 'endsection',
+      show: false,
+      ref: endRef,
     }
   ];
 
@@ -123,11 +142,11 @@ const Home = () => {
         let currentRef = item?.ref
         let nextRef = item?.nextRef;
         if (nextRef) {
-          if (position >= currentRef?.current?.offsetTop && position < nextRef?.current?.offsetTop) {
+          if (position >= currentRef?.current?.offsetTop-0.5 && position < nextRef?.current?.offsetTop) {
             setActiveMenu(item?.slug);
           }
         } else {
-          if (position >= currentRef?.current?.offsetTop) {
+          if (position >= currentRef?.current?.offsetTop-0.5) {
             setActiveMenu(item?.slug);
           }
         }
@@ -180,18 +199,26 @@ const Home = () => {
 
       <HomeSection
         onClickDown={() => aboutUsRef?.current?.scrollIntoView({ behavior: 'smooth' })}
-        getRef={(ref) => setHomeRef(ref)}
+        ref={homeRef}
       />
 
-      <AboutUsSection getRef={(ref) => setAboutUsRef(ref)} />
+      <AboutUsSection ref={aboutUsRef} />
 
-      <OurStorySection getRef={(ref) => setOurStoryRef(ref)} />
+      <OurStorySection ref={ourStoryRef} />
 
-      <EventsSection getRef={(ref) => setEventsRef(ref)} />
+      <EventsSection ref={eventsRef} />
 
-      <BridesmaidsGroomsmanSection getRef={(ref) => setBridesmaidsGroomsmanRef(ref)} />
+      <BridesmaidsGroomsmanSection ref={bridesmaidsGroomsmanRef} />
 
       <GallerySection ref={galleryRef} />
+
+      <ReservationSection ref={reservationRef} onSubmit={(data) => {console.log('data ', data)}} />
+
+      <CommentSection />
+
+      <EndSection ref={endRef} />
+
+      <Footer />
 
     </div>
   );

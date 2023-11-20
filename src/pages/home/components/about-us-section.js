@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Header from './header';
 
@@ -11,16 +11,8 @@ import Bg from './../../../assets/images/bg-2.png';
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
 
-const AboutUsSection = (props) => {
-  let { getRef }= props;
-  const ref = useRef()
+const AboutUsSection = React.forwardRef((props, ref) => {
 
-  useEffect(() => {
-    if(getRef) {
-      return getRef(ref);
-    }
-  }, [])
-  
   return (
     <div ref={ref} className="w-screen min-h-screen tablet-lg:h-screen flex flex-col gap-5 relative">
       <Header
@@ -34,7 +26,7 @@ const AboutUsSection = (props) => {
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-30" />
 
       <div className="w-full h-full flex flex-col z-[1] items-center gap-5 pb-5 tablet:pb-20 desktop:flex-row desktop:px-20 desktop:pb-32">
-        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg drop-shadow-lg flex flex-col-reverse items-center p-5 tablet:p-10 relative desktop:flex-row-reverse desktop:gap-5">
+        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg flex flex-col-reverse items-center p-5 tablet:p-10 relative desktop:flex-row-reverse desktop:gap-5">
           <img src={Groom} className="w-[80px] h-[80px] tablet:w-[200px] tablet:h-[200px] rounded-full object-cover mt-5 border-4 border-dark-pink z-[1]" alt="groom"/>
           <div className="w-full flex flex-col items-center desktop:items-end text-dark-pink z-[1]">
             <span className="font-estonia font-bold text-4xl text-center desktop:text-right">Ade Mugni Rusmana</span>
@@ -48,9 +40,6 @@ const AboutUsSection = (props) => {
                 <i className="fa-brands fa-facebook"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
               </div>
             </div>
@@ -61,9 +50,9 @@ const AboutUsSection = (props) => {
           <img src={Shape11} className="h-[30%] absolute left-0 bottom-0" alt="shape" />
         </div>
 
-        <i className="fa-solid fa-heart text-light-pink hidden tablet:block px-5 text-4xl drop-shadow-lg"></i>
+        <i className="fa-solid fa-heart text-light-pink hidden tablet:block px-5 text-4xl"></i>
 
-        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg drop-shadow-lg flex flex-col items-center p-5 tablet:p-10 relative desktop:flex-row desktop:gap-5">
+        <div className="w-[80%] tablet:w-1/2 desktop:w-full h-full bg-light-pink rounded-md shadow-lg flex flex-col items-center p-5 tablet:p-10 relative desktop:flex-row desktop:gap-5">
           <img src={Bride} className="w-[80px] h-[80px] tablet:w-[200px] tablet:h-[200px] rounded-full object-cover mt-5 border-4 border-dark-pink z-[1]" alt="groom"/>
           <div className="w-full flex flex-col items-center desktop:items-start text-dark-pink z-[1]">
             <span className="font-estonia font-bold text-4xl text-center desktop:text-left">Nova Helmyna</span>
@@ -75,9 +64,6 @@ const AboutUsSection = (props) => {
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-facebook"></i>
-              </div>
-              <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
-                <i className="fa-brands fa-x-twitter"></i>
               </div>
               <div className="w-[30px] h-[30px] transition-all duration-300 ease-in-out cursor-pointer rounded-full border border-dark-pink text-dark-pink hover:bg-dark-pink hover:text-white flex flex-row items-center justify-center text-xs open-social">
                 <i className="fa-brands fa-instagram"></i>
@@ -93,6 +79,6 @@ const AboutUsSection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default AboutUsSection;

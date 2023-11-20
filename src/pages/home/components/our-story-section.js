@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Header from './header';
 
@@ -10,15 +10,7 @@ import Right from './../../../assets/svgs/right.svg';
 import Left from './../../../assets/svgs/left.svg';
 import Shape11 from './../../../assets/svgs/shape11.svg';
 
-const OurStorySection = (props) => {
-  let { getRef }= props;
-  const ref = useRef()
-
-  useEffect(() => {
-    if(getRef) {
-      return getRef(ref);
-    }
-  }, [])
+const OurStorySection = React.forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className="w-screen min-h-screen bg-light-pink pb-5 tablet:pb-20 flex flex-col relative">
@@ -42,7 +34,7 @@ const OurStorySection = (props) => {
         <div className="w-[10px] h-full border-l-4 border-dashed border-l-dark-pink absolute right-24 mobile-md:right-32 tablet:right-72 top-0 desktop:rotate-[-10deg] desktop:right-auto desktop:top-3"></div>
         
         <div className="w-full tablet:w-[60%] desktop:w-[60%] flex flex-col justify-center items-center relative p-5 gap-5 z-[1]">
-          <div className="w-full flex flex-col desktop:flex-row-reverse relative p-5 rounded-md bg-white shadow-lg drop-shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pl-16">
+          <div className="w-full flex flex-col desktop:flex-row-reverse relative p-5 rounded-md bg-white shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pl-16">
             <img src={FirstMeet} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md" alt="first-meet" />
             <div className="w-full desktop:h-fit flex flex-col gap-5">
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-right block desktop:hidden">First Meet ~</span>
@@ -51,14 +43,14 @@ const OurStorySection = (props) => {
             </div>
           </div>
 
-          <div className="w-[65px] h-[65px] desktop:w-[100px] desktop:h-[100px] desktop:text-lg rounded-full flex flex-col items-center justify-center bg-dark-pink text-white absolute top-2 right-2 text-xs desktop:top-0 desktop:right-0 drop-shadow-lg shadow-lg">
+          <div className="w-[65px] h-[65px] desktop:w-[100px] desktop:h-[100px] desktop:text-lg rounded-full flex flex-col items-center justify-center bg-dark-pink text-white absolute top-2 right-2 text-xs desktop:top-0 desktop:right-0 shadow-lg">
             <span className="font-bold">Jan</span>
             <span>2021</span>
           </div>
         </div>
 
         <div className="w-full tablet:w-[60%] desktop:w-[60%] flex flex-col justify-center items-center relative p-5 gap-5 z-[1]">
-          <div className="w-full flex flex-col desktop:flex-row relative p-5 rounded-md bg-white shadow-lg drop-shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pr-16">
+          <div className="w-full flex flex-col desktop:flex-row relative p-5 rounded-md bg-white shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pr-16">
             <img src={FirsDate} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md" alt="engagement" />
             <div className="w-full desktop:h-fit flex flex-col gap-5">
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-left">First Date ~</span>
@@ -66,14 +58,14 @@ const OurStorySection = (props) => {
             </div>
           </div>
 
-          <div className="w-[65px] h-[65px] desktop:w-[100px] desktop:h-[100px] desktop:text-lg rounded-full flex flex-col items-center justify-center bg-dark-pink text-white absolute top-2 left-2 text-xs desktop:top-0 desktop:left-0 drop-shadow-lg shadow-lg">
+          <div className="w-[65px] h-[65px] desktop:w-[100px] desktop:h-[100px] desktop:text-lg rounded-full flex flex-col items-center justify-center bg-dark-pink text-white absolute top-2 left-2 text-xs desktop:top-0 desktop:left-0 shadow-lg">
             <span className="font-bold">Jan</span>
             <span>2021</span>
           </div>
         </div>
 
         <div className="w-full tablet:w-[60%] desktop:w-[60%] flex flex-col justify-center items-center relative p-5 gap-5 z-[1]">
-          <div className="w-full flex flex-col desktop:flex-row-reverse relative p-5 rounded-md bg-white shadow-lg drop-shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pl-16">
+          <div className="w-full flex flex-col desktop:flex-row-reverse relative p-5 rounded-md bg-white shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pl-16">
             <img src={Engagement} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md" alt="engagement" />
             <div className="w-full desktop:h-fit flex flex-col gap-5">
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-right block desktop:hidden">Engagement ~</span>
@@ -82,7 +74,7 @@ const OurStorySection = (props) => {
             </div>
           </div>
 
-          <div className="w-[65px] h-[65px] desktop:w-[100px] desktop:h-[100px] desktop:text-lg rounded-full flex flex-col items-center justify-center bg-dark-pink text-white absolute top-2 right-2 text-xs desktop:top-0 desktop:right-0 drop-shadow-lg shadow-lg">
+          <div className="w-[65px] h-[65px] desktop:w-[100px] desktop:h-[100px] desktop:text-lg rounded-full flex flex-col items-center justify-center bg-dark-pink text-white absolute top-2 right-2 text-xs desktop:top-0 desktop:right-0 shadow-lg">
             <span className="font-bold">Jan</span>
             <span>2021</span>
           </div>
@@ -91,6 +83,6 @@ const OurStorySection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default OurStorySection;
