@@ -177,7 +177,7 @@ const SelectOption = (props) => {
     if (showClear && value[objectLabel]) {
       return (
         <span
-          className="w-fit h-full flex items-center mr-2"
+          className="w-fit h-full flex items-center ml-2"
           onClick={() => {
             if (onClear) {
               setShowList(false);
@@ -223,7 +223,7 @@ const SelectOption = (props) => {
       <div className="w-full h-full flex flex-row px-2 cursor-pointer">
         <span className={`w-full h-full whitespace-nowrap text-ellipsis flex items-center ${renderStyleValue()}`} onClick={() => setShowList(!showList)}>{renderSelectedValue()}</span>
         {renderClear()}
-        <span className="w-fit h-full flex items-center" onClick={() => setShowList(!showList)}>{renderIcon()}</span>
+        <span className="w-fit h-full flex items-center ml-2" onClick={() => setShowList(!showList)}>{renderIcon()}</span>
       </div>
       {renderOption()}
       

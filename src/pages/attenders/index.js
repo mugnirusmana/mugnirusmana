@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
 import SelectOption from "../../components/select-option";
+import Alert from "../../components/alert";
 
 const Attenders = () => {
   const [filter, setFilter] = useState({
@@ -10,8 +11,13 @@ const Attenders = () => {
     attendance: {},
     status: {},
   })
-  const [currnetPage, setCurrentPage] = useState('');
-  const [perPage, setPerPage] = useState('');
+  const [currnetPage, setCurrentPage] = useState('1');
+  const [perPage, setPerPage] = useState('10');
+  const [selectData, setSelectData] = useState({})
+  const [showSuccessdAlert, setShowSuccessdAlert] = useState(false);
+  const [showNotDisplayedAlert, setShowNotDisplayedAlert] = useState(false);
+  const [showDisplayedAlert, setShowDisplayedAlert] = useState(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const title = [
     {
       label: 'Name',
@@ -78,15 +84,14 @@ const Attenders = () => {
   }
 
   useEffect(() => {
-    setCurrentPage('1');
-    setPerPage('10');
+    getListData({
+      keyword: filter?.keyword !== '' ? filter?.keyword : null,
+      attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+      status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+      page: parseInt(1),
+      perPage: parseInt(10),
+    });
   }, []);
-
-  useEffect(() => {
-    if (currnetPage && perPage) {
-      getListData();
-    }
-  }, [currnetPage, perPage]);
 
   const onReset = () => {
     let resetParams = {
@@ -95,19 +100,19 @@ const Attenders = () => {
       status: {},
     }
     setFilter({...resetParams, keyword: ''});
-    getListData(resetParams)
+    getListData({keyword: null, attendance: null, status: null, page: parseInt(currnetPage), perPage: parseInt(perPage)})
   }
 
-  const getListData = (resetParams = null) => {
-    let params = {
-      keyword: resetParams ? resetParams?.keyword??null : filter?.keyword??null,
-      attendance: resetParams ? resetParams?.attendance?.value ? parseInt(resetParams?.attendance?.value) : null : filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
-      status: resetParams ? resetParams?.status?.value ? parseInt(resetParams?.status?.value) : null : filter?.status?.value ? parseInt(filter?.status?.value) : null,
-      page: currnetPage ? parseInt(currnetPage) : 1,
-      perPage: perPage ? parseInt(perPage) : 10,
+  const getListData = (params) => {
+    let result = {
+      keyword: params?.keyword ?? null,
+      attendance: params?.attendance ?? null,
+      status: params?.status ?? null,
+      page: params?.page ?? 1,
+      perPage: params?.perPage ?? 10,
     }
 
-    console.log('get data ', params);
+    console.log('get data ', result);
   }
 
   return (
@@ -140,14 +145,20 @@ const Attenders = () => {
               {!data?.status ? (
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
-                  onClick={() => console.log('data toggle on ', data)}
+                  onClick={() => {
+                    setSelectData(data);
+                    setShowDisplayedAlert(true);
+                  }}
                 >
                   <i className="fa-solid fa-toggle-on"></i>
                 </span>
               ) : (
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
-                  onClick={() => console.log('data toggle off ', data)}
+                  onClick={() => {
+                    setSelectData(data);
+                    setShowNotDisplayedAlert(true);
+                  }}
                 >
                   <i className="fa-solid fa-toggle-off"></i>
                 </span>
@@ -155,7 +166,10 @@ const Attenders = () => {
               {!data?.status ? (
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                  onClick={() => console.log('data remove ', data)}
+                  onClick={() => {
+                    setSelectData(data);
+                    setShowDeleteAlert(true);
+                  }}
                 >
                   <i className="fa-solid fa-trash"></i>
                 </span>
@@ -208,7 +222,15 @@ const Attenders = () => {
                 </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1">
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
-                  <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4" onClick={() => getListData()}>Filter</div>
+                  <div
+                    className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4"
+                    onClick={() => getListData({
+                      keyword: filter?.keyword !== '' ? filter?.keyword : null,
+                      attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+                      status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+                      page: parseInt(currnetPage),
+                      perPage: parseInt(perPage),
+                    })}>Filter</div>
                 </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
@@ -217,12 +239,108 @@ const Attenders = () => {
               </div>
             </div>
           )}
-          onChangePerPage={(data) => setPerPage(data)}
-          onChangePage={(data) => setCurrentPage(data)}
-          onPrevPage={(data) => setCurrentPage(data)}
-          onNextPage={(data) => setCurrentPage(data)}
+          onChangePerPage={(data) => {
+            setPerPage(data)
+            getListData({
+              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+              status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              page: parseInt(currnetPage),
+              perPage: parseInt(data),
+            })
+          }}
+          onChangePage={(data) => {
+            setCurrentPage(data);
+            getListData({
+              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+              status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              page: parseInt(data),
+              perPage: parseInt(perPage),
+            })
+          }}
+          onPrevPage={(data) => {
+            setCurrentPage(data);
+            getListData({
+              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+              status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              page: parseInt(data),
+              perPage: parseInt(perPage),
+            })
+          }}
+          onNextPage={(data) => {
+            setCurrentPage(data);
+            getListData({
+              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+              status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              page: parseInt(data),
+              perPage: parseInt(perPage),
+            })
+          }}
         />
       </div>
+
+      <Alert
+        show={showSuccessdAlert}
+        type="success"
+        title="Success"
+        message={`Data Successfully Deleted`}
+        showCancelButton={false}
+        onConfirm={() => setShowSuccessdAlert(false)}
+      />
+
+      <Alert
+        show={showDisplayedAlert}
+        type="info"
+        title="Displayed"
+        message={`<span>Will you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        showCancelButton={false}
+        onCancel={() => {
+          setSelectData({})
+          setShowDisplayedAlert(false);
+        }}
+        onConfirm={() => {
+          setSelectData({})
+          setShowDisplayedAlert(false);
+          setShowSuccessdAlert(true);
+        }}
+      />
+
+      <Alert
+        show={showNotDisplayedAlert}
+        type="info"
+        title="Don't Display"
+        message={`<span>Won't you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        showCancelButton={true}
+        onCancel={() => {
+          setSelectData({})
+          setShowNotDisplayedAlert(false);
+        }}
+        onConfirm={() => {
+          setSelectData({})
+          setShowNotDisplayedAlert(false);
+          setShowSuccessdAlert(true);
+        }}
+      />
+
+      <Alert
+        show={showDeleteAlert}
+        type="delete"
+        title="Delete"
+        message={`<span>Will you delete</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        showCancelButton={true}
+        onCancel={() => {
+          setSelectData({})
+          setShowDeleteAlert(false);
+        }}
+        onConfirm={() => {
+          setSelectData({})
+          setShowDeleteAlert(false)
+          setShowSuccessdAlert(true);
+        }}
+      />
     </div>
   );
 };
