@@ -36,7 +36,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
     {label: '1 Person', value: 1},
     {label: '2 People', value: 2},
     {label: '3 People', value: 3},
-    {label: 'More then 3 People', value: 4},
+    {label: 'More than 3 People', value: 4},
   ];
 
   const handleClickParticipantOutside = () => {
@@ -266,7 +266,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorComment}}></span>
           </div>
 
-          <div className="w-full flex flex-col desktop:flex-row gap-5">
+          <div className="w-full flex flex-col desktop:flex-row gap-5 z-[1]">
             <div
               className="w-full desktop:w-1/3 transition-all duration-300 ease-in-out flex items-center justify-center text-center py-4 rounded-md font-bold shadow-lg cursor-pointer bg-white desktop:bg-transparent hover:bg-white"
               onClick={() => resetForm()}

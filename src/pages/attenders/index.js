@@ -33,7 +33,7 @@ const Attenders = () => {
       titlePosition: 'left',
       customRender: (data) => {
         if (data?.participants > 3) {
-          return <span className="whitespace-nowrap">More then 3 People</span>
+          return <span className="whitespace-nowrap">More than 3 People</span>
         } else if (data?.participants === 1) {
           return <span className="whitespace-nowrap">1 Person</span>
         } else {

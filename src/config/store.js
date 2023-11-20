@@ -15,7 +15,7 @@ import ENV from "./base-env";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "sideMenu"],
 };
 
 const persistedReducer = persistCombineReducers(persistConfig, rootReducer);
