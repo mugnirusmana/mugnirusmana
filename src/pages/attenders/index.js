@@ -89,20 +89,20 @@ const Attenders = () => {
   }, [currnetPage, perPage]);
 
   const onReset = () => {
-    let resetField = {
-      keyword: '',
+    let resetParams = {
+      keyword: null,
       attendance: {},
-      status: '0',
+      status: {},
     }
-    setFilter(resetField);
-    getListData(resetField)
+    setFilter({...resetParams, keyword: ''});
+    getListData(resetParams)
   }
 
-  const getListData = (resetParams = {}) => {
+  const getListData = (resetParams = null) => {
     let params = {
       keyword: resetParams ? resetParams?.keyword??null : filter?.keyword??null,
-      attendance: resetParams ? resetParams?.attendance?.value??null : filter?.attendance?.value??null,
-      status: resetParams ? resetParams?.status?.value??null : filter?.status?.value??null,
+      attendance: resetParams ? resetParams?.attendance?.value ? parseInt(resetParams?.attendance?.value) : null : filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+      status: resetParams ? resetParams?.status?.value ? parseInt(resetParams?.status?.value) : null : filter?.status?.value ? parseInt(filter?.status?.value) : null,
       page: currnetPage ? parseInt(currnetPage) : 1,
       perPage: perPage ? parseInt(perPage) : 10,
     }
@@ -208,7 +208,7 @@ const Attenders = () => {
                 </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1">
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
-                  <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4" onClick={getListData}>Filter</div>
+                  <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4" onClick={() => getListData()}>Filter</div>
                 </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
                   <span className="text-xs hidden tablet:block">&nbsp;</span>

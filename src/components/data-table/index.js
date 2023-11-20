@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import SelectOption from './../select-option';
 
 const DataTable = (props) => {
   let {
@@ -21,16 +22,12 @@ const DataTable = (props) => {
   let { paginate } = data;
   
   const [listPage, setListPage] = useState([]);
-  const listPerPage = [
-    {label: '10', value: '10'},
-    {label: '50', value: '50'},
-    {label: '100', value: '100'},
-  ];
+  const listPerPage = [10, 50, 100];
 
   useEffect(() => {
     let list_page = [];
     for (let i = 1; i <= paginate?.totalPage; i++) {
-      list_page.push({label: i, value: i});
+      list_page.push(i);
     }
     setListPage(list_page);
   }, [paginate?.totalPage])
@@ -132,32 +129,65 @@ const DataTable = (props) => {
         <div className="w-full flex flex-col tablet:flex-row mt-5 text-sm text-sky-900 gap-3">
           <div className="w-full whitespace-nowrap flex justify-center tablet:justify-start">Total Data:&nbsp;<b>({data?.data?.length} / {paginate?.totalData})</b></div>
           <div className="w-full tablet:w-fit whitespace-nowrap flex flex-col tablet:flex-row items-center gap-2">
-            <span>Per Page</span>
-            <select className="border border-sky-900 rounded p-1 outline-none">
-              {listPerPage?.map((item, index) => <option key={index}>{item?.label}</option>)}
-            </select>
+            <div className="w-full flex flex-row justify-center items-center gap-2">
+              <span>Per Page</span>
+              <div className="w-[60px] tablet:w-[100px]">
+                <SelectOption
+                  isLoading={false}
+                  options={listPerPage}
+                  value={perPage}
+                  showClear={false}
+                  showSearch={false}
+                  optionPosition={'top'}
+                  onChange={(data) => {
+                    if (onChangePerPage) {
+                      return onChangePerPage(data);
+                    } else {
+                      return {}
+                    }
+                  }}
+                />
+              </div>
+            </div>
             <span className="hidden tablet:block w-[1px] h-full border-l-2 border-l-sky-900 mx-5"></span>
-            <span
-              className={parseInt(currentPage) <= 1 ? 'cursor-default text-gray-300 font-bold' : 'cursor-pointer text-sky-900 font-bold'}
-              onClick={() => {
-                let status = parseInt(currentPage) <= 1;
-                if (onPrevPage && !status) {
-                  return onPrevPage(parseInt(currentPage) - 1);
-                }
-              }}
-            >Prev Page</span>
-            <select className="border border-sky-900 rounded p-1 outline-none">
-              {listPage?.map((item, index) => <option key={index}>{item?.label}</option>)}
-            </select>
-            <span
-              className={parseInt(currentPage) >= paginate?.totalPage ? 'cursor-default text-gray-300 font-bold' : 'cursor-pointer text-sky-900 font-bold'}
-              onClick={() => {
-                let status = parseInt(currentPage) >= paginate?.totalPage;
-                if (onNextPage && !status) {
-                  return onNextPage(parseInt(currentPage) + 1);
-                }
-              }}
-            >Next Page</span>
+            <div className="w-fit whitespace-nowrap flex flex-row gap-2 items-center">
+              <span
+                className={parseInt(currentPage) <= 1 ? 'cursor-default text-gray-300 font-bold' : 'cursor-pointer text-sky-900 font-bold'}
+                onClick={() => {
+                  let status = parseInt(currentPage) <= 1;
+                  if (onPrevPage && !status) {
+                    return onPrevPage(parseInt(currentPage) - 1);
+                  }
+                }}
+              >Prev Page</span>
+              <div className="w-[60px] tablet:w-[100px]">
+                <SelectOption
+                  isLoading={false}
+                  options={listPage}
+                  value={currentPage}
+                  showClear={false}
+                  showSearch={true}
+                  onSearch={(data) => {}}
+                  optionPosition={'top'}
+                  onChange={(data) => {
+                    if (onChangePage) {
+                      return onChangePage(data);
+                    } else {
+                      return {}
+                    }
+                  }}
+                />
+              </div>
+              <span
+                className={parseInt(currentPage) >= paginate?.totalPage ? 'cursor-default text-gray-300 font-bold' : 'cursor-pointer text-sky-900 font-bold'}
+                onClick={() => {
+                  let status = parseInt(currentPage) >= paginate?.totalPage;
+                  if (onNextPage && !status) {
+                    return onNextPage(parseInt(currentPage) + 1);
+                  }
+                }}
+              >Next Page</span>
+            </div>
           </div>
         </div>
       )
