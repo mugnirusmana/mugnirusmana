@@ -29,9 +29,9 @@ const BreadCrumb = (props) => {
     })
   }
   return (
-    <div className="w-full h-fit flex flex-row items-center mb-10">
+    <div className="w-full h-fit flex flex-col tablet:flex-row items-center mb-10">
       <span className="w-full text-xl font-bold">{title}</span>
-      <span className="hidden tablet:flex w-fit flex-row whitespace-nowrap gap-2 items-center">
+      <span className="w-full tablet:w-fit flex-row whitespace-nowrap gap-2 items-center">
         {renderList()}
       </span>
     </div>

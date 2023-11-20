@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import BreadCrumb from "./../../components/breadcrumb";
-import DataTable from './../../components/data-table';
+import BreadCrumb from "../../components/breadcrumb";
+import DataTable from '../../components/data-table';
 
-const Comments = () => {
+const Attenders = () => {
   const [filter, setFilter] = useState({
     keyword: '',
     attendance: '0',
@@ -15,10 +15,12 @@ const Comments = () => {
     {
       label: 'Name',
       object: 'name',
+      titlePosition: 'left',
     },
     {
       label: 'Participants',
       object: 'participants',
+      titlePosition: 'left',
       customRender: (data) => {
         if (data?.participants > 3) {
           return <span>More then 3 People</span>
@@ -30,13 +32,13 @@ const Comments = () => {
       }
     },
     {
-      label: 'attendance',
+      label: 'Attendance',
       object: 'attendance',
       customRender: (data) => {
         if (data?.attendance === 1) {
-          return <span className="text-xs bg-green-600 rounded p-1 text-white">Will Attend</span>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white">Will Attend</span></div>
         } else {
-          return <span className="text-xs bg-red-600 rounded p-1 text-white">Will Not Attend</span>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white">Will Not Attend</span></div>
         }
       }
     },
@@ -45,9 +47,9 @@ const Comments = () => {
       object: 'status',
       customRender: (data) => {
         if (data?.status === 1) {
-          return <span className="text-xs bg-green-600 rounded p-1 text-white">Displayed</span>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white">Displayed</span></div>
         } else {
-          return <span className="text-xs bg-red-600 rounded p-1 text-white">Not Displayed</span>
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white">Not Displayed</span></div>
         }
       }
     }
@@ -107,65 +109,16 @@ const Comments = () => {
   return (
     <div className="w-full h-full flex flex-col overflow-x-hidden hide-scroll">
       <BreadCrumb
-        title={'Comments'}
+        title={'Attenders'}
         list={[
-          {title: 'Comments', path: '', active: true},
+          {title: 'Attenders', path: '', active: true},
         ]}
       />
 
       <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded p-5 pb-16 desktop:pb-5">
-
-        <div className="w-full flex flex-col mb-5">
-          <span className="font-bold">Filter</span>
-          <div className="w-full flex flex-col desktop:flex-row gap-2">
-            <div className="w-full flex flex-col gap-1">
-              <span className="text-xs">Keyword</span>
-              <input
-                type={'text'}
-                className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900"
-                placeholder="Search by name"
-                value={filter?.keyword}
-                onChange={(e) => setFilter({...filter, keyword: e?.currentTarget?.value})}
-              />
-            </div>
-            <div className="w-full flex flex-col gap-1">
-              <span className="text-xs">Attendance</span>
-              <select
-                className="w-full outline-none border border-sky-900 rounded h-[30px]"
-                value={filter?.attendance}
-                onChange={(e) => setFilter({...filter, attendance: e?.currentTarget?.value})}
-              >
-                <option value="0">All</option>
-                <option value="1">Will Attend</option>
-                <option value="2">Will Not Attend</option>
-              </select>
-            </div>
-            <div className="w-full flex flex-col gap-1">
-              <span className="text-xs">Status</span>
-              <select
-                className="w-full outline-none border border-sky-900 rounded h-[30px]"
-                value={filter?.status}
-                onChange={(e) => setFilter({...filter, status: e?.currentTarget?.value})}
-              >
-                <option value="0">All</option>
-                <option value="1">Displayed</option>
-                <option value="2">Not Displayed</option>
-              </select>
-            </div>
-            <div className="w-full desktop:w-fit flex flex-col gap-1">
-              <span className="text-xs hidden desktop:block">&nbsp;</span>
-              <div className="cursor-pointer w-full desktop:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4" onClick={getListData}>Filter</div>
-            </div>
-            <div className="w-full desktop:w-fit flex flex-col gap-1" onClick={onReset}>
-              <span className="text-xs hidden desktop:block">&nbsp;</span>
-              <div className="cursor-pointer w-full desktop:w-fit h-full flex items-center justify-center text-sky-900 border border-sky-900 rounded px-4">Reset</div>
-            </div>
-          </div>
-        </div>
-
         <DataTable
           isLoading={false}
-          config={data}
+          data={data}
           title={title}
           perPage={perPage}
           currentPage={currnetPage}
@@ -173,47 +126,96 @@ const Comments = () => {
           showTitleFooter={true}
           withNumber={true}
           withAction={true}
-          renderAction={(data) => {
-            return (
-              <div className="flex flex-row gap-2">
+          renderAction={(data) => (
+            <div className="flex flex-row items-center justify-end gap-2">
+              <span
+                className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white"
+                onClick={() => console.log('data open ', data)}
+              >
+                <i className="fa-solid fa-eye"></i>
+              </span>
+              {!data?.status ? (
                 <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white"
-                  onClick={() => console.log('data open ', data)}
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
+                  onClick={() => console.log('data toggle on ', data)}
                 >
-                  <i className="fa-solid fa-eye"></i>
+                  <i className="fa-solid fa-toggle-on"></i>
                 </span>
-                {!data?.status ? (
-                  <span
-                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
-                    onClick={() => console.log('data toggle on ', data)}
+              ) : (
+                <span
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
+                  onClick={() => console.log('data toggle off ', data)}
+                >
+                  <i className="fa-solid fa-toggle-off"></i>
+                </span>
+              )}
+              {!data?.status ? (
+                <span
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
+                  onClick={() => console.log('data remove ', data)}
+                >
+                  <i className="fa-solid fa-trash"></i>
+                </span>
+              ) : null}
+            </div>
+          )}
+          renderCustomFilter={() => (
+            <div className="w-full flex flex-col mb-5">
+              <span className="font-bold">Filter</span>
+              <div className="w-full flex flex-col tablet:flex-row gap-2">
+                <div className="w-full flex flex-col gap-1">
+                  <span className="text-xs">Keyword</span>
+                  <input
+                    type={'text'}
+                    className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900"
+                    placeholder="Search by name"
+                    value={filter?.keyword}
+                    onChange={(e) => setFilter({...filter, keyword: e?.currentTarget?.value})}
+                  />
+                </div>
+                <div className="w-full flex flex-col gap-1">
+                  <span className="text-xs">Attendance</span>
+                  <select
+                    className="w-full outline-none border border-sky-900 rounded h-[30px]"
+                    value={filter?.attendance}
+                    onChange={(e) => setFilter({...filter, attendance: e?.currentTarget?.value})}
                   >
-                    <i className="fa-solid fa-toggle-on"></i>
-                  </span>
-                ) : (
-                  <span
-                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
-                    onClick={() => console.log('data toggle off ', data)}
+                    <option value="0">All</option>
+                    <option value="1">Will Attend</option>
+                    <option value="2">Will Not Attend</option>
+                  </select>
+                </div>
+                <div className="w-full flex flex-col gap-1">
+                  <span className="text-xs">Status</span>
+                  <select
+                    className="w-full outline-none border border-sky-900 rounded h-[30px]"
+                    value={filter?.status}
+                    onChange={(e) => setFilter({...filter, status: e?.currentTarget?.value})}
                   >
-                    <i className="fa-solid fa-toggle-off"></i>
-                  </span>
-                )}
-                {!data?.status ? (
-                  <span
-                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                    onClick={() => console.log('data remove ', data)}
-                  >
-                    <i className="fa-solid fa-trash"></i>
-                  </span>
-                ) : null}
+                    <option value="0">All</option>
+                    <option value="1">Displayed</option>
+                    <option value="2">Not Displayed</option>
+                  </select>
+                </div>
+                <div className="w-full tablet:w-fit flex flex-col gap-1">
+                  <span className="text-xs hidden tablet:block">&nbsp;</span>
+                  <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4" onClick={getListData}>Filter</div>
+                </div>
+                <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
+                  <span className="text-xs hidden tablet:block">&nbsp;</span>
+                  <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-sky-900 border border-sky-900 rounded px-4">Reset</div>
+                </div>
               </div>
-            )
-          }}
+            </div>
+          )}
           onChangePerPage={(data) => setPerPage(data)}
           onChangePage={(data) => setCurrentPage(data)}
+          onPrevPage={(data) => setCurrentPage(data)}
+          onNextPage={(data) => setCurrentPage(data)}
         />
       </div>
     </div>
   );
 };
 
-export default Comments;
+export default Attenders;

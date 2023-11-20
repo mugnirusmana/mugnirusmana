@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
+
 const DataTable = (props) => {
   let {
-    config,
-    title,
     isLoading,
+    data,
+    title,
     perPage,
     currentPage,
     showInfo,
@@ -10,170 +12,188 @@ const DataTable = (props) => {
     withNumber,
     withAction,
     renderAction,
+    renderCustomFilter,
     onChangePerPage,
     onChangePage,
+    onPrevPage,
+    onNextPage,
   } = props;
+  let { paginate } = data;
+  
+  const [listPage, setListPage] = useState([]);
+  const listPerPage = [
+    {label: '10', value: '10'},
+    {label: '50', value: '50'},
+    {label: '100', value: '100'},
+  ];
 
-  const looListPage = () => {
-    let data = [];
-    for (let i = 1; i <= config?.paginate?.totalPage; i++) {
-      data.push(i);
+  useEffect(() => {
+    let list_page = [];
+    for (let i = 1; i <= paginate?.totalPage; i++) {
+      list_page.push({label: i, value: i});
     }
-    return data;
+    setListPage(list_page);
+  }, [paginate?.totalPage])
+
+  const getTotalColSpan = () => {
+    let titleLength = title?.length;
+    if (withNumber) titleLength = titleLength + 1;
+    if (withAction) titleLength = titleLength + 1;
+    return titleLength;
   }
 
-  const renderListByTitle = (item) => {
-    return title?.map((item_title, key) => {
-      if (item_title?.object) {
-        if (item_title?.customRender) {
-          return <span key={key} className="w-full">{item_title?.customRender(item)}</span>
-        } else {
-          return <span key={key} className="w-full">{item[item_title?.object]}</span>
-        }
-      } else {
-        return <span key={key} className="w-full">-</span>
-      }
-    })
+  const setPositionTitle = (position) => {
+    let setPosition = 'justify-center';
+    if (position === 'right') setPosition = 'justify-end';
+    if (position === 'left') setPosition = 'justify-start';
+    return setPosition;
   }
 
-  const renderListData = () => {
-    if (config?.data?.length > 0) {
-      return config?.data?.map((item, index) => {
-        return (
-          <div key={index} className={`w-full text-xs flex flex-row gap-2 py-2 hover:bg-gray-100 px-2 ${index > 0 ? 'border border-t-gray-300' : ''}`}>
-            {renderNumberList(currentPage, index)}
-            {renderListByTitle(item)}
-            {renderActionList(item)}
-          </div>
-        );
-      });
-    } else {
-     return (
-      <div className="w-full flex flex-row items-center justify-center gap-2 py-2 border-b border-b-gray-300 hover:bg-gray-100">
-        No Data Found
-      </div>
-     )
-    }
-  }
-
-  const renderNumberList = (currentPage, item) => {
-    let page = ((currentPage-1) * perPage) + item+1;
-    if (currentPage < 1) page = currentPage + item;
-    if (withNumber) {
-      return <span className="w-[300px]">{page}</span>
-    }
-  }
-
-  const renderActionList = (item) => {
-    if (withAction && renderAction) {
-      return <div className="w-full flex flex-row justify-end">{renderAction(item)}</div>
-    }
-  }
-
-  const renderNumberTitle = () => {
-    if (withNumber) {
-      return <span className="w-[300px] font-bold">No</span>
-    }
-  }
-
-  const renderActionTitle = () => {
-    if (withAction && renderAction) {
-      return <span className="w-full font-bold text-right">Action</span>
-    }
-  }
-
-  const renderTitle = () => {
+  const renderListData = (item_data) => {
     return title?.map((item, index) => {
-      return <span key={index} className="w-full font-bold">{item?.label}</span>
-    })
+      if (item?.customRender) {
+        return <td key={index} className="p-2">{item?.customRender(item_data)}</td>
+      } else {
+        return <td key={index} className="p-2">{item_data[item?.object]}</td>
+      }
+    });
   }
 
-  const renderListPage = () => {
-    let result = looListPage();
-    return result?.map((item, index) => {
-      return <option key={index} value={item}>{item}</option>
-    })
+  const renderDataNumber = (index) => {
+    if (withNumber) {
+      let number = ((currentPage - 1) * perPage) + (index + 1);
+      return <td className="p-2"><span className="flex items-center justify-center">{number}</span></td>
+    }
+  }
+
+  const renderDataAction = (item) => {
+    if (withAction) {
+      return <td className="p-2">{renderAction ? renderAction(item) : null}</td>
+    }
+  }
+
+  const renderData = () => {
+    if (data?.data?.length > 0 && (title && title?.length > 0)) {
+      return data?.data?.map((item, index) => {
+        return (
+          <tr key={index} className="hover:bg-gray-200 border border-gray-400">
+            {renderDataNumber(index)}
+            {renderListData(item)}
+            {renderDataAction(item)}
+          </tr>
+        )
+      })
+    } else {
+      let result = getTotalColSpan()
+      return <tr className="border border-gray-400"><td colSpan={result}><div className="flex items-center justify-center p-2">No Data...</div></td></tr>
+    }
   }
 
   const renderTitleFooter = () => {
-    if (showTitleFooter) {
-      return (
-        <div className="w-full flex flex-row gap-2 py-2 border-t-2 border-t-sky-900 border-b-2 border-b-sky-900 px-2">
-          {renderNumberTitle()}
-          {renderTitle()}
-          {renderActionTitle()}
-        </div>
-      )
+    if (showTitleFooter) return renderTitle();
+  }
+
+  const renderTitle = () => {
+    return (
+      <thead>
+        <tr className="border border-gray-400 text-sm">
+          {renderTitleNumber()}
+          {renderListTitle()}
+          {renderTitleAction()}
+        </tr>
+      </thead>
+    )
+  }
+
+  const renderTitleNumber = () => {
+    if (withNumber) {
+      return <th width={'5%'} className=""><span className={`flex items-center justify-center p-2`}>No</span></th>
     }
   }
 
-  const renderInfo = (currentPage) => {
+  const renderTitleAction = () => {
+    if (withAction) {
+      return <th className=""><span className={`flex items-center justify-end p-2`}>Action</span></th>
+    }
+  }
+
+  const renderListTitle = () => {
+    if (title && title?.length > 0) {
+      return title?.map((item, index) => {
+        let position = setPositionTitle(item?.titlePosition)
+        return <th key={index} className=""><span className={`flex items-center ${position} p-2`}>{item?.label}</span></th>
+      });
+    }
+  }
+
+  const renderInfo = () => {
     if (showInfo) {
       return (
-        <div className="w-full flex flex-col desktop:flex-row items-center px-2 py-5 text-xs gap-5">
-          <span className="w-fit desktop:w-full">Total Data: <span className="font-bold">({config?.data?.length} / {config?.paginate?.totalData})</span></span>
-          <div className="w-fit flex flex-col desktop:flex-row items-center gap-2">
-            <span className="whitespace-nowrap">Data Per Page</span>
-            <select
-              className="w-[50px] border border-sky-900 rounded"
-              value={perPage}
-              onChange={(e) => {
-                if (onChangePerPage) {
-                  return onChangePerPage(e?.currentTarget?.value)
+        <div className="w-full flex flex-col tablet:flex-row mt-5 text-sm text-sky-900 gap-3">
+          <div className="w-full whitespace-nowrap flex justify-center tablet:justify-start">Total Data:&nbsp;<b>({data?.data?.length} / {paginate?.totalData})</b></div>
+          <div className="w-full tablet:w-fit whitespace-nowrap flex flex-col tablet:flex-row items-center gap-2">
+            <span>Per Page</span>
+            <select className="border border-sky-900 rounded p-1 outline-none">
+              {listPerPage?.map((item, index) => <option key={index}>{item?.label}</option>)}
+            </select>
+            <span className="hidden tablet:block w-[1px] h-full border-l-2 border-l-sky-900 mx-5"></span>
+            <span
+              className={parseInt(currentPage) <= 1 ? 'cursor-default text-gray-300 font-bold' : 'cursor-pointer text-sky-900 font-bold'}
+              onClick={() => {
+                let status = parseInt(currentPage) <= 1;
+                if (onPrevPage && !status) {
+                  return onPrevPage(parseInt(currentPage) - 1);
                 }
               }}
-            >
-              <option>10</option>
-              <option>50</option>
-              <option>100</option>
+            >Prev Page</span>
+            <select className="border border-sky-900 rounded p-1 outline-none">
+              {listPage?.map((item, index) => <option key={index}>{item?.label}</option>)}
             </select>
-            <span className="hidden desktop:block border-l border-l-sky-900">&nbsp;</span>
-            <span className="whitespace-nowrap">Select Page</span>
-            <select
-              className="w-[50px] border border-sky-900 rounded"
-              value={currentPage}
-              onChange={(e) => {
-                if (onChangePage) {
-                  return onChangePage(e?.currentTarget?.value)
-                } else {
-                  return {}
+            <span
+              className={parseInt(currentPage) >= paginate?.totalPage ? 'cursor-default text-gray-300 font-bold' : 'cursor-pointer text-sky-900 font-bold'}
+              onClick={() => {
+                let status = parseInt(currentPage) >= paginate?.totalPage;
+                if (onNextPage && !status) {
+                  return onNextPage(parseInt(currentPage) + 1);
                 }
               }}
-            >
-              {renderListPage()}
-            </select>
+            >Next Page</span>
           </div>
         </div>
-      );
+      )
     }
   }
 
   const renderLoading = () => {
     if (isLoading) {
       return (
-        <div className='w-full h-full absolute top-0 left-0 text-white flex items-center justify-center'>
-          <div className='w-full h-full flex items-center justify-center relative'>
-            <span className='z-[1] font-bold'>Loading...</span>
-            <div className='w-full h-full bg-black opacity-50 absolute left-0 top-0'></div>
-          </div>
+        <div className="w-full h-full absolute top-0 left-0 flex backdrop-blur-sm rounded items-center justify-center">
+          <span className="z-[1] text-sky-900 font-bold animate-bounce">Loading...</span>
         </div>
-      );
+      )
+    }
+  }
+
+  const renderComponentFilter = () => {
+    if (renderCustomFilter) {
+      return renderCustomFilter();
     }
   }
 
   return (
-    <div className="w-full h-fit flex">
-      <div className="w-full h-fit border-2 border-sky-900 rounded overflow-x-auto relative">
-        <div className="w-full flex flex-row gap-2 py-2 border-b-2 border-b-sky-900 px-2">
-          {renderNumberTitle()}
+    <div className="w-full flex flex-col relative">
+      {renderComponentFilter()}
+      <div className="w-full flex flex-row overflow-scroll">
+        <table className="w-full">
           {renderTitle()}
-          {renderActionTitle()}
-        </div>
-        {renderListData()}
-        {renderTitleFooter()}
-        {renderInfo(currentPage)}
-        {renderLoading()}
+          <tbody className="text-sm">
+          {renderData()}
+          </tbody>
+          {renderTitleFooter()}
+        </table>
       </div>
+      {renderInfo()}
+      {renderLoading()}
     </div>
   )
 }

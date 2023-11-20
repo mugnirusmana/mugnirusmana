@@ -1,6 +1,6 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
-import Comments from '../pages/comments';
+import Attenders from '../pages/attenders';
 import ScanQr from '../pages/scan-qr';
 import Settings from '../pages/settings';
 
@@ -17,8 +17,8 @@ const AuthedRoute = [
 		exact: true,
 	},
 	{
-		path: "/comments",
-		component: Comments,
+		path: "/attenders",
+		component: Attenders,
 		exact: true,
 	},
 	{

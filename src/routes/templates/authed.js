@@ -18,9 +18,9 @@ const AuthedTemplate = ({ children }) => {
       icon: 'fa-solid fa-chart-line',
     },
     {
-      title: 'Comments',
-      path: '/comments',
-      icon: 'fa-solid fa-database',
+      title: 'Attenders',
+      path: '/attenders',
+      icon: 'fa-solid fa-users',
     },
     {
       title: 'Scan Qr',
@@ -97,7 +97,7 @@ const AuthedTemplate = ({ children }) => {
         <div className={`w-[250px] h-[56px] fixed desktop:absolute ${setSideMenuByStatus().header_left} top-0 transition-all duration-300 ease-in-out flex flex-row items-center justify-center text-white font-bold text-xl`}>SaveMe</div>
         <div className={`h-[56px] fixed desktop:absolute ${setSideMenuByStatus().header_right} top-0 transition-all duration-300 ease-in-out flex flex-row`}>
           <div
-            className="w-[50px] h-full flex flex-col items-center justify-center px-1 gap-1 cursor-pointer z-[10]"
+            className="w-[50px] h-full flex flex-col items-center justify-center ml-5 gap-1 cursor-pointer z-[10]"
             onClick={() => dispatch(setSideMenu(!sideMenu?.show))}
           >
             <img src={Dash} className="w-full" alt="dash"/>

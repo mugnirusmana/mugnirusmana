@@ -5,15 +5,12 @@ import Header from './header';
 
 import Bg from './../../../assets/images/bg-2.png';
 
-// import Left from './../../../assets/svgs/left.svg';
 import Right from './../../../assets/svgs/right.svg';
-// import Shape8 from './../../../assets/svgs/shape8.svg';
-// import Shape9 from './../../../assets/svgs/shape9.svg';
 
 const useOutsideClick = (callback) => {
-  const ref = React.useRef();
+  const ref = useRef();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleClick = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
         callback();
