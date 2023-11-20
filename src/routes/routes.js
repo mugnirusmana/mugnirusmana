@@ -1,10 +1,11 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
-import Profile from './../pages/profile';
+import Attenders from '../pages/attenders';
+import ScanQr from '../pages/scan-qr';
+import Settings from '../pages/settings';
 
 // imports unauthed pages
 import Login from './../pages/login';
-import ForgotPassword from './../pages/forgot-password';
 
 // imports public pages
 import Home from './../pages/home';
@@ -16,8 +17,18 @@ const AuthedRoute = [
 		exact: true,
 	},
 	{
-		path: "/profile",
-		component: Profile,
+		path: "/attenders",
+		component: Attenders,
+		exact: true,
+	},
+	{
+		path: "/scan-qr",
+		component: ScanQr,
+		exact: true,
+	},
+	{
+		path: "/settings",
+		component: Settings,
 		exact: true,
 	}
 ];
@@ -26,11 +37,6 @@ const UnauthedRoute = [
 	{
 		path: "/login",
 		component: Login,
-		exact: true,
-	},
-	{
-		path: "/forgot-password",
-		component: ForgotPassword,
 		exact: true,
 	}
 ];

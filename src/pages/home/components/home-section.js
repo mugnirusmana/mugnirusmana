@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import Shape2 from './../../../assets/svgs/shape2.svg';
 import Shape3DarkPink from './../../../assets/svgs/shape3-dark-pink.svg';
@@ -13,18 +13,10 @@ import Couple from './../../../assets/images/bg-2.png';
 import Groom from './../../../assets/images/groom-profile.png';
 import Bride from './../../../assets/images/bride-profile.png';
 
-const HomeSection = (props) => {
+const HomeSection = React.forwardRef((props, ref) => {
   let {
     onClickDown,
-    getRef,
   } = props;
-  const ref = useRef()
-
-  useEffect(() => {
-    if(getRef) {
-      return getRef(ref);
-    }
-  }, [])
 
   return (
     <div
@@ -71,7 +63,7 @@ const HomeSection = (props) => {
       <div
         className='w-[20px] h-[30px] tablet:w-[30px] tablet:h-[50px] desktop:w-[40px] desktop:h-[60px] absolute bottom-5 desktop:bottom-10 border-2 border-dark-pink rounded-md text-dark-pink flex items-center justify-center text-center text-sm left-[calc(50%_-_20px)] cursor-pointer z-[20] animate-bounce backdrop-blur-lg'
         onClick={() => {
-          if(onClickDown) {
+          if (onClickDown) {
             return onClickDown();
           } else {
             return {};
@@ -82,6 +74,6 @@ const HomeSection = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default HomeSection;

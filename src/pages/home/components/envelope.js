@@ -56,7 +56,7 @@ const Envelope = (props) => {
     setLeftStyle(leftStyle);
     setRightStyle(rightStyle);
 
-    if(!show) {
+    if (!show) {
       timeInterval = setTimeout(() => {
         setIsHide(true);
         clearInterval(timeInterval);

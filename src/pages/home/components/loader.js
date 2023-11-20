@@ -29,7 +29,7 @@ const Loader = (props) => {
     }
     setParentStyle(style);
 
-    if(!show) {
+    if (!show) {
       timeInterval = setTimeout(() => {
         setIsHide(true);
         clearInterval(timeInterval);
