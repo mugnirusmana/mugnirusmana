@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import _ from 'lodash';
 
+import ImageModal from "./components/image-modal";
 import Loader from './components/loader';
 import Envelope from "./components/envelope";
 import Menu from "./components/menu";
@@ -25,6 +26,10 @@ const Home = () => {
   const [activeMenu, setActiveMenu] = useState('home');
   const [showMenu, setShowMenu] = useState(true);
   const [showToTop, setShowToTop] = useState(false);
+  const [imageModal, setImageModal] = useState({
+    show: false,
+    data: null,
+  });
   const homeRef = useRef();
   const aboutUsRef = useRef();
   const ourStoryRef = useRef();
@@ -167,6 +172,13 @@ const Home = () => {
         });
       }, 300)}
     >
+      <ImageModal
+        show={imageModal?.show}
+        data={imageModal?.data}
+        onClose={() => setImageModal({show: false, data: null})}
+        windowDimensions={windowDimensions}
+      />
+
       <Loader
         show={showLoader}
         windowDimensions={windowDimensions}
@@ -200,17 +212,18 @@ const Home = () => {
       <HomeSection
         onClickDown={() => aboutUsRef?.current?.scrollIntoView({ behavior: 'smooth' })}
         ref={homeRef}
+        onShowModalImage={(data) => setImageModal({show: true, data: data})}
       />
 
-      <AboutUsSection ref={aboutUsRef} />
+      <AboutUsSection ref={aboutUsRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
 
-      <OurStorySection ref={ourStoryRef} />
+      <OurStorySection ref={ourStoryRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
 
       <EventsSection ref={eventsRef} />
 
-      <BridesmaidsGroomsmanSection ref={bridesmaidsGroomsmanRef} />
+      <BridesmaidsGroomsmanSection ref={bridesmaidsGroomsmanRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
 
-      <GallerySection ref={galleryRef} />
+      <GallerySection ref={galleryRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
 
       <ReservationSection ref={reservationRef} onSubmit={(data) => {console.log('data ', data)}} />
 

@@ -99,8 +99,9 @@ const Attenders = () => {
       attendance: {},
       status: {},
     }
+    setCurrentPage('1');
     setFilter({...resetParams, keyword: ''});
-    getListData({keyword: null, attendance: null, status: null, page: parseInt(currnetPage), perPage: parseInt(perPage)})
+    getListData({keyword: null, attendance: null, status: null, page: 1, perPage: parseInt(perPage)})
   }
 
   const getListData = (params) => {
@@ -124,7 +125,7 @@ const Attenders = () => {
         ]}
       />
 
-      <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded p-5 pb-16 desktop:pb-5">
+      <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded pb-16 desktop:pb-5">
         <DataTable
           isLoading={false}
           data={data}
