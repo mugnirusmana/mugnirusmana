@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSlice";
 import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
 import { defaultAttenderNotDisplayed, submitAttenderNotDisplay } from "../../redux/attenderNotDisplayedSlice";
+import { defaultAttenderRemove, removeAttender } from "../../redux/attenderRemoveSlice";
 
 import { decodeParams } from './../../helper';
 
@@ -21,9 +22,11 @@ const Attenders = () => {
   const attenderList = useSelector(({ attenderList }) => attenderList);
   const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
   const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
+  const attenderRemove = useSelector(({ attenderRemove }) => attenderRemove);
   const [alertListError, setAlertListError] = useState({show: false, message: ''});
   const [alertDisplayed, setAlertDisplayed] = useState({show: false, type: '', message: ''});
   const [alertNotDisplayed, setAlertNotDisplayed] = useState({show: false, type: '', message: ''});
+  const [alertRemove, setAlertRemove] = useState({show: false, type: '', message: ''})
   const [filter, setFilter] = useState({
     keyword: decodeParams(location?.search)?.keyword ?? '',
     attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
@@ -162,6 +165,34 @@ const Attenders = () => {
     }
 
   }, [attenderNotDisplayed]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage,
+    } = attenderRemove;
+
+    if (!isLoading && isSuccess) {
+      setShowDeleteAlert(false);
+      setAlertRemove({
+        show: true,
+        type: 'success',
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Deleted</span>`
+      });
+    }
+
+    if (!isLoading && isError) {
+      setShowDeleteAlert(false);
+      setAlertRemove({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      });
+    }
+
+  }, [attenderRemove]);
 
   const onReset = () => {
     let resetParams = {
@@ -456,10 +487,30 @@ const Attenders = () => {
           setSelectData({})
           setShowDeleteAlert(false);
         }}
+        onConfirm={() => dispatch(removeAttender(selectData?.id))}
+      />
+
+      <Alert
+        show={alertRemove?.show}
+        type={alertRemove?.type}
+        title="Delete"
+        message={alertRemove.message}
+        showCancelButton={false}
         onConfirm={() => {
-          setSelectData({})
-          setShowDeleteAlert(false)
-          setShowSuccessdAlert(true);
+          setAlertRemove({
+            show:false,
+            type: '',
+            message: ''
+          })
+          setSelectData({});
+          dispatch(defaultAttenderRemove());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
         }}
       />
 

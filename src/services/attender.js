@@ -25,3 +25,11 @@ export const notDisplayed = (id, token) => {
     }
   });
 }
+
+export const remove = (id, token) => {
+  return axios.delete(`${ENV.API}/attender/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
