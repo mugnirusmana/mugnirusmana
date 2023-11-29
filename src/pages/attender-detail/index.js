@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { defaultAttenderDetail, getAttenderDetail } from '../../redux/attenderDetailSlice';
+import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
+import { defaultAttenderNotDisplayed, submitAttenderNotDisplay } from "../../redux/attenderNotDisplayedSlice";
 import { defaultAttenderRemove, removeAttender } from "../../redux/attenderRemoveSlice";
 
 import BreadCrumb from "../../components/breadcrumb";
@@ -17,9 +19,13 @@ const AttenderDetail = () => {
   const id = _.last(location?.pathname?.split('/'));
   const [showLoader, setShowLoader] = useState(true);
   const [alertDetail, setAlertDetail] = useState({show: false, type: '', title: '', message: '', action: () => {}});
+  const [showDisplayAlert, setShowDisplayAlert] = useState(false);
+  const [showNotDisplayAlert, setShowNotDisplayAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const auth = useSelector(({ auth }) => auth);
   const attenderDetail = useSelector(({ attenderDetail }) => attenderDetail);
+  const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
+  const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
   const attenderRemove = useSelector(({ attenderRemove }) => attenderRemove);
 
   useEffect(() => {
@@ -38,10 +44,6 @@ const AttenderDetail = () => {
       errorMessage,
     } = attenderDetail;
 
-    if (isLoading) {
-      setShowLoader(true);
-    }
-
     if(!isLoading && isSuccess) {
       setShowLoader(false);
       dispatch(defaultAttenderDetail());
@@ -56,6 +58,50 @@ const AttenderDetail = () => {
     }
 
   }, [attenderDetail]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage,
+    } = attenderDisplayed;
+
+    if (!isLoading && isSuccess) {
+      setShowDisplayAlert(false);
+      setAlertDetail({show: true, type: 'success', title: 'Display Comment', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Displayed</span>`, action: () => {
+        dispatch(defaultAttenderDisplayed());
+        dispatch(getAttenderDetail(id));
+      }});
+    }
+
+    if (!isLoading && isError) {
+      setShowDisplayAlert(false);
+      setAlertDetail({show: true, type: 'danger', title: 'Display Comment', message: errorMessage, action: () => {dispatch(defaultAttenderDisplayed())}});
+    }
+  }, [attenderDisplayed]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage,
+    } = attenderNotDisplayed;
+
+    if (!isLoading && isSuccess) {
+      setShowNotDisplayAlert(false);
+      setAlertDetail({show: true, type: 'success', title: 'Hide Comment', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Hidden</span>`, action: () => {
+        dispatch(defaultAttenderNotDisplayed());
+        dispatch(getAttenderDetail(id));
+      }});
+    }
+
+    if (!isLoading && isError) {
+      setShowNotDisplayAlert(false);
+      setAlertDetail({show: true, type: 'danger', title: 'Hide Comment', message: errorMessage, action: () => {dispatch(defaultAttenderNotDisplayed())}});
+    }
+  }, [attenderNotDisplayed]);
 
   useEffect(() => {
     let {
@@ -145,15 +191,15 @@ const AttenderDetail = () => {
               <td className="py-5">{attenderDetail?.data?.comment??'-'}</td>
             </tr>
             {auth?.data?.role === 'admin' ? (
-              <tr className="border-b border-b-gray-400">
-                <td className="py-5">Actions</td>
-                <td className="py-5">:</td>
+              <tr>
+                <td className="py-5"></td>
+                <td className="py-5"></td>
                 <td className="py-5">
-                  <div className="w-full flex flex-row gap-2">
+                  <div className="w-full flex flex-row justify-end gap-2">
                     {parseInt(attenderDetail?.data?.status) === 1 ? (
                       <span
                         className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
-                        onClick={() => {}}
+                        onClick={() => setShowDisplayAlert(true)}
                       >
                         <i className="fa-solid fa-toggle-on"></i>
                       </span>
@@ -162,7 +208,7 @@ const AttenderDetail = () => {
                     {parseInt(attenderDetail?.data?.status) === 2 ? (
                       <span
                         className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
-                        onClick={() => {}}
+                        onClick={() => setShowNotDisplayAlert(true)}
                       >
                         <i className="fa-solid fa-toggle-off"></i>
                       </span>
@@ -186,8 +232,8 @@ const AttenderDetail = () => {
 
       <Alert
         show={alertDetail?.show}
-        type="danger"
-        title="Get Detail"
+        type={alertDetail?.type}
+        title={alertDetail?.title}
         message={alertDetail?.message}
         showCancelButton={false}
         onConfirm={() => {
@@ -204,6 +250,28 @@ const AttenderDetail = () => {
             return {}
           }
         }}
+      />
+
+      <Alert
+        show={showDisplayAlert}
+        isLoading={attenderDisplayed?.isLoading}
+        type="info"
+        title="Display Comment"
+        message={`<span>Will you display</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
+        showCancelButton={true}
+        onCancel={() => setShowDisplayAlert(false)}
+        onConfirm={() => dispatch(submitAttenderDisplay(id))}
+      />
+
+      <Alert
+        show={showNotDisplayAlert}
+        isLoading={attenderNotDisplayed?.isLoading}
+        type="info"
+        title="Hide Comment"
+        message={`<span>Will you hide</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
+        showCancelButton={true}
+        onCancel={() => setShowNotDisplayAlert(false)}
+        onConfirm={() => dispatch(submitAttenderNotDisplay(id))}
       />
 
       <Alert

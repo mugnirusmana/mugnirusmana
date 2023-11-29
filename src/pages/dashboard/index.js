@@ -52,28 +52,37 @@ const Dashboard = () => {
               <i className="fa-solid fa-users"></i>
             </div>
           </div>
-          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
-            <span className="font-bold">Total Will Not Attend</span>
+          <div
+            className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
+            onClick={() => navigate('/attenders?attendance=will_not_attend')}
+          >
+            <span className="font-bold" >Total Will Not Attend</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
-              <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_will_attend??0}</span>
+              <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_will_not_attend??0}</span>
               <i className="fa-solid fa-user-xmark"></i>
             </div>
           </div>
           
         </div>
         <div className="w-full h-full flex flex-col gap-5 desktop:pb-0">
-          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
-            <span className="font-bold">Total Will Attend</span>
+          <div
+            className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
+            onClick={() => navigate('/attenders?attendance=will_attend')}
+          >
+            <span
+              className="font-bold"
+            >Total Will Attend</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
-              <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_will_not_attend??0}</span>
+              <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_will_attend??0}</span>
               <i className="fa-solid fa-user-check"></i>
             </div>
           </div>
-          <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
-            <span
-              className="font-bold cursor-pointer"
-              onClick={() => navigate('/attenders?status=displayed')}
-            >Total Displayed Comments</span>
+
+          <div
+            className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
+            onClick={() => navigate('/attenders?status=displayed')}
+          >
+            <span className="font-bold" >Total Displayed Comments</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_post_comments??0}</span>
               <i className="fa-solid fa-comment"></i>

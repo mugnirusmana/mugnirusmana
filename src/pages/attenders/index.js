@@ -406,7 +406,7 @@ const Attenders = () => {
         show={showDisplayedAlert}
         isLoading={attenderDisplayed?.isLoading}
         type="info"
-        title="Displayed"
+        title="Display Comment"
         message={`<span>Will you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
@@ -419,7 +419,7 @@ const Attenders = () => {
       <Alert
         show={alertDisplayed?.show}
         type={alertDisplayed?.type}
-        title="Displayed"
+        title="Display Comment"
         message={alertDisplayed.message}
         showCancelButton={false}
         onConfirm={() => {
@@ -443,8 +443,8 @@ const Attenders = () => {
       <Alert
         show={showNotDisplayedAlert}
         type="info"
-        title="Don't Display"
-        message={`<span>Will you hidden</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        title="Hide Comment"
+        message={`<span>Will you hide</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})
@@ -456,7 +456,7 @@ const Attenders = () => {
       <Alert
         show={alertNotDisplayed?.show}
         type={alertNotDisplayed?.type}
-        title="Don't Displayed"
+        title="Hide Comment"
         message={alertNotDisplayed.message}
         showCancelButton={false}
         onConfirm={() => {
