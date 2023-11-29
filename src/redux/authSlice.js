@@ -5,6 +5,7 @@ import { AUTH } from "./../services";
 const initialState = {
   token: "",
   data: {},
+  isUnathorized: false,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -27,7 +28,6 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
-      state.errorMessage = null;
     },
     logIn: (state) => {
       state.isLoading = true;
@@ -49,11 +49,27 @@ export const authSlice = createSlice({
       state.isError = true;
       state.errorMessage = action?.payload;
     },
+    removeTokenUnathorized: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.isUnathorized = true;
+      state.errorMessage = action?.payload;
+      state.token = null;
+      state.data = {};
+    },
+    defaultRemoveTokenUnathorized: (state) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.isUnathorized = false;
+      state.errorMessage = null;
+    }
   },
 });
 
 // this is for dispatch
-export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed } = authSlice.actions;
+export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed, removeTokenUnathorized, defaultRemoveTokenUnathorized } = authSlice.actions;
 
 export const signIn = (params, width, desktopSize) => {
   return async (dispatch, getState) => {
@@ -96,6 +112,18 @@ export const logOut = () => {
     setTimeout(() => {
       dispatch(removeToken());
     }, 1500);
+  };
+}
+
+export const logOutUnathorized = (message) => {
+  return async (dispatch, getState) => {
+    dispatch(removeTokenUnathorized(message));
+  };
+}
+
+export const defaultLogOutUnathorized = () => {
+  return async (dispatch, getState) => {
+    dispatch(defaultRemoveTokenUnathorized());
   };
 }
 

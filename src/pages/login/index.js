@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   signIn,
-  defaultSignIn
+  defaultSignIn,
+  defaultLogOutUnathorized
 } from './../../redux/authSlice';
 
 import { getWindowDimensions } from './../../helper';
@@ -30,6 +31,7 @@ const Login = () => {
     }
   });
   const [alertError, setAlertError] = useState({show: false, message: ''});
+  const [alertUnathorized, setAlertUnathorized] = useState(false);
 
   const onSubmit = () => {
     let resultValidateUsername = validateUsername(field?.username?.value);
@@ -70,9 +72,9 @@ const Login = () => {
       isLoading,
       isError,
       isSuccess,
-      errorMessage
+      errorMessage,
+      isUnathorized
     } = auth;
-
     if (!isLoading && isError) {
       setAlertError({show: true, message: errorMessage});
     }
@@ -80,6 +82,10 @@ const Login = () => {
     if (!isLoading && isSuccess) {
       dispatch(defaultSignIn());
       //automatic redirect to dashboard / next authed path
+    }
+
+    if(isUnathorized) {
+      setAlertUnathorized(true);
     }
   }, [auth]);
 
@@ -185,6 +191,19 @@ const Login = () => {
         onConfirm={() => {
           setAlertError({show: false, message: ''});
           dispatch(defaultSignIn());
+        }}
+      />
+
+      <Alert
+        show={alertUnathorized}
+        type="danger"
+        title={'Unathorized'}
+        message={auth?.errorMessage}
+        showCancelButton={false}
+        onConfirm={() => {
+          setAlertUnathorized(false);
+          dispatch(defaultLogOutUnathorized());
+          window.location.href = '/login';
         }}
       />
     </>
