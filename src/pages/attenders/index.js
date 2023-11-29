@@ -1,4 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+
+import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSlice";
+import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
+import { defaultAttenderNotDisplayed, submitAttenderNotDisplay } from "../../redux/attenderNotDisplayedSlice";
+import { defaultAttenderRemove, removeAttender } from "../../redux/attenderRemoveSlice";
+
+import { decodeParams } from './../../helper';
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
@@ -6,10 +15,22 @@ import SelectOption from "../../components/select-option";
 import Alert from "../../components/alert";
 
 const Attenders = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const auth = useSelector(({ auth }) => auth);
+  const attenderList = useSelector(({ attenderList }) => attenderList);
+  const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
+  const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
+  const attenderRemove = useSelector(({ attenderRemove }) => attenderRemove);
+  const [alertListError, setAlertListError] = useState({show: false, message: ''});
+  const [alertDisplayed, setAlertDisplayed] = useState({show: false, type: '', message: ''});
+  const [alertNotDisplayed, setAlertNotDisplayed] = useState({show: false, type: '', message: ''});
+  const [alertRemove, setAlertRemove] = useState({show: false, type: '', message: ''})
   const [filter, setFilter] = useState({
-    keyword: '',
-    attendance: {},
-    status: {},
+    keyword: decodeParams(location?.search)?.keyword ?? '',
+    attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
+    status: { value: decodeParams(location?.search)?.status === 'displayed' ? 2 : decodeParams(location?.search)?.status === 'not_displayed' ? 1 : null, label: decodeParams(location?.search)?.status === 'displayed' ? 'Displayed' : decodeParams(location?.search)?.status === 'not_displayed' ? 'Not Displayed' : null},
   })
   const [currnetPage, setCurrentPage] = useState('1');
   const [perPage, setPerPage] = useState('10');
@@ -28,24 +49,18 @@ const Attenders = () => {
       }
     },
     {
-      label: 'Participants',
-      object: 'participants',
+      label: 'Emails',
+      object: 'email',
       titlePosition: 'left',
       customRender: (data) => {
-        if (data?.participants > 3) {
-          return <span className="whitespace-nowrap">More then 3 People</span>
-        } else if (data?.participants === 1) {
-          return <span className="whitespace-nowrap">1 Person</span>
-        } else {
-          return <span className="whitespace-nowrap">{data?.participants} Pople</span>
-        }
+        return <span className="whitespace-nowrap">{data?.email}</span>
       }
     },
     {
       label: 'Attendance',
       object: 'attendance',
       customRender: (data) => {
-        if (data?.attendance === 1) {
+        if (parseInt(data?.attendance) === 1) {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Will Attend</span></div>
         } else {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Will Not Attend</span></div>
@@ -56,32 +71,14 @@ const Attenders = () => {
       label: 'Status',
       object: 'status',
       customRender: (data) => {
-        if (data?.status === 1) {
+        if (parseInt(data?.status) === 2) {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Displayed</span></div>
         } else {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Displayed</span></div>
         }
       }
     }
-  ]
-  const data = {
-    data: [
-      {id: 1, name: 'John Doe 1', participants: 1, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 2, name: 'John Doe 2', participants: 4, attendance: 1, status: 1, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 3, name: 'John Doe 3', participants: 1, attendance: 0, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 4, name: 'John Doe 4', participants: 3, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 5, name: 'John Doe 5', participants: 2, attendance: 1, status: 1, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 6, name: 'John Doe 6', participants: 1, attendance: 0, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 7, name: 'John Doe 7', participants: 3, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 8, name: 'John Doe 8', participants: 1, attendance: 0, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 8, name: 'John Doe 9', participants: 2, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 10, name: 'John Doe 10', participants: 1, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-    ],
-    paginate: {
-      totalPage: 10,
-      totalData: 100,
-    }
-  }
+  ];
 
   useEffect(() => {
     getListData({
@@ -93,26 +90,132 @@ const Attenders = () => {
     });
   }, []);
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage,
+      data,
+    } = attenderList;
+
+    if(!isLoading && isSuccess) {
+      setCurrentPage(data?.currentPage);
+      setPerPage(data?.perPage);
+      dispatch(defaultAttenderList());
+    }
+
+    if(!isLoading && isError) {
+      setAlertListError({show: true, message: errorMessage});
+    }
+  }, [attenderList]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage
+    } = attenderDisplayed;
+
+    if (!isLoading && isSuccess) {
+      setShowDisplayedAlert(false);
+      setAlertDisplayed({
+        show: true,
+        type: 'success',
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Displayed</span>`
+      })
+    }
+
+    if (!isLoading && isError) {
+      setShowDisplayedAlert(false);
+      setAlertDisplayed({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      })
+    }
+
+  }, [attenderDisplayed]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage,
+    } = attenderNotDisplayed;
+
+    if (!isLoading && isSuccess) {
+      setShowNotDisplayedAlert(false);
+      setAlertNotDisplayed({
+        show: true,
+        type: 'success',
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Hidden</span>`
+      })
+    }
+
+    if (!isLoading && isError) {
+      setShowNotDisplayedAlert(false);
+      setAlertNotDisplayed({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      })
+    }
+
+  }, [attenderNotDisplayed]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage,
+    } = attenderRemove;
+
+    if (!isLoading && isSuccess) {
+      setShowDeleteAlert(false);
+      setAlertRemove({
+        show: true,
+        type: 'success',
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Deleted</span>`
+      });
+    }
+
+    if (!isLoading && isError) {
+      setShowDeleteAlert(false);
+      setAlertRemove({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      });
+    }
+
+  }, [attenderRemove]);
+
   const onReset = () => {
     let resetParams = {
       keyword: null,
       attendance: {},
       status: {},
     }
+    setCurrentPage('1');
     setFilter({...resetParams, keyword: ''});
-    getListData({keyword: null, attendance: null, status: null, page: parseInt(currnetPage), perPage: parseInt(perPage)})
+    getListData({keyword: null, attendance: null, status: null, page: 1, perPage: parseInt(perPage)})
   }
 
   const getListData = (params) => {
-    let result = {
-      keyword: params?.keyword ?? null,
-      attendance: params?.attendance ?? null,
-      status: params?.status ?? null,
-      page: params?.page ?? 1,
-      perPage: params?.perPage ?? 10,
+    if (!attenderList?.isLoading) {
+      let result = {
+        keyword: params?.keyword ?? '',
+        attendance: params?.attendance ?? '',
+        status: params?.status ?? '',
+        page: params?.page ?? 1,
+        limit: params?.perPage ?? 10,
+      }
+      dispatch(getAttenderList(result));
     }
-
-    console.log('get data ', result);
   }
 
   return (
@@ -124,10 +227,10 @@ const Attenders = () => {
         ]}
       />
 
-      <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded p-5 pb-16 desktop:pb-5">
+      <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded pb-16 desktop:pb-5">
         <DataTable
-          isLoading={false}
-          data={data}
+          isLoading={attenderList?.isLoading}
+          data={attenderList?.data?.list}
           title={title}
           perPage={perPage}
           currentPage={currnetPage}
@@ -138,41 +241,45 @@ const Attenders = () => {
             <div className="flex flex-row items-center justify-end gap-2">
               <span
                 className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white"
-                onClick={() => console.log('data open ', data)}
+                onClick={() => navigate(`/attenders/${data?.id}`)}
               >
                 <i className="fa-solid fa-eye"></i>
               </span>
-              {!data?.status ? (
-                <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
-                  onClick={() => {
-                    setSelectData(data);
-                    setShowDisplayedAlert(true);
-                  }}
-                >
-                  <i className="fa-solid fa-toggle-on"></i>
-                </span>
-              ) : (
-                <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
-                  onClick={() => {
-                    setSelectData(data);
-                    setShowNotDisplayedAlert(true);
-                  }}
-                >
-                  <i className="fa-solid fa-toggle-off"></i>
-                </span>
-              )}
-              {!data?.status ? (
-                <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                  onClick={() => {
-                    setSelectData(data);
-                    setShowDeleteAlert(true);
-                  }}
-                >
-                  <i className="fa-solid fa-trash"></i>
-                </span>
+              {auth?.data?.role === 'admin' ? (
+                <>
+                  {parseInt(data?.status) === 1 ? (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowDisplayedAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-toggle-on"></i>
+                    </span>
+                  ) : (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowNotDisplayedAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-toggle-off"></i>
+                    </span>
+                  )}
+                  {parseInt(data?.status) === 1 ? (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowDeleteAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </span>
+                  ) : null}
+                </>
               ) : null}
             </div>
           )}
@@ -210,7 +317,7 @@ const Attenders = () => {
                   <SelectOption
                     isLoading={false}
                     placeholder={'Select Status'}
-                    options={[{label: 'Displayed', value: '1'}, {label: 'Not Displayed', value: '2'}]}
+                    options={[{label: 'Displayed', value: '2'}, {label: 'Not Displayed', value: '1'}]}
                     objectLabel={'label'}
                     objectUniq={'value'}
                     value={filter?.status}
@@ -224,13 +331,16 @@ const Attenders = () => {
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
                   <div
                     className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4"
-                    onClick={() => getListData({
-                      keyword: filter?.keyword !== '' ? filter?.keyword : null,
-                      attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
-                      status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
-                      page: parseInt(currnetPage),
-                      perPage: parseInt(perPage),
-                    })}>Filter</div>
+                    onClick={() => {
+                      setCurrentPage('1');
+                      getListData({
+                        keyword: filter?.keyword !== '' ? filter?.keyword : null,
+                        attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+                        status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+                        page: 1,
+                        perPage: parseInt(perPage),
+                      })
+                    }}>Filter</div>
                 </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
@@ -241,11 +351,12 @@ const Attenders = () => {
           )}
           onChangePerPage={(data) => {
             setPerPage(data)
+            setCurrentPage('1');
             getListData({
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
-              page: parseInt(currnetPage),
+              page: 1,
               perPage: parseInt(data),
             })
           }}
@@ -293,35 +404,76 @@ const Attenders = () => {
 
       <Alert
         show={showDisplayedAlert}
+        isLoading={attenderDisplayed?.isLoading}
         type="info"
-        title="Displayed"
+        title="Display Comment"
         message={`<span>Will you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
-        showCancelButton={false}
+        showCancelButton={true}
         onCancel={() => {
           setSelectData({})
           setShowDisplayedAlert(false);
         }}
+        onConfirm={() => dispatch(submitAttenderDisplay(selectData?.id))}
+      />
+
+      <Alert
+        show={alertDisplayed?.show}
+        type={alertDisplayed?.type}
+        title="Display Comment"
+        message={alertDisplayed.message}
+        showCancelButton={false}
         onConfirm={() => {
-          setSelectData({})
-          setShowDisplayedAlert(false);
-          setShowSuccessdAlert(true);
+          setAlertDisplayed({
+            show:false,
+            type: '',
+            message: ''
+          })
+          setSelectData({});
+          dispatch(defaultAttenderDisplayed());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
         }}
       />
 
       <Alert
         show={showNotDisplayedAlert}
         type="info"
-        title="Don't Display"
-        message={`<span>Won't you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        title="Hide Comment"
+        message={`<span>Will you hide</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})
           setShowNotDisplayedAlert(false);
         }}
+        onConfirm={() => dispatch(submitAttenderNotDisplay(selectData?.id))}
+      />
+
+      <Alert
+        show={alertNotDisplayed?.show}
+        type={alertNotDisplayed?.type}
+        title="Hide Comment"
+        message={alertNotDisplayed.message}
+        showCancelButton={false}
         onConfirm={() => {
-          setSelectData({})
-          setShowNotDisplayedAlert(false);
-          setShowSuccessdAlert(true);
+          setAlertNotDisplayed({
+            show:false,
+            type: '',
+            message: ''
+          })
+          setSelectData({});
+          dispatch(defaultAttenderNotDisplayed());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
         }}
       />
 
@@ -335,10 +487,42 @@ const Attenders = () => {
           setSelectData({})
           setShowDeleteAlert(false);
         }}
+        onConfirm={() => dispatch(removeAttender(selectData?.id))}
+      />
+
+      <Alert
+        show={alertRemove?.show}
+        type={alertRemove?.type}
+        title="Delete"
+        message={alertRemove.message}
+        showCancelButton={false}
         onConfirm={() => {
-          setSelectData({})
-          setShowDeleteAlert(false)
-          setShowSuccessdAlert(true);
+          setAlertRemove({
+            show:false,
+            type: '',
+            message: ''
+          })
+          setSelectData({});
+          dispatch(defaultAttenderRemove());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
+        }}
+      />
+
+      <Alert
+        show={alertListError?.show}
+        type="danger"
+        title="Get List"
+        message={alertListError?.message}
+        showCancelButton={false}
+        onConfirm={() => {
+          setAlertListError({show: false, message: ''});
+          dispatch(defaultAttenderList());
         }}
       />
     </div>

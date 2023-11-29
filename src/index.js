@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -7,6 +8,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './config/store';
+import {logOutUnathorized} from './redux/authSlice';
 
 let persistor = persistStore(store);
 
@@ -21,7 +23,15 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+const UNAUTHORIZED = 401;
+const {dispatch} = store;
+axios.interceptors.response.use(
+  response => response,
+  (error) => {
+    const {status, data} = error.response;
+    if (status === UNAUTHORIZED) dispatch(logOutUnathorized(data?.meta?.message));
+    return Promise.reject(error);
+  }
+);
+
 reportWebVitals();

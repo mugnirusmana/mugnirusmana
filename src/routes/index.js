@@ -19,7 +19,7 @@ import {
 import NotFound from "./../pages/not-found";
 
 const Routes = () => {
-	const { token } = useSelector(({ auth }) => auth);
+	const { token, data } = useSelector(({ auth }) => auth);
 	return (
 		<Router>
 			<WrapperRoutes>
@@ -29,7 +29,7 @@ const Routes = () => {
 							exact={item.exact}
 							key={index.toString()}
 							path={item.path}
-							element={(<AuthedComponent component={item.component} token={token} />)}
+							element={(<AuthedComponent component={item.component} token={token} accessRole={item?.accessRole??false} userRole={data?.role} />)}
 						/>
 					)
 				})}

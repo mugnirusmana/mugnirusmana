@@ -211,7 +211,7 @@ const DataTable = (props) => {
   }
 
   return (
-    <div className="w-full flex flex-col relative">
+    <div className="w-full flex flex-col relative p-5">
       {renderComponentFilter()}
       <div className="w-full flex flex-row overflow-auto hide-scroll border border-sky-900 tablet:border-transparent">
         <table className="w-full">

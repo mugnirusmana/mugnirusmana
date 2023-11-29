@@ -1,6 +1,7 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
 import Attenders from '../pages/attenders';
+import AttendersDetail from '../pages/attender-detail';
 import ScanQr from '../pages/scan-qr';
 import Settings from '../pages/settings';
 
@@ -22,6 +23,11 @@ const AuthedRoute = [
 		exact: true,
 	},
 	{
+		path: "/attenders/:id",
+		component: AttendersDetail,
+		exact: true,
+	},
+	{
 		path: "/scan-qr",
 		component: ScanQr,
 		exact: true,
@@ -29,6 +35,7 @@ const AuthedRoute = [
 	{
 		path: "/settings",
 		component: Settings,
+		accessRole: 'admin',
 		exact: true,
 	}
 ];
