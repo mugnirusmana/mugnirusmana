@@ -1,3 +1,4 @@
 import * as AUTH from "./auth";
+import * as DASHBOARD from "./dashboard";
 
-export { AUTH };
+export { AUTH, DASHBOARD };

@@ -11,6 +11,7 @@ const AuthedTemplate = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sideMenu = useSelector(({ sideMenu }) => sideMenu);
+  const auth = useSelector(({ auth }) => auth);
   const menus = [
     {
       title: 'Dashboard',
@@ -31,6 +32,7 @@ const AuthedTemplate = ({ children }) => {
       title: 'Settings',
       path: '/settings',
       icon: 'fa-solid fa-gear',
+      role: 'admin',
     }
   ];
 
@@ -78,16 +80,33 @@ const AuthedTemplate = ({ children }) => {
 
   const renderListMenu = () => {
     return menus?.map((item, index) => {
-      return (
-        <div
-          key={index}
-          className={`w-full cursor-pointer flex flex-row items-center gap-2 transition-all duration-300 ease-in-out ${setActiveMenu(item?.path)} text-sky-900 hover:bg-sky-400 hover:text-white p-2 rounded`}
-          onClick={() => navigate(item?.path)}
-        >
-          <i className={item?.icon}></i>
-          <span>{item?.title}</span>
-        </div>
-      )
+      if (item?.role) {
+        if (item?.role === auth?.data?.role) {
+          return (
+            <div
+              key={index}
+              className={`w-full cursor-pointer flex flex-row items-center gap-2 transition-all duration-300 ease-in-out ${setActiveMenu(item?.path)} text-sky-900 hover:bg-sky-400 hover:text-white p-2 rounded`}
+              onClick={() => navigate(item?.path)}
+            >
+              <i className={item?.icon}></i>
+              <span>{item?.title}</span>
+            </div>
+          )
+        } else {
+          return null;
+        }
+      } else {
+        return (
+          <div
+            key={index}
+            className={`w-full cursor-pointer flex flex-row items-center gap-2 transition-all duration-300 ease-in-out ${setActiveMenu(item?.path)} text-sky-900 hover:bg-sky-400 hover:text-white p-2 rounded`}
+            onClick={() => navigate(item?.path)}
+          >
+            <i className={item?.icon}></i>
+            <span>{item?.title}</span>
+          </div>
+        )
+      }
     });
   }
 

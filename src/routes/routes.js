@@ -29,6 +29,7 @@ const AuthedRoute = [
 	{
 		path: "/settings",
 		component: Settings,
+		accessRole: 'admin',
 		exact: true,
 	}
 ];

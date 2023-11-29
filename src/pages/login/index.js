@@ -29,7 +29,7 @@ const Login = () => {
       errorMessage: '',
     }
   });
-  const [alserError, setAlertError] = useState({show: false, message: ''})
+  const [alertError, setAlertError] = useState({show: false, message: ''});
 
   const onSubmit = () => {
     let resultValidateUsername = validateUsername(field?.username?.value);
@@ -177,10 +177,10 @@ const Login = () => {
       </form>
 
       <Alert
-        show={alserError?.show}
+        show={alertError?.show}
         type="danger"
         title="Login"
-        message={alserError?.message}
+        message={alertError?.message}
         showCancelButton={false}
         onConfirm={() => {
           setAlertError({show: false, message: ''});
