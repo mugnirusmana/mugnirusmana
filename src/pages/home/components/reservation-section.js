@@ -109,7 +109,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
       setErrorFullname('Fullname max 50 characters');
     } else if (!fullnameRegex.test(fullname)) {
       result.isError = true;
-      setErrorFullname('Full format is invalid (<span class="font-bold italic">Only aplhabet and space</span>)');
+      setErrorFullname('Fullname format is invalid (<span class="font-bold italic">Only aplhabet and space</span>)');
     }
 
     if (!email) {
@@ -133,7 +133,10 @@ const ReservationSection = React.forwardRef((props, ref) => {
       setErrorAttendance('Attendance is required');
     }
 
-    if (comment && comment?.length > 230) {
+    if (!comment) {
+      result.isError = true;
+      setErrorComment('Comment is required');
+    }else if (comment?.length > 230) {
       result.isError = true;
       setErrorComment('Comment max 230 character');
     }
