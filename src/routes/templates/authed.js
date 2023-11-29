@@ -74,7 +74,7 @@ const AuthedTemplate = ({ children }) => {
 
   const setActiveMenu = (path) => {
     let currentUrl = window.location.pathname;
-    if (path === currentUrl) return 'bg-sky-400 text-sky-100';
+    if (path === currentUrl || currentUrl?.includes(path)) return 'bg-sky-400 text-sky-100';
     return '';
   }
 

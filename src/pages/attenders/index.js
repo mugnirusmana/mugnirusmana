@@ -241,7 +241,7 @@ const Attenders = () => {
             <div className="flex flex-row items-center justify-end gap-2">
               <span
                 className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white"
-                onClick={() => console.log('data open ', data)}
+                onClick={() => navigate(`/attenders/${data?.id}`)}
               >
                 <i className="fa-solid fa-eye"></i>
               </span>

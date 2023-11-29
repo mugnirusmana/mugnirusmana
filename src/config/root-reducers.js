@@ -5,6 +5,7 @@ import attenderListSlice from '../redux/attenderListSlice';
 import attenderDisplayedSlice from '../redux/attenderDisplayedSlice';
 import attenderNotDisplayedSlice from '../redux/attenderNotDisplayedSlice';
 import attenderRemoveSlice from '../redux/attenderRemoveSlice';
+import attenderDetailSlice from '../redux/attenderDetailSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -14,6 +15,7 @@ const rootReducer = {
   attenderDisplayed: attenderDisplayedSlice,
   attenderNotDisplayed: attenderNotDisplayedSlice,
   attenderRemove: attenderRemoveSlice,
+  attenderDetail: attenderDetailSlice,
 }
 
 export default rootReducer;
