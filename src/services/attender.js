@@ -41,3 +41,13 @@ export const remove = (id, token) => {
     }
   });
 }
+
+export const attend = (dataScan, token) => {
+  return axios.put(`${ENV.API}/attender/attend`, {
+    token: dataScan
+  }, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
