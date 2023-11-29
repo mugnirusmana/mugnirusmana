@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSlice";
 import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
+import { defaultAttenderNotDisplayed, submitAttenderNotDisplay } from "../../redux/attenderNotDisplayedSlice";
 
 import { decodeParams } from './../../helper';
 
@@ -19,8 +20,10 @@ const Attenders = () => {
   const auth = useSelector(({ auth }) => auth);
   const attenderList = useSelector(({ attenderList }) => attenderList);
   const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
+  const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
   const [alertListError, setAlertListError] = useState({show: false, message: ''});
   const [alertDisplayed, setAlertDisplayed] = useState({show: false, type: '', message: ''});
+  const [alertNotDisplayed, setAlertNotDisplayed] = useState({show: false, type: '', message: ''});
   const [filter, setFilter] = useState({
     keyword: decodeParams(location?.search)?.keyword ?? '',
     attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
@@ -130,7 +133,35 @@ const Attenders = () => {
       })
     }
 
-  }, [attenderDisplayed])
+  }, [attenderDisplayed]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage,
+    } = attenderNotDisplayed;
+
+    if (!isLoading && isSuccess) {
+      setShowNotDisplayedAlert(false);
+      setAlertNotDisplayed({
+        show: true,
+        type: 'success',
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Hidden</span>`
+      })
+    }
+
+    if (!isLoading && isError) {
+      setShowNotDisplayedAlert(false);
+      setAlertNotDisplayed({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      })
+    }
+
+  }, [attenderNotDisplayed]);
 
   const onReset = () => {
     let resetParams = {
@@ -382,16 +413,36 @@ const Attenders = () => {
         show={showNotDisplayedAlert}
         type="info"
         title="Don't Display"
-        message={`<span>Won't you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you hidden</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})
           setShowNotDisplayedAlert(false);
         }}
+        onConfirm={() => dispatch(submitAttenderNotDisplay(selectData?.id))}
+      />
+
+      <Alert
+        show={alertNotDisplayed?.show}
+        type={alertNotDisplayed?.type}
+        title="Don't Displayed"
+        message={alertNotDisplayed.message}
+        showCancelButton={false}
         onConfirm={() => {
-          setSelectData({})
-          setShowNotDisplayedAlert(false);
-          setShowSuccessdAlert(true);
+          setAlertNotDisplayed({
+            show:false,
+            type: '',
+            message: ''
+          })
+          setSelectData({});
+          dispatch(defaultAttenderNotDisplayed());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
         }}
       />
 
