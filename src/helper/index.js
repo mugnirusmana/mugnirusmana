@@ -14,3 +14,11 @@ export const openUrl = (url, type = 'new-tab') => {
   }
   return window.location.href = url;
 }
+
+export const decodeParams = (queryString) => {
+  if (queryString) {
+    return JSON.parse('{"' + decodeURI(queryString?.replace('?','')).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+  } else {
+    return {}
+  }
+}

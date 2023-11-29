@@ -12,6 +12,7 @@ import Shape8 from './../../../assets/svgs/shape8.svg';
 import Shape9 from './../../../assets/svgs/shape9.svg';
 
 const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
+  let { onShowModalImage } = props;
 
   return (
     <div ref={ref} className="w-screen min-h-screen relative bg-light-pink flex flex-col">
@@ -32,7 +33,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
       <div className="w-full h-full flex flex-col gap-5 desktop:gap-10 px-5 pb-5 desktop:px-32 desktop:pb-20 z-[1]">
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
+            <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
               <span className="font-bold text-sm">Bridesmaids</span>
@@ -51,7 +52,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
+            <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
               <span className="font-bold text-sm">Bridesmaids</span>
@@ -70,7 +71,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
+            <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
               <span className="font-bold text-sm">Bridesmaids</span>
@@ -91,7 +92,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
         </div>
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
+            <img src={Nephew} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
               <span className="font-bold text-sm">Bridesmaids</span>
@@ -110,7 +111,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
+            <img src={Cousin} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
               <span className="font-bold text-sm">Bridesmaids</span>
@@ -129,7 +130,7 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink" alt="bridesmaids-groomsman" />
+            <img src={Bestfiend} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full flex flex-col items-center justify-center">
               <span className="font-imperial-script text-2xl font-bold">Jane Doe</span>
               <span className="font-bold text-sm">Bridesmaids</span>

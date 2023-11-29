@@ -48,7 +48,7 @@ const SelectOption = (props) => {
   const setOptionStyle = (item) => {
     if (objectLabel && (value[objectLabel] === item[objectLabel])) {
       return 'bg-sky-900 text-white cursor-default'
-    } else if (typeof value !== 'object' && (value === item)) {
+    } else if (typeof value !== 'object' && (value?.toString() === item?.toString())) {
       return 'bg-sky-900 text-white cursor-default';
     } else {
       return 'bg-transparent text-sky-900 cursor-pointer';
@@ -68,7 +68,7 @@ const SelectOption = (props) => {
   const validateOption = (item) => {
     if (objectUniq && (item[objectUniq] === value[objectUniq])) {
       return true;
-    } else if (typeof item !== 'object' && (value === item)) {
+    } else if (typeof item !== 'object' && (value?.toString() === item?.toString())) {
       return true;
     } else {
       return false;

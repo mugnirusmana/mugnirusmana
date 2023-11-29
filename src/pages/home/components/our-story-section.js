@@ -11,6 +11,7 @@ import Left from './../../../assets/svgs/left.svg';
 import Shape11 from './../../../assets/svgs/shape11.svg';
 
 const OurStorySection = React.forwardRef((props, ref) => {
+  let { onShowModalImage } = props;
 
   return (
     <div ref={ref} className="w-screen min-h-screen bg-light-pink pb-5 tablet:pb-20 flex flex-col relative">
@@ -35,7 +36,7 @@ const OurStorySection = React.forwardRef((props, ref) => {
         
         <div className="w-full tablet:w-[60%] desktop:w-[60%] flex flex-col justify-center items-center relative p-5 gap-5 z-[1]">
           <div className="w-full flex flex-col desktop:flex-row-reverse relative p-5 rounded-md bg-white shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pl-16">
-            <img src={FirstMeet} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md" alt="first-meet" />
+            <img src={FirstMeet} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md cursor-pointer" alt="first-meet" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full desktop:h-fit flex flex-col gap-5">
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-right block desktop:hidden">First Meet ~</span>
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-right desktop:block hidden">~ First Meet</span>
@@ -51,7 +52,7 @@ const OurStorySection = React.forwardRef((props, ref) => {
 
         <div className="w-full tablet:w-[60%] desktop:w-[60%] flex flex-col justify-center items-center relative p-5 gap-5 z-[1]">
           <div className="w-full flex flex-col desktop:flex-row relative p-5 rounded-md bg-white shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pr-16">
-            <img src={FirsDate} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md" alt="engagement" />
+            <img src={FirsDate} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md cursor-pointer" alt="engagement" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full desktop:h-fit flex flex-col gap-5">
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-left">First Date ~</span>
               <span className="text-justify desktop:text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
@@ -66,7 +67,7 @@ const OurStorySection = React.forwardRef((props, ref) => {
 
         <div className="w-full tablet:w-[60%] desktop:w-[60%] flex flex-col justify-center items-center relative p-5 gap-5 z-[1]">
           <div className="w-full flex flex-col desktop:flex-row-reverse relative p-5 rounded-md bg-white shadow-lg gap-5 desktop:items-center desktop:gap-16 desktop:pl-16">
-            <img src={Engagement} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md" alt="engagement" />
+            <img src={Engagement} className="w-full desktop:w-[500px] desktop:h-[400px] object-cover rounded-md cursor-pointer" alt="engagement" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             <div className="w-full desktop:h-fit flex flex-col gap-5">
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-right block desktop:hidden">Engagement ~</span>
               <span className="font-bold font-dancing-script text-xl text-dark-pink desktop:text-4xl desktop:text-right desktop:block hidden">~ Engagement</span>
