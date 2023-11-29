@@ -37,6 +37,7 @@ export const dashboardSlice = createSlice({
       state.isSuccess = false;
       state.isError = true;
       state.errorMessage = action?.payload;
+      state.data = {};
     },
   },
 });
