@@ -72,8 +72,8 @@ const Dashboard = () => {
           <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
             <span
               className="font-bold cursor-pointer"
-              onClick={() => navigate('/comments')}
-            >Total Post Attender Comments</span>
+              onClick={() => navigate('/attenders?status=displayed')}
+            >Total Displayed Comments</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_post_comments??0}</span>
               <i className="fa-solid fa-comment"></i>

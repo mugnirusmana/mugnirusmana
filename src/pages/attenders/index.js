@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+
+import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSlice";
+
+import { decodeParams } from './../../helper';
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
@@ -6,10 +12,15 @@ import SelectOption from "../../components/select-option";
 import Alert from "../../components/alert";
 
 const Attenders = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const attenderList = useSelector(({ attenderList }) => attenderList);
+  const [alertError, setAlertError] = useState({show: false, message: ''});
   const [filter, setFilter] = useState({
-    keyword: '',
-    attendance: {},
-    status: {},
+    keyword: decodeParams(location?.search)?.keyword ?? '',
+    attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
+    status: { value: decodeParams(location?.search)?.status === 'displayed' ? 2 : decodeParams(location?.search)?.status === 'not_displayed' ? 1 : null, label: decodeParams(location?.search)?.status === 'displayed' ? 'Displayed' : decodeParams(location?.search)?.status === 'not_displayed' ? 'Not Displayed' : null},
   })
   const [currnetPage, setCurrentPage] = useState('1');
   const [perPage, setPerPage] = useState('10');
@@ -28,24 +39,18 @@ const Attenders = () => {
       }
     },
     {
-      label: 'Participants',
-      object: 'participants',
+      label: 'Emails',
+      object: 'email',
       titlePosition: 'left',
       customRender: (data) => {
-        if (data?.participants > 3) {
-          return <span className="whitespace-nowrap">More than 3 People</span>
-        } else if (data?.participants === 1) {
-          return <span className="whitespace-nowrap">1 Person</span>
-        } else {
-          return <span className="whitespace-nowrap">{data?.participants} Pople</span>
-        }
+        return <span className="whitespace-nowrap">{data?.email}</span>
       }
     },
     {
       label: 'Attendance',
       object: 'attendance',
       customRender: (data) => {
-        if (data?.attendance === 1) {
+        if (parseInt(data?.attendance) === 1) {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Will Attend</span></div>
         } else {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Will Not Attend</span></div>
@@ -56,32 +61,14 @@ const Attenders = () => {
       label: 'Status',
       object: 'status',
       customRender: (data) => {
-        if (data?.status === 1) {
+        if (parseInt(data?.status) === 2) {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Displayed</span></div>
         } else {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Displayed</span></div>
         }
       }
     }
-  ]
-  const data = {
-    data: [
-      {id: 1, name: 'John Doe 1', participants: 1, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 2, name: 'John Doe 2', participants: 4, attendance: 1, status: 1, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 3, name: 'John Doe 3', participants: 1, attendance: 0, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 4, name: 'John Doe 4', participants: 3, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 5, name: 'John Doe 5', participants: 2, attendance: 1, status: 1, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 6, name: 'John Doe 6', participants: 1, attendance: 0, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 7, name: 'John Doe 7', participants: 3, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 8, name: 'John Doe 8', participants: 1, attendance: 0, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 8, name: 'John Doe 9', participants: 2, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-      {id: 10, name: 'John Doe 10', participants: 1, attendance: 1, status: 0, comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'},
-    ],
-    paginate: {
-      totalPage: 10,
-      totalData: 100,
-    }
-  }
+  ];
 
   useEffect(() => {
     getListData({
@@ -92,6 +79,26 @@ const Attenders = () => {
       perPage: parseInt(10),
     });
   }, []);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage,
+      data,
+    } = attenderList;
+
+    if(!isLoading && isSuccess) {
+      setCurrentPage(data?.currentPage);
+      setPerPage(data?.perPage);
+      dispatch(defaultAttenderList());
+    }
+
+    if(!isLoading && isError) {
+      setAlertError({show: true, message: errorMessage});
+    }
+  }, [attenderList]);
 
   const onReset = () => {
     let resetParams = {
@@ -105,15 +112,16 @@ const Attenders = () => {
   }
 
   const getListData = (params) => {
-    let result = {
-      keyword: params?.keyword ?? null,
-      attendance: params?.attendance ?? null,
-      status: params?.status ?? null,
-      page: params?.page ?? 1,
-      perPage: params?.perPage ?? 10,
+    if (!attenderList?.isLoading) {
+      let result = {
+        keyword: params?.keyword ?? '',
+        attendance: params?.attendance ?? '',
+        status: params?.status ?? '',
+        page: params?.page ?? 1,
+        limit: params?.perPage ?? 10,
+      }
+      dispatch(getAttenderList(result));
     }
-
-    console.log('get data ', result);
   }
 
   return (
@@ -127,8 +135,8 @@ const Attenders = () => {
 
       <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded pb-16 desktop:pb-5">
         <DataTable
-          isLoading={false}
-          data={data}
+          isLoading={attenderList?.isLoading}
+          data={attenderList?.data?.list}
           title={title}
           perPage={perPage}
           currentPage={currnetPage}
@@ -143,7 +151,7 @@ const Attenders = () => {
               >
                 <i className="fa-solid fa-eye"></i>
               </span>
-              {!data?.status ? (
+              {parseInt(data?.status) === 1 ? (
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
                   onClick={() => {
@@ -164,7 +172,7 @@ const Attenders = () => {
                   <i className="fa-solid fa-toggle-off"></i>
                 </span>
               )}
-              {!data?.status ? (
+              {parseInt(data?.status) === 1 ? (
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
                   onClick={() => {
@@ -211,7 +219,7 @@ const Attenders = () => {
                   <SelectOption
                     isLoading={false}
                     placeholder={'Select Status'}
-                    options={[{label: 'Displayed', value: '1'}, {label: 'Not Displayed', value: '2'}]}
+                    options={[{label: 'Displayed', value: '2'}, {label: 'Not Displayed', value: '1'}]}
                     objectLabel={'label'}
                     objectUniq={'value'}
                     value={filter?.status}
@@ -225,13 +233,16 @@ const Attenders = () => {
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
                   <div
                     className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-white border border-sky-900 bg-sky-900 rounded px-4"
-                    onClick={() => getListData({
-                      keyword: filter?.keyword !== '' ? filter?.keyword : null,
-                      attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
-                      status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
-                      page: parseInt(currnetPage),
-                      perPage: parseInt(perPage),
-                    })}>Filter</div>
+                    onClick={() => {
+                      setCurrentPage('1');
+                      getListData({
+                        keyword: filter?.keyword !== '' ? filter?.keyword : null,
+                        attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+                        status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+                        page: 1,
+                        perPage: parseInt(perPage),
+                      })
+                    }}>Filter</div>
                 </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
@@ -242,11 +253,12 @@ const Attenders = () => {
           )}
           onChangePerPage={(data) => {
             setPerPage(data)
+            setCurrentPage('1');
             getListData({
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
-              page: parseInt(currnetPage),
+              page: 1,
               perPage: parseInt(data),
             })
           }}
@@ -340,6 +352,18 @@ const Attenders = () => {
           setSelectData({})
           setShowDeleteAlert(false)
           setShowSuccessdAlert(true);
+        }}
+      />
+
+      <Alert
+        show={alertError?.show}
+        type="danger"
+        title="Get List"
+        message={alertError?.message}
+        showCancelButton={false}
+        onConfirm={() => {
+          setAlertError({show: false, message: ''});
+          dispatch(defaultAttenderList());
         }}
       />
     </div>
