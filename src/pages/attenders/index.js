@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSlice";
+import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
 
 import { decodeParams } from './../../helper';
 
@@ -15,8 +16,11 @@ const Attenders = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+  const auth = useSelector(({ auth }) => auth);
   const attenderList = useSelector(({ attenderList }) => attenderList);
-  const [alertError, setAlertError] = useState({show: false, message: ''});
+  const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
+  const [alertListError, setAlertListError] = useState({show: false, message: ''});
+  const [alertDisplayed, setAlertDisplayed] = useState({show: false, type: '', message: ''});
   const [filter, setFilter] = useState({
     keyword: decodeParams(location?.search)?.keyword ?? '',
     attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
@@ -96,9 +100,37 @@ const Attenders = () => {
     }
 
     if(!isLoading && isError) {
-      setAlertError({show: true, message: errorMessage});
+      setAlertListError({show: true, message: errorMessage});
     }
   }, [attenderList]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage
+    } = attenderDisplayed;
+
+    if (!isLoading && isSuccess) {
+      setShowDisplayedAlert(false);
+      setAlertDisplayed({
+        show: true,
+        type: 'success',
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Displayed</span>`
+      })
+    }
+
+    if (!isLoading && isError) {
+      setShowDisplayedAlert(false);
+      setAlertDisplayed({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      })
+    }
+
+  }, [attenderDisplayed])
 
   const onReset = () => {
     let resetParams = {
@@ -151,37 +183,41 @@ const Attenders = () => {
               >
                 <i className="fa-solid fa-eye"></i>
               </span>
-              {parseInt(data?.status) === 1 ? (
-                <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
-                  onClick={() => {
-                    setSelectData(data);
-                    setShowDisplayedAlert(true);
-                  }}
-                >
-                  <i className="fa-solid fa-toggle-on"></i>
-                </span>
-              ) : (
-                <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
-                  onClick={() => {
-                    setSelectData(data);
-                    setShowNotDisplayedAlert(true);
-                  }}
-                >
-                  <i className="fa-solid fa-toggle-off"></i>
-                </span>
-              )}
-              {parseInt(data?.status) === 1 ? (
-                <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                  onClick={() => {
-                    setSelectData(data);
-                    setShowDeleteAlert(true);
-                  }}
-                >
-                  <i className="fa-solid fa-trash"></i>
-                </span>
+              {auth?.data?.role === 'admin' ? (
+                <>
+                  {parseInt(data?.status) === 1 ? (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowDisplayedAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-toggle-on"></i>
+                    </span>
+                  ) : (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowNotDisplayedAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-toggle-off"></i>
+                    </span>
+                  )}
+                  {parseInt(data?.status) === 1 ? (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowDeleteAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </span>
+                  ) : null}
+                </>
               ) : null}
             </div>
           )}
@@ -306,18 +342,39 @@ const Attenders = () => {
 
       <Alert
         show={showDisplayedAlert}
+        isLoading={attenderDisplayed?.isLoading}
         type="info"
         title="Displayed"
         message={`<span>Will you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
-        showCancelButton={false}
+        showCancelButton={true}
         onCancel={() => {
           setSelectData({})
           setShowDisplayedAlert(false);
         }}
+        onConfirm={() => dispatch(submitAttenderDisplay(selectData?.id))}
+      />
+
+      <Alert
+        show={alertDisplayed?.show}
+        type={alertDisplayed?.type}
+        title="Displayed"
+        message={alertDisplayed.message}
+        showCancelButton={false}
         onConfirm={() => {
-          setSelectData({})
-          setShowDisplayedAlert(false);
-          setShowSuccessdAlert(true);
+          setAlertDisplayed({
+            show:false,
+            type: '',
+            message: ''
+          })
+          setSelectData({});
+          dispatch(defaultAttenderDisplayed());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
         }}
       />
 
@@ -356,13 +413,13 @@ const Attenders = () => {
       />
 
       <Alert
-        show={alertError?.show}
+        show={alertListError?.show}
         type="danger"
         title="Get List"
-        message={alertError?.message}
+        message={alertListError?.message}
         showCancelButton={false}
         onConfirm={() => {
-          setAlertError({show: false, message: ''});
+          setAlertListError({show: false, message: ''});
           dispatch(defaultAttenderList());
         }}
       />

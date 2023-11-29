@@ -1,5 +1,6 @@
 const Alert = (props) => {
   let {
+    isLoading,
     show,
     type,
     title,
@@ -30,15 +31,15 @@ const Alert = (props) => {
     if (showCancelButton) {
       return (
         <div
-          className="tablet:w-1/2 w-full cursor-pointer border border-sky-900 text-sky-900 bg-white rounded p-2 flex items-center justify-center text-center whitespace-nowrap"
+          className={`tablet:w-1/2 w-full ${isLoading ? 'cursor-default' : 'cursor-pointer'} border ${isLoading ? 'border-gray-400' : 'border-sky-900'} ${isLoading ? 'text-gray-400' : 'text-sky-900'} bg-white rounded p-2 flex items-center justify-center text-center whitespace-nowrap`}
           onClick={() => {
-            if (onCancel) {
+            if (onCancel && !isLoading) {
               return onCancel()
             } else {
               return {}
             }
           }}
-        >{cancelLabel??'Cancel'}</div>
+        >{isLoading ? 'Loading...' : cancelLabel??'Cancel'}</div>
       )
     }
   }
@@ -54,15 +55,15 @@ const Alert = (props) => {
           <div className="w-full flex flex-col justify-center tablet:flex-row gap-5">
             {renderCancelButton()}
             <div
-              className="tablet:w-1/2 w-full cursor-pointer border border-sky-900 bg-sky-900 text-white rounded p-2 flex items-center justify-center text-center whitespace-nowrap shadow-lg"
+              className={`tablet:w-1/2 w-full ${isLoading ? 'cursor-default' : 'cursor-pointer'} border  ${isLoading ? 'border-gray-400' : 'border-sky-900'} ${isLoading ? 'bg-gray-400' : 'bg-sky-900'} text-white rounded p-2 flex items-center justify-center text-center whitespace-nowrap shadow-lg`}
               onClick={() => {
-                if (onConfirm) {
+                if (onConfirm && !isLoading) {
                   return onConfirm()
                 } else {
                   return {}
                 }
               }}
-            >{confirmLabel??'Confirm'}</div>
+            >{isLoading ? 'Loading...' : confirmLabel??'Confirm'}</div>
           </div>
         </div>
       </div>

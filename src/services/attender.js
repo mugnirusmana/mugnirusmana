@@ -9,3 +9,19 @@ export const getList = (params, token) => {
     }
   });
 }
+
+export const displayed = (id, token) => {
+  return axios.get(`${ENV.API}/attender/active/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
+
+export const notDisplayed = (id, token) => {
+  return axios.get(`${ENV.API}/attender/inactive/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
