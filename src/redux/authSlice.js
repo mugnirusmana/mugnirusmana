@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { sideMenu } from './sideMenuSlice';
-// import { AUTH } from "./../services";
+import { AUTH } from "./../services";
 
 const initialState = {
   token: "",
+  data: {},
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -20,6 +21,7 @@ export const authSlice = createSlice({
       state.isError = false;
       state.errorMessage = null;
       state.token = null;
+      state.data = {};
     },
     defaultLogIn: (state) => {
       state.isLoading = false;
@@ -38,13 +40,14 @@ export const authSlice = createSlice({
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
-      state.token = action?.payload?.data?.token;
+      state.token = action?.payload?.token;
+      state.data = action?.payload?.data;
     },
     logInFailed: (state, action) => {
-      state.isLoading = true;
+      state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
-      state.errorMessage = action?.payload?.message;
+      state.errorMessage = action?.payload;
     },
   },
 });
@@ -55,15 +58,29 @@ export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed } = a
 export const signIn = (params, width, desktopSize) => {
   return async (dispatch, getState) => {
     dispatch(logIn());
-    setTimeout(() => {
-      const data = { data: { token: "fakeToken" } };
-      if (width < desktopSize) {
-        dispatch(sideMenu(false));
-      } else {
-        dispatch(sideMenu(true));
-      }
-      dispatch(logInSuccess(data));
-    }, 1500);
+    return AUTH.login(params)
+      .then((response) => {
+        if (response?.data?.meta?.status === 200) {
+          const data = {
+            token: response?.data?.data?.access_token,
+            data: response?.data?.data
+          }
+          delete data.data.access_token;
+          if (width < desktopSize) {
+            dispatch(sideMenu(false));
+          } else {
+            dispatch(sideMenu(true));
+          }
+          dispatch(logInSuccess(data));
+        } else {
+          const message = response?.data?.meta?.message??'Oops! Someting went wrong';
+          dispatch(logInFailed(message));
+        }
+      })
+      .catch((error) => {
+        const message = error?.response?.data?.meta?.message??'Oops! Someting went wrong';
+        dispatch(logInFailed(message));
+      });
   };
 };
 
