@@ -65,10 +65,6 @@ const AttenderDetail = () => {
       errorMessage,
     } = attenderRemove;
 
-    if (isLoading) {
-      setShowLoader(true);
-    }
-
     if (!isLoading && isSuccess) {
       setShowLoader(false);
       setShowDeleteAlert(false);
@@ -212,6 +208,7 @@ const AttenderDetail = () => {
 
       <Alert
         show={showDeleteAlert}
+        isLoading={attenderRemove?.isLoading}
         type="delete"
         title="Delete"
         message={`<span>Will you delete</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
