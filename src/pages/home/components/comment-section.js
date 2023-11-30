@@ -5,6 +5,7 @@ const CommentSection = () => {
   const [dataList, setDataList] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   let timerActiveIndex = null;
+  let timerActiveIndexInside = null;
   const data = [
     {
       name: 'John Doe 1',
@@ -43,11 +44,15 @@ const CommentSection = () => {
       let dataLength = dataList?.length-1;
       let nextAcative = activeIndex + 1;
       if (nextAcative > dataLength) nextAcative = 0;
-      setActiveIndex(nextAcative);
+      setActiveIndex(null);
+      setTimeout(() => {
+        setActiveIndex(nextAcative);
+      }, 1000)
     }, 7000);
 
     return () => {
       clearTimeout(timerActiveIndex);
+      clearTimeout(timerActiveIndexInside);
     }
   }, [dataList, activeIndex]);
 

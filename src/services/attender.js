@@ -51,3 +51,17 @@ export const attend = (dataScan, token) => {
     }
   });
 }
+
+export const submitReservation = (params, token) => {
+  let formData = new FormData();
+  formData.set('name', params?.fullname);
+  formData.set('email', params?.email);
+  formData.set('participants', params?.participant);
+  formData.set('attendance', params?.attendance);
+  formData.set('comment', params?.comment);
+  return axios.post(`${ENV.API}/attender`, formData, {
+    headers: {
+      Authorization: token
+    }
+  })
+}

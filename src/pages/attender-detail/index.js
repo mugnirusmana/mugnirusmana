@@ -69,7 +69,7 @@ const AttenderDetail = () => {
 
     if (!isLoading && isSuccess) {
       setShowDisplayAlert(false);
-      setAlertDetail({show: true, type: 'success', title: 'Display Comment', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Displayed</span>`, action: () => {
+      setAlertDetail({show: true, type: 'success', title: 'Display Comment', message: `<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Displayed</span>`, action: () => {
         dispatch(defaultAttenderDisplayed());
         dispatch(getAttenderDetail(id));
       }});
@@ -91,7 +91,7 @@ const AttenderDetail = () => {
 
     if (!isLoading && isSuccess) {
       setShowNotDisplayAlert(false);
-      setAlertDetail({show: true, type: 'success', title: 'Hide Comment', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Hidden</span>`, action: () => {
+      setAlertDetail({show: true, type: 'success', title: 'Hide Comment', message: `<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Hidden</span>`, action: () => {
         dispatch(defaultAttenderNotDisplayed());
         dispatch(getAttenderDetail(id));
       }});
@@ -114,7 +114,7 @@ const AttenderDetail = () => {
     if (!isLoading && isSuccess) {
       setShowLoader(false);
       setShowDeleteAlert(false);
-      setAlertDetail({show: true, type: 'success', title: 'Delete', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Deleted</span>`, action: () => {
+      setAlertDetail({show: true, type: 'success', title: 'Delete', message: `<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Deleted</span>`, action: () => {
         dispatch(defaultAttenderRemove());
         navigate('/attenders');
       }});
@@ -257,7 +257,7 @@ const AttenderDetail = () => {
         isLoading={attenderDisplayed?.isLoading}
         type="info"
         title="Display Comment"
-        message={`<span>Will you display</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you display</span>&nbsp;<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => setShowDisplayAlert(false)}
         onConfirm={() => dispatch(submitAttenderDisplay(id))}
@@ -268,7 +268,7 @@ const AttenderDetail = () => {
         isLoading={attenderNotDisplayed?.isLoading}
         type="info"
         title="Hide Comment"
-        message={`<span>Will you hide</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you hide</span>&nbsp;<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => setShowNotDisplayAlert(false)}
         onConfirm={() => dispatch(submitAttenderNotDisplay(id))}
@@ -279,7 +279,7 @@ const AttenderDetail = () => {
         isLoading={attenderRemove?.isLoading}
         type="delete"
         title="Delete"
-        message={`<span>Will you delete</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you delete</span>&nbsp;<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => setShowDeleteAlert(false)}
         onConfirm={() => dispatch(removeAttender(id))}

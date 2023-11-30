@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
 
 import Header from './header';
@@ -29,6 +30,7 @@ const useOutsideClick = (callback) => {
 
 const ReservationSection = React.forwardRef((props, ref) => {
   let { onSubmit } = props;
+  const reservationSlice = useSelector(({ reservation }) => reservation);
   const fullNameRef = useRef();
   const emailRef = useRef();
   const commentRef = useRef();
@@ -66,6 +68,16 @@ const ReservationSection = React.forwardRef((props, ref) => {
   useEffect(() => {
     selectValueParticipant()
   }, [valueParticipant]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess
+    } = reservationSlice;
+
+    if (!isLoading && isSuccess) resetForm();
+
+  }, [reservationSlice]);
 
   const resetForm = () => {
     setErrorFullname(`&nbsp;`);

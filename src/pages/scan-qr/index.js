@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import QrReader from 'react-qr-scanner';
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 import { getWindowDimensions } from './../../helper';
 
@@ -10,6 +11,7 @@ import BreadCrumb from "../../components/breadcrumb";
 import Alert from '../../components/alert';
 
 const ScanQr = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [canScan, setCanScan] = useState(true);
   const [dataScan, setDataScan] = useState('');
@@ -110,7 +112,7 @@ const ScanQr = () => {
         show={showSuccessAlert}
         type="success"
         title="Success"
-        message={`Thanks for comming<br><b class="text-sm">${attenderAttend?.data?.name}</b><br><span class="text-xs">Tap confirm to close<span>`}
+        message={`Thanks for comming<br><b className="text-sm">${attenderAttend?.data?.name}</b><br><span className="text-xs">Tap confirm to close<span>`}
         showCancelButton={false}
         onConfirm={() => window.location.reload()}
       />
@@ -121,7 +123,13 @@ const ScanQr = () => {
         title="Warning"
         message={errorMessageScan}
         showCancelButton={false}
-        onConfirm={() => window.location.reload()}
+        onConfirm={() => {
+          if (errorMessageScan?.includes('Failed scan QR')) {
+            navigate('/dashboard');
+          } else {
+            window.location.reload();
+          }
+        }}
       />
     </div>
   );

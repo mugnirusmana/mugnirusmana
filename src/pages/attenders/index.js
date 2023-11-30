@@ -123,7 +123,7 @@ const Attenders = () => {
       setAlertDisplayed({
         show: true,
         type: 'success',
-        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Displayed</span>`
+        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Displayed</span>`
       })
     }
 
@@ -151,7 +151,7 @@ const Attenders = () => {
       setAlertNotDisplayed({
         show: true,
         type: 'success',
-        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Hidden</span>`
+        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Hidden</span>`
       })
     }
 
@@ -179,7 +179,7 @@ const Attenders = () => {
       setAlertRemove({
         show: true,
         type: 'success',
-        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Deleted</span>`
+        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Deleted</span>`
       });
     }
 
@@ -407,7 +407,7 @@ const Attenders = () => {
         isLoading={attenderDisplayed?.isLoading}
         type="info"
         title="Display Comment"
-        message={`<span>Will you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you display</span>&nbsp;<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})
@@ -444,7 +444,7 @@ const Attenders = () => {
         show={showNotDisplayedAlert}
         type="info"
         title="Hide Comment"
-        message={`<span>Will you hide</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you hide</span>&nbsp;<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})
@@ -481,7 +481,7 @@ const Attenders = () => {
         show={showDeleteAlert}
         type="delete"
         title="Delete"
-        message={`<span>Will you delete</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you delete</span>&nbsp;<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})

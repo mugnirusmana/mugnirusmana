@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import _ from 'lodash';
+
+import { defaultReservation, submitReservation } from './../../redux/reservationSlice';
 
 import ImageModal from "./components/image-modal";
 import Loader from './components/loader';
 import Envelope from "./components/envelope";
+import Alert from "./components/alert";
 import Menu from "./components/menu";
 import ScrollToTop from "./components/scrollToTop";
 import HomeSection from './components/home-section';
@@ -20,6 +24,8 @@ import Footer from "./components/footer";
 import { getWindowDimensions } from './../../helper';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const reservationSlice = useSelector(({ reservation }) => reservation);
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [showLoader, setShowLoader] = useState(true);
   const [showEnvelope, setShowEnvelope] = useState(false);
@@ -30,6 +36,17 @@ const Home = () => {
     show: false,
     data: null,
   });
+  const [showCopyText, setShowCopyText] = useState(false);
+  const [showNotifReservation, setShowNotifReservation] = useState({
+    show: false,
+    title: '',
+    type: '',
+    message: '',
+    confirmButtonText: '',
+    action: () => {}
+  })
+  const [showSubmitForm, setShowSubmitForm] = useState(false);
+  const [dataForm, setDataForm] = useState(null);
   const homeRef = useRef();
   const aboutUsRef = useRef();
   const ourStoryRef = useRef();
@@ -140,6 +157,123 @@ const Home = () => {
     updateActiveMenu();
   }, [windowDimensions]);
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage,
+      errorCode,
+      data,
+    } = reservationSlice;
+
+    if (!isLoading && isSuccess) {
+      setShowSubmitForm(false);
+      setShowNotifReservation({
+        show: true,
+        title: 'Submit Form',
+        type: 'success',
+        message: '<div class="w-full text-center flex flex-col items-center justify-center"><span class="text-md font-bold">Thanks for submitting the form</span><br class="hidden" /><span class="text-xs">We have send you a QR Code URL to your email</span><br class="hidden" /><span class="text-xs">and copy this QR Code URL</span><br class="hidden" /><span class="text-xs">You can use it for your attendance</span><br class="hidden" /><span class="text-xs">or you can manual sign by sign a signature book</span></div>',
+        confirmButtonText: 'Copy QR Url & Close',
+        action: () => {
+          navigator.clipboard.writeText(data?.link_qr);
+          setShowNotifReservation({
+            ...showNotifReservation,
+            show: false,
+          });
+          setTimeout(() => {
+            setShowNotifReservation({
+              show: false,
+              title: '',
+              type: '',
+              message: '',
+              confirmButtonText: '',
+              action: () => {}
+            });
+            dispatch(defaultReservation());
+            setShowCopyText(true);
+          }, 500);
+        }
+      })
+    }
+
+    if (!isLoading && isError) {
+      setShowSubmitForm(false);
+      
+      if (errorCode === 400) {
+        let resultErrorList = renderListError();
+        setShowNotifReservation({
+          show: true,
+          title: 'Submit Form',
+          type: 'warning',
+          message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-md font-bold">Something went wrong with the data you send${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
+          confirmButtonText: 'Confirm',
+          action: () => {
+            setShowNotifReservation({
+              ...showNotifReservation,
+              show: false,
+            });
+            setTimeout(() => {
+              setShowNotifReservation({
+                show: false,
+                title: '',
+                type: '',
+                message: '',
+                confirmButtonText: '',
+                action: () => {}
+              });
+              dispatch(defaultReservation());
+            }, 1000)
+          }
+        })
+      } else {
+        setShowNotifReservation({
+          show: true,
+          title: 'Submit Form',
+          type: 'warning',
+          message: `<span class="text-center">${errorMessage}</span>`,
+          confirmButtonText: 'Confirm',
+          action: () => {
+            setShowNotifReservation({
+              ...showNotifReservation,
+              show: false,
+            });
+            setTimeout(() => {
+              setShowNotifReservation({
+                show: false,
+                title: '',
+                type: '',
+                message: '',
+                confirmButtonText: '',
+                action: () => {}
+              });
+              dispatch(defaultReservation());
+            }, 1000)
+          }
+        })
+      }
+
+    }
+  
+  }, [reservationSlice]);
+
+  const renderListError = () => {
+    let errorField = '';
+    let { data } = reservationSlice;
+    if (data?.errors && data?.errors?.length > 0) {
+      let totalError = data?.errors?.length;
+      data?.errors?.map((item, index) => {
+        if ((index+1) >= totalError) {
+          errorField = `${errorField}<span class="text-xs">${item?.message}</span>`;
+        } else {
+          errorField = `${errorField}<span class="text-xs">${item?.message}</span><br class="hidden" />`;
+        }
+        return item;
+      });
+    }
+    return errorField;
+  }
+
   const updateActiveMenu = () => {
     let { position } = windowDimensions;
     if (homeRef?.current) {
@@ -157,6 +291,12 @@ const Home = () => {
         }
         return item;
       })
+    }
+  }
+
+  const submitReservationForm = () => {
+    if (!reservationSlice?.isLoading) {
+      dispatch(submitReservation(dataForm));
     }
   }
 
@@ -186,6 +326,44 @@ const Home = () => {
 
       <Envelope
         show={showEnvelope}
+        windowDimensions={windowDimensions}
+      />
+
+      <Alert
+        show={showSubmitForm}
+        isLoading={reservationSlice?.isLoading}
+        title={'Submit Form'}
+        message={'<span className="w-full text-center">Are you sure about the data you are going to submit?</span>'}
+        type={'question'}
+        showCancelButton={true}
+        cancelButtonText={"No, I'll check again"}
+        cancelButtonAction={() => {
+          setDataForm(null);
+          setShowSubmitForm(false);
+        }}
+        confirmButtonText={'Yes, I am'}
+        confirmButtonAction={submitReservationForm}
+        windowDimensions={windowDimensions}
+      />
+
+      <Alert
+        show={showNotifReservation?.show}
+        title={showNotifReservation?.title}
+        message={showNotifReservation?.message}
+        type={showNotifReservation?.type}
+        showCancelButton={false}
+        confirmButtonText={showNotifReservation?.confirmButtonText}
+        confirmButtonAction={() => showNotifReservation?.action ? showNotifReservation?.action() : {}}
+        windowDimensions={windowDimensions}
+      />
+
+      <Alert
+        show={showCopyText}
+        title={'Copy QR URL'}
+        message={'<div className="w-full flex items-center justify-center text-center">Successfully copy QR Code URL</div>'}
+        type={'success'}
+        showCancelButton={false}
+        confirmButtonAction={() => setShowCopyText(false)}
         windowDimensions={windowDimensions}
       />
 
@@ -225,7 +403,12 @@ const Home = () => {
 
       <GallerySection ref={galleryRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
 
-      <ReservationSection ref={reservationRef} onSubmit={(data) => {console.log('data ', data)}} />
+      <ReservationSection ref={reservationRef} onSubmit={(data) => {
+        if (!data?.isError) {
+          setDataForm(data?.data);
+          setShowSubmitForm(true);
+        }
+      }} />
 
       <CommentSection />
 
