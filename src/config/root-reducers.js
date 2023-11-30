@@ -9,6 +9,8 @@ import attenderDetailSlice from '../redux/attenderDetailSlice';
 import attenderAttendSlice from '../redux/attenderAttendSlice';
 import reservationSlice from '../redux/reservationSlice';
 import commentSlice from '../redux/commentSlice';
+import settingSaveSlice from '../redux/settingSaveSlice';
+import settingDetailSlice from '../redux/settingDetailSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -22,6 +24,8 @@ const rootReducer = {
   attenderAttend: attenderAttendSlice,
   reservation: reservationSlice,
   comment: commentSlice,
+  settingSave: settingSaveSlice,
+  settingDetail: settingDetailSlice,
 }
 
 export default rootReducer;

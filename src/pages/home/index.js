@@ -464,7 +464,7 @@ const Home = () => {
 
       <OurStorySection ref={ourStoryRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
 
-      <EventsSection ref={eventsRef} />
+      <EventsSection date={'12/31/2024 10:00'} ref={eventsRef} />
 
       <BridesmaidsGroomsmanSection ref={bridesmaidsGroomsmanRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
 
