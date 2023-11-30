@@ -35,7 +35,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
   const emailRef = useRef();
   const commentRef = useRef();
   const participantOption = [
-    {label: '1 Person', value: 1},
+    {label: 'Only Me (1 Person)', value: 1},
     {label: '2 People', value: 2},
     {label: '3 People', value: 3},
     {label: 'More than 3 People', value: 4},
@@ -241,7 +241,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
                 ) : null}
                 <span className="flex flex-row items-center ml-2"><i className="fa-solid fa-chevron-down"></i></span>
               </div>
-              <div className={`w-full absolute left-0 top-[40px] bg-white p-2 rounded ${!activeParticipantList ? 'hidden': 'flex'} flex-col text-xs gap-1`}>
+              <div className={`w-full absolute left-0 top-[40px] bg-white p-2 rounded ${!activeParticipantList ? 'hidden': 'flex'} flex-col text-xs gap-1 shadow-lg`}>
                 {renderListParticipant()}
               </div>
             </div>
@@ -276,7 +276,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
             <div
               className="font-bold cursor-pointer w-fit"
               onClick={() => commentRef?.current?.focus()}
-            >Comment</div>
+            >Comment <span className="text-red-500">*</span></div>
             <textarea ref={commentRef} name="textarea" className="min-h-[90px] max-h-[90px] h-[90px] px-2 pt-1 outline-none rounded" placeholder="Fill your comment here" autoComplete="off" maxLength={230} defaultValue={comment} onChange={(e) => setComment(e?.currentTarget?.value)} />
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorComment}}></span>
           </div>

@@ -19,7 +19,7 @@ const NotFound = () => {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col text-center items-center justify-center bg-light-pink text-dark-pink">
+    <div className="w-full h-screen flex flex-col text-center items-center justify-center bg-light-pink text-dark-pink p-5">
       <span className="text-8xl font-bold mb-5">404</span>
       <span className="text-xl font-bold mb-10">We couldn't find the page...</span>
       <span className="text-md">Sorry, but the page are looking for was either not found or does not exist.</span>

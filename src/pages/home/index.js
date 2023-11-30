@@ -6,6 +6,7 @@ import { defaultReservation, submitReservation } from './../../redux/reservation
 
 import ImageModal from "./components/image-modal";
 import Loader from './components/loader';
+import NotAvailable from "./components/not-available";
 import Envelope from "./components/envelope";
 import Alert from "./components/alert";
 import Menu from "./components/menu";
@@ -321,6 +322,11 @@ const Home = () => {
 
       <Loader
         show={showLoader}
+        windowDimensions={windowDimensions}
+      />
+
+      <NotAvailable
+        show={false}
         windowDimensions={windowDimensions}
       />
 
