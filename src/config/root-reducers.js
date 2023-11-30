@@ -8,6 +8,7 @@ import attenderRemoveSlice from '../redux/attenderRemoveSlice';
 import attenderDetailSlice from '../redux/attenderDetailSlice';
 import attenderAttendSlice from '../redux/attenderAttendSlice';
 import reservationSlice from '../redux/reservationSlice';
+import commentSlice from '../redux/commentSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -20,6 +21,7 @@ const rootReducer = {
   attenderDetail: attenderDetailSlice,
   attenderAttend: attenderAttendSlice,
   reservation: reservationSlice,
+  comment: commentSlice,
 }
 
 export default rootReducer;

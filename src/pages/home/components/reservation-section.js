@@ -90,6 +90,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
     setEmail('');
     setParticipant({label: 'Select Participant', value: 0})
     setAttendance(0);
+    setComment('');
   }
 
   const validateForm = () => {
@@ -277,7 +278,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
               className="font-bold cursor-pointer w-fit"
               onClick={() => commentRef?.current?.focus()}
             >Comment <span className="text-red-500">*</span></div>
-            <textarea ref={commentRef} name="textarea" className="min-h-[90px] max-h-[90px] h-[90px] px-2 pt-1 outline-none rounded" placeholder="Fill your comment here" autoComplete="off" maxLength={230} defaultValue={comment} onChange={(e) => setComment(e?.currentTarget?.value)} />
+            <textarea ref={commentRef} name="textarea" className="min-h-[90px] max-h-[90px] h-[90px] px-2 pt-1 outline-none rounded" placeholder="Fill your comment here" autoComplete="off" maxLength={230} value={comment} onChange={(e) => setComment(e?.currentTarget?.value)} />
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorComment}}></span>
           </div>
 

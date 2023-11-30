@@ -31,6 +31,7 @@ const Attenders = () => {
     keyword: decodeParams(location?.search)?.keyword ?? '',
     attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
     status: { value: decodeParams(location?.search)?.status === 'displayed' ? 2 : decodeParams(location?.search)?.status === 'not_displayed' ? 1 : null, label: decodeParams(location?.search)?.status === 'displayed' ? 'Displayed' : decodeParams(location?.search)?.status === 'not_displayed' ? 'Not Displayed' : null},
+    status_attend: {},
   })
   const [currnetPage, setCurrentPage] = useState('1');
   const [perPage, setPerPage] = useState('10');
@@ -77,6 +78,17 @@ const Attenders = () => {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Displayed</span></div>
         }
       }
+    },
+    {
+      label: 'Scan QR',
+      object: 'status_attend',
+      customRender: (data) => {
+        if (parseInt(data?.status_attend) === 2) {
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Scanned</span></div>
+        } else {
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Scan Yet</span></div>
+        }
+      }
     }
   ];
 
@@ -85,6 +97,7 @@ const Attenders = () => {
       keyword: filter?.keyword !== '' ? filter?.keyword : null,
       attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
       status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+      status_attend: filter?.status_attend ? parseInt(filter?.status_attend) : null,
       page: parseInt(1),
       perPage: parseInt(10),
     });
@@ -199,10 +212,11 @@ const Attenders = () => {
       keyword: null,
       attendance: {},
       status: {},
+      status_attend: {},
     }
     setCurrentPage('1');
     setFilter({...resetParams, keyword: ''});
-    getListData({keyword: null, attendance: null, status: null, page: 1, perPage: parseInt(perPage)})
+    getListData({keyword: null, attendance: null, status: null, status_attend: null, page: 1, perPage: parseInt(perPage)})
   }
 
   const getListData = (params) => {
@@ -211,6 +225,7 @@ const Attenders = () => {
         keyword: params?.keyword ?? '',
         attendance: params?.attendance ?? '',
         status: params?.status ?? '',
+        status_attend: params?.status_attend ?? '',
         page: params?.page ?? 1,
         limit: params?.perPage ?? 10,
       }
@@ -327,6 +342,21 @@ const Attenders = () => {
                     onChange={(data) => setFilter({...filter, status: data})}
                   />
                 </div>
+                <div className="w-full flex flex-col gap-1">
+                  <span className="text-xs">Status Scan</span>
+                  <SelectOption
+                    isLoading={false}
+                    placeholder={'Select Status'}
+                    options={[{label: 'Scanned', value: '2'}, {label: 'Not Scan Yet', value: '1'}]}
+                    objectLabel={'label'}
+                    objectUniq={'value'}
+                    value={filter?.status_attend}
+                    showClear={true}
+                    onClear={(data) => setFilter({...filter, status_attend: data})}
+                    showSearch={false}
+                    onChange={(data) => setFilter({...filter, status_attend: data})}
+                  />
+                </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1">
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
                   <div
@@ -337,6 +367,7 @@ const Attenders = () => {
                         keyword: filter?.keyword !== '' ? filter?.keyword : null,
                         attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
                         status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+                        status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
                         page: 1,
                         perPage: parseInt(perPage),
                       })
@@ -356,6 +387,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: 1,
               perPage: parseInt(data),
             })
@@ -366,6 +398,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -376,6 +409,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -386,6 +420,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -407,7 +442,7 @@ const Attenders = () => {
         isLoading={attenderDisplayed?.isLoading}
         type="info"
         title="Display Comment"
-        message={`<span>Will you display</span>&nbsp;<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you display</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})
@@ -444,7 +479,7 @@ const Attenders = () => {
         show={showNotDisplayedAlert}
         type="info"
         title="Hide Comment"
-        message={`<span>Will you hide</span>&nbsp;<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you hide</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})
@@ -481,7 +516,7 @@ const Attenders = () => {
         show={showDeleteAlert}
         type="delete"
         title="Delete"
-        message={`<span>Will you delete</span>&nbsp;<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
+        message={`<span>Will you delete</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment</span>?`}
         showCancelButton={true}
         onCancel={() => {
           setSelectData({})

@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from 'lodash';
+import moment from 'moment';
 
 import { defaultReservation, submitReservation } from './../../redux/reservationSlice';
+import { defaultCommentList, getCommentList } from './../../redux/commentSlice';
 
 import ImageModal from "./components/image-modal";
 import Loader from './components/loader';
@@ -26,7 +28,9 @@ import { getWindowDimensions } from './../../helper';
 
 const Home = () => {
   const dispatch = useDispatch();
+  let loaderTimeout = null;
   const reservationSlice = useSelector(({ reservation }) => reservation);
+  const commentSlice = useSelector(({ comment }) => comment);
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [showLoader, setShowLoader] = useState(true);
   const [showEnvelope, setShowEnvelope] = useState(false);
@@ -38,7 +42,7 @@ const Home = () => {
     data: null,
   });
   const [showCopyText, setShowCopyText] = useState(false);
-  const [showNotifReservation, setShowNotifReservation] = useState({
+  const [snowNotifGlobal, setShowNotifGlobal] = useState({
     show: false,
     title: '',
     type: '',
@@ -48,6 +52,7 @@ const Home = () => {
   })
   const [showSubmitForm, setShowSubmitForm] = useState(false);
   const [dataForm, setDataForm] = useState(null);
+  const [dataComment, setDataComment] = useState([]);
   const homeRef = useRef();
   const aboutUsRef = useRef();
   const ourStoryRef = useRef();
@@ -120,11 +125,7 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    const loaderTimeout = setTimeout(() => {
-      setShowLoader(false);
-      setShowEnvelope(true);
-      clearTimeout(loaderTimeout);
-    }, 5000);
+    dispatch(getCommentList());
 
     const handleResize = () => {
       setWindowDimensions(getWindowDimensions());
@@ -133,7 +134,6 @@ const Home = () => {
     window.addEventListener('resize', handleResize);
 
     return () => {
-      clearTimeout(loaderTimeout);
       window.removeEventListener('resize', handleResize);
     }
   }, []);
@@ -170,7 +170,7 @@ const Home = () => {
 
     if (!isLoading && isSuccess) {
       setShowSubmitForm(false);
-      setShowNotifReservation({
+      setShowNotifGlobal({
         show: true,
         title: 'Submit Form',
         type: 'success',
@@ -178,12 +178,12 @@ const Home = () => {
         confirmButtonText: 'Copy QR Url & Close',
         action: () => {
           navigator.clipboard.writeText(data?.link_qr);
-          setShowNotifReservation({
-            ...showNotifReservation,
+          setShowNotifGlobal({
+            ...snowNotifGlobal,
             show: false,
           });
           setTimeout(() => {
-            setShowNotifReservation({
+            setShowNotifGlobal({
               show: false,
               title: '',
               type: '',
@@ -203,19 +203,19 @@ const Home = () => {
       
       if (errorCode === 400) {
         let resultErrorList = renderListError();
-        setShowNotifReservation({
+        setShowNotifGlobal({
           show: true,
           title: 'Submit Form',
           type: 'warning',
           message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-md font-bold">Something went wrong with the data you send${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
           confirmButtonText: 'Confirm',
           action: () => {
-            setShowNotifReservation({
-              ...showNotifReservation,
+            setShowNotifGlobal({
+              ...snowNotifGlobal,
               show: false,
             });
             setTimeout(() => {
-              setShowNotifReservation({
+              setShowNotifGlobal({
                 show: false,
                 title: '',
                 type: '',
@@ -228,19 +228,19 @@ const Home = () => {
           }
         })
       } else {
-        setShowNotifReservation({
+        setShowNotifGlobal({
           show: true,
           title: 'Submit Form',
           type: 'warning',
           message: `<span class="text-center">${errorMessage}</span>`,
           confirmButtonText: 'Confirm',
           action: () => {
-            setShowNotifReservation({
-              ...showNotifReservation,
+            setShowNotifGlobal({
+              ...snowNotifGlobal,
               show: false,
             });
             setTimeout(() => {
-              setShowNotifReservation({
+              setShowNotifGlobal({
                 show: false,
                 title: '',
                 type: '',
@@ -257,6 +257,67 @@ const Home = () => {
     }
   
   }, [reservationSlice]);
+
+  useEffect(() => {
+    if (!commentSlice?.isLoading && commentSlice?.isSuccess) {
+      if (commentSlice?.data?.length > 0) {
+        let result = getListComment(commentSlice?.data);
+        setDataComment(result);
+      }
+    }
+
+    if (!commentSlice?.isLoading && (commentSlice?.isSuccess || commentSlice?.isError)) {
+      if (commentSlice?.isError) {
+        setShowNotifGlobal({
+          show: true,
+          title: 'Get Comment List',
+          type: 'warning',
+          message: commentSlice?.message,
+          confirmButtonText: 'Confirm',
+          action: () => {
+            dispatch(defaultCommentList());
+            setShowNotifGlobal({
+              ...snowNotifGlobal,
+              show: false,
+            });
+            setTimeout(() => {
+              setShowNotifGlobal({
+                show: false,
+                title: '',
+                type: '',
+                message: '',
+                confirmButtonText: '',
+                action: () => {}
+              });
+            }, 500);
+          }
+        })
+      }
+      
+      loaderTimeout = setTimeout(() => {
+        setShowLoader(false);
+        setShowEnvelope(true);
+        clearTimeout(loaderTimeout);
+      }, 1000);
+    }
+
+    return () => {
+      clearTimeout(loaderTimeout);
+    }
+  }, [commentSlice]);
+
+  const getListComment = (data) => {
+    let result = [];
+    data?.map((item) => {
+      result.push({
+          name: item?.name,
+          date: moment(item?.created_at).format('MMMM DD, YYYY'),
+          comment: item?.comment,
+        })
+      return item;
+    });
+    return result;
+  }
 
   const renderListError = () => {
     let errorField = '';
@@ -353,13 +414,13 @@ const Home = () => {
       />
 
       <Alert
-        show={showNotifReservation?.show}
-        title={showNotifReservation?.title}
-        message={showNotifReservation?.message}
-        type={showNotifReservation?.type}
+        show={snowNotifGlobal?.show}
+        title={snowNotifGlobal?.title}
+        message={snowNotifGlobal?.message}
+        type={snowNotifGlobal?.type}
         showCancelButton={false}
-        confirmButtonText={showNotifReservation?.confirmButtonText}
-        confirmButtonAction={() => showNotifReservation?.action ? showNotifReservation?.action() : {}}
+        confirmButtonText={snowNotifGlobal?.confirmButtonText}
+        confirmButtonAction={() => snowNotifGlobal?.action ? snowNotifGlobal?.action() : {}}
         windowDimensions={windowDimensions}
       />
 
@@ -416,7 +477,7 @@ const Home = () => {
         }
       }} />
 
-      <CommentSection />
+      <CommentSection data={dataComment} />
 
       <EndSection ref={endRef} />
 

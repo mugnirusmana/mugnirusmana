@@ -65,3 +65,7 @@ export const submitReservation = (params, token) => {
     }
   })
 }
+
+export const getCommentList = () => {
+  return axios.get(`${ENV.API}/attender/displayed-comments`);
+}
