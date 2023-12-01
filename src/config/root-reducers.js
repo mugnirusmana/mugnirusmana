@@ -12,6 +12,7 @@ import reservationSlice from '../redux/reservationSlice';
 import commentSlice from '../redux/commentSlice';
 import settingSaveSlice from '../redux/settingSaveSlice';
 import settingDetailSlice from '../redux/settingDetailSlice';
+import settingSlice from '../redux/settingSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -28,6 +29,7 @@ const rootReducer = {
   comment: commentSlice,
   settingSave: settingSaveSlice,
   settingDetail: settingDetailSlice,
+  setting: settingSlice,
 }
 
 export default rootReducer;

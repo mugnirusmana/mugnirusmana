@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { defaultReservation, submitReservation } from './../../redux/reservationSlice';
 import { defaultCommentList, getCommentList } from './../../redux/commentSlice';
+import { defaultSetting, getSetting } from "../../redux/settingSlice";
 
 import ImageModal from "./components/image-modal";
 import Loader from './components/loader';
@@ -28,10 +29,11 @@ import { getWindowDimensions } from './../../helper';
 
 const Home = () => {
   const dispatch = useDispatch();
-  let loaderTimeout = null;
   const reservationSlice = useSelector(({ reservation }) => reservation);
   const commentSlice = useSelector(({ comment }) => comment);
+  const settingSlice = useSelector(({ setting }) => setting);
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [showUnvailable, setShowUnvailable] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const [showEnvelope, setShowEnvelope] = useState(false);
   const [activeMenu, setActiveMenu] = useState('home');
@@ -125,7 +127,7 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    dispatch(getCommentList());
+    dispatch(getSetting());
 
     const handleResize = () => {
       setWindowDimensions(getWindowDimensions());
@@ -259,52 +261,78 @@ const Home = () => {
   }, [reservationSlice]);
 
   useEffect(() => {
-    if (!commentSlice?.isLoading && commentSlice?.isSuccess) {
-      if (commentSlice?.data?.length > 0) {
-        let result = getListComment(commentSlice?.data);
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      data,
+    } = settingSlice;
+
+    if (!isLoading && isSuccess) {
+      dispatch(defaultSetting());
+      if (data?.status === 1) {
+        setShowUnvailable(true);
+        setShowLoader(false);
+      } else {
+        dispatch(getCommentList());
+      }
+    }
+
+    if(!isLoading && isError) {
+      dispatch(defaultSetting());
+      setShowUnvailable(true);
+      setShowLoader(false);
+    }
+
+  }, [settingSlice]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      data,
+    } = commentSlice;
+
+    if (!isLoading && isSuccess) {
+      dispatch(defaultCommentList());
+      setShowLoader(false);
+      setShowEnvelope(true);
+      if (data?.length > 0) {
+        let result = getListComment(data);
         setDataComment(result);
       }
     }
 
-    if (!commentSlice?.isLoading && (commentSlice?.isSuccess || commentSlice?.isError)) {
-      if (commentSlice?.isError) {
-        setShowNotifGlobal({
-          show: true,
-          title: 'Get Comment List',
-          type: 'warning',
-          message: commentSlice?.message,
-          confirmButtonText: 'Confirm',
-          action: () => {
-            dispatch(defaultCommentList());
+    if (!isLoading && isError) {
+      setShowLoader(false);
+      setShowNotifGlobal({
+        show: true,
+        title: 'Get Comment List ',
+        type: 'warning',
+        message: commentSlice?.message,
+        confirmButtonText: 'Confirm',
+        action: () => {
+          dispatch(defaultCommentList());
+          setShowNotifGlobal({
+            ...snowNotifGlobal,
+            show: false,
+          });
+          setTimeout(() => {
             setShowNotifGlobal({
-              ...snowNotifGlobal,
               show: false,
+              title: '',
+              type: '',
+              message: '',
+              confirmButtonText: '',
+              action: () => {}
             });
-            setTimeout(() => {
-              setShowNotifGlobal({
-                show: false,
-                title: '',
-                type: '',
-                message: '',
-                confirmButtonText: '',
-                action: () => {}
-              });
-            }, 500);
-          }
-        })
-      }
-      
-      loaderTimeout = setTimeout(() => {
-        setShowLoader(false);
-        setShowEnvelope(true);
-        clearTimeout(loaderTimeout);
-      }, 1000);
+          }, 500);
+        }
+      })
     }
 
-    return () => {
-      clearTimeout(loaderTimeout);
-    }
-  }, [commentSlice]);
+  }, [commentSlice])
 
   const getListComment = (data) => {
     let result = [];
@@ -387,7 +415,7 @@ const Home = () => {
       />
 
       <NotAvailable
-        show={false}
+        show={showUnvailable}
         windowDimensions={windowDimensions}
       />
 
