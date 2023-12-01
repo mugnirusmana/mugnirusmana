@@ -65,7 +65,7 @@ export const getAttenderList = (params) => {
     const token = getState()?.auth?.token;
     return ATTENDER.getList(params, token)
       .then((response) => {
-        if (response?.data?.meta?.status === 200) {
+        if (response?.data?.meta?.is_success) {
           let data = {
             list: {
               data: response?.data?.data?.data,

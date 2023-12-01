@@ -59,7 +59,7 @@ export const getCommentList = () => {
     dispatch(getCommentListSlice());
     return ATTENDER.getCommentList()
       .then((response) => {
-        if (response?.data?.meta?.status === 200) {
+        if (response?.data?.meta?.is_success) {
           dispatch(getCommentListSuccessSlice(response?.data?.data));
         } else {
           const data = response?.data?.meta?.message??'Oops! Someting went wrong'

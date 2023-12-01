@@ -53,7 +53,7 @@ export const submitAttenderDisplay = (id) => {
     const token = getState()?.auth?.token;
     return ATTENDER.displayed(id, token)
       .then((response) => {
-        if (response?.data?.meta?.status === 200) {
+        if (response?.data?.meta?.is_success) {
           dispatch(getAttenderDisplayedSuccessSlice());
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';

@@ -61,7 +61,7 @@ export const submitReservation = (params) => {
     const token = getState()?.auth?.token;
     return ATTENDER.submitReservation(params, token)
       .then((response) => {
-        if (response?.data?.meta?.status === 201) {
+        if (response?.data?.meta?.is_success) {
           dispatch(getReservationSuccessSlice(response?.data?.data));
         } else {
           const data = {

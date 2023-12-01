@@ -56,7 +56,7 @@ export const submitAttenderAttend = (dataScan) => {
     const token = getState()?.auth?.token;
     return ATTENDER.attend(dataScan, token)
       .then((response) => {
-        if (response?.data?.meta?.status === 201) {
+        if (response?.data?.meta?.is_success) {
           dispatch(getAttenderAttendSuccessSlice(response?.data?.data));
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';

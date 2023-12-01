@@ -55,7 +55,7 @@ export const getDetail = () => {
     const token = getState()?.auth?.token;
     return SETTING.detail(token)
       .then((response) => {
-        if (response?.data?.meta?.status === 200) {
+        if (response?.data?.meta?.is_success) {
           dispatch(getSettingDetailSuccessSlice(response?.data?.data));
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';

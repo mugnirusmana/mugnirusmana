@@ -55,7 +55,7 @@ export const submitSetting = (params) => {
     const token = getState()?.auth?.token;
     return SETTING.save(params, token)
       .then((response) => {
-        if (response?.data?.meta?.status === 201) {
+        if (response?.data?.meta?.is_success) {
           dispatch(getSettingSaveSuccessSlice(response?.data?.data));
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';
