@@ -69,3 +69,11 @@ export const submitReservation = (params, token) => {
 export const getCommentList = () => {
   return axios.get(`${ENV.API}/attender/displayed-comments`);
 }
+
+export const regenerateQr = (id, token) => {
+  return axios.get(`${ENV.API}/attender/regenerate-qr/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}

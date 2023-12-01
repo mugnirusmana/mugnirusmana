@@ -22,6 +22,8 @@ const Alert = (props) => {
         return <div className="w-full flex items-center justify-center text-center text-6xl text-red-500"><i className="fa-solid fa-trash"></i></div>;
       case 'info':
         return <div className="w-full flex items-center justify-center text-center text-6xl text-blue-500"><i className="fa-solid fa-circle-info"></i></div>
+      case 'question':
+        return <div className="w-full flex items-center justify-center text-center text-6xl text-blue-500"><i className="fa-solid fa-circle-question"></i></div>
       default:
         return <div className="w-full flex items-center justify-center text-center text-6xl text-green-500"><i className="fa-solid fa-circle-check"></i></div>
     }

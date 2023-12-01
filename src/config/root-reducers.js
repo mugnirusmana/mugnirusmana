@@ -7,6 +7,7 @@ import attenderNotDisplayedSlice from '../redux/attenderNotDisplayedSlice';
 import attenderRemoveSlice from '../redux/attenderRemoveSlice';
 import attenderDetailSlice from '../redux/attenderDetailSlice';
 import attenderAttendSlice from '../redux/attenderAttendSlice';
+import attenderQrSlice from '../redux/attenderQrSlice';
 import reservationSlice from '../redux/reservationSlice';
 import commentSlice from '../redux/commentSlice';
 import settingSaveSlice from '../redux/settingSaveSlice';
@@ -22,6 +23,7 @@ const rootReducer = {
   attenderRemove: attenderRemoveSlice,
   attenderDetail: attenderDetailSlice,
   attenderAttend: attenderAttendSlice,
+  attenderQr: attenderQrSlice,
   reservation: reservationSlice,
   comment: commentSlice,
   settingSave: settingSaveSlice,

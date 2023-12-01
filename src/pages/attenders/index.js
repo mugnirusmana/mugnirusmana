@@ -6,6 +6,7 @@ import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSl
 import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
 import { defaultAttenderNotDisplayed, submitAttenderNotDisplay } from "../../redux/attenderNotDisplayedSlice";
 import { defaultAttenderRemove, removeAttender } from "../../redux/attenderRemoveSlice";
+import { defaultAttenderQr, regenerateAttenderQr } from "../../redux/attenderQrSlice";
 
 import { decodeParams } from './../../helper';
 
@@ -23,10 +24,12 @@ const Attenders = () => {
   const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
   const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
   const attenderRemove = useSelector(({ attenderRemove }) => attenderRemove);
+  const attenderQr = useSelector(({ attenderQr }) => attenderQr);
   const [alertListError, setAlertListError] = useState({show: false, message: ''});
   const [alertDisplayed, setAlertDisplayed] = useState({show: false, type: '', message: ''});
   const [alertNotDisplayed, setAlertNotDisplayed] = useState({show: false, type: '', message: ''});
   const [alertRemove, setAlertRemove] = useState({show: false, type: '', message: ''})
+  const [alertRegenerateQr, setAlertRegenerateQr] = useState({show: false, type: '', message: ''})
   const [filter, setFilter] = useState({
     keyword: decodeParams(location?.search)?.keyword ?? '',
     attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
@@ -40,6 +43,7 @@ const Attenders = () => {
   const [showNotDisplayedAlert, setShowNotDisplayedAlert] = useState(false);
   const [showDisplayedAlert, setShowDisplayedAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showRegenerateQrAlert, setShowRegenerateQrAlert] = useState(false);
   const title = [
     {
       label: 'Name',
@@ -207,6 +211,34 @@ const Attenders = () => {
 
   }, [attenderRemove]);
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage
+    } = attenderQr;
+
+    if(!isLoading && isSuccess) {
+      setShowRegenerateQrAlert(false);
+      setAlertRegenerateQr({
+        show: true,
+        type: 'success',
+        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Regenerated</span>`
+      });
+    }
+
+    if(!isLoading && isError) {
+      setShowRegenerateQrAlert(false);
+      setAlertRegenerateQr({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      })
+    }
+
+  }, [attenderQr]);
+
   const onReset = () => {
     let resetParams = {
       keyword: null,
@@ -283,6 +315,17 @@ const Attenders = () => {
                       <i className="fa-solid fa-toggle-off"></i>
                     </span>
                   )}
+                  {parseInt(data?.status_attend) === 1 ? (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-amber-600 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowRegenerateQrAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-qrcode"></i>
+                    </span>
+                  ) : null}
                   {parseInt(data?.status) === 1 ? (
                     <span
                       className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
@@ -558,6 +601,44 @@ const Attenders = () => {
         onConfirm={() => {
           setAlertListError({show: false, message: ''});
           dispatch(defaultAttenderList());
+        }}
+      />
+
+      <Alert
+        isLoading={attenderQr?.isLoading}
+        show={showRegenerateQrAlert}
+        type="question"
+        title="Regenerate QR"
+        message={`<span>Will you regenerate</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>QR</span>?`}
+        showCancelButton={true}
+        onCancel={() => {
+          setSelectData({})
+          setShowRegenerateQrAlert(false);
+        }}
+        onConfirm={() => dispatch(regenerateAttenderQr(selectData?.id))}
+      />
+
+      <Alert
+        show={alertRegenerateQr?.show}
+        type={alertRegenerateQr?.type}
+        title={"Regenerate Qr"}
+        message={alertRegenerateQr?.message}
+        showCancelButton={false}
+        onConfirm={() => {
+          setAlertRegenerateQr({
+            show: false,
+            type: '',
+            message: ''
+          });
+          setSelectData({});
+          dispatch(defaultAttenderQr());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
         }}
       />
     </div>
