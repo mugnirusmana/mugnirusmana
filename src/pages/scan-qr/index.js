@@ -1,22 +1,30 @@
 import React, { useState, useRef, useEffect } from "react";
 import QrReader from 'react-qr-scanner';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 import { getWindowDimensions } from './../../helper';
+
+import { defaultAttenderAttend, submitAttenderAttend } from './../../redux/attenderAttendSlice';
 
 import BreadCrumb from "../../components/breadcrumb";
 import Alert from '../../components/alert';
 
 const ScanQr = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [canScan, setCanScan] = useState(true);
   const [dataScan, setDataScan] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showErrorsAlert, setShowErrorsAlert] = useState(false);
   const [errorMessageScan, setErrorMessageScan] = useState('');
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-  const [cameraStyle, setCameraStyle] = useState({width: 0, height: 0})
+  const [cameraStyle, setCameraStyle] = useState({width: 0, height: 0});
+  const attenderAttend = useSelector(({ attenderAttend }) => attenderAttend);
   const ref = useRef();
 
   useEffect(() => {
+    dispatch(defaultAttenderAttend());
     const handleResize = () => setWindowDimensions(getWindowDimensions())
     window.addEventListener('resize', handleResize);
 
@@ -33,6 +41,34 @@ const ScanQr = () => {
     }
 
   }, [windowDimensions])
+
+  useEffect(() => {
+    if (dataScan) setAttend()
+  }, [dataScan]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage,
+    } = attenderAttend;
+
+    if(!isLoading && isSuccess) {
+      setShowSuccessAlert(true);
+    }
+
+    if(!isLoading && isError) {
+      setErrorMessageScan(errorMessage);
+      setShowErrorsAlert(true);
+    }
+  }, [attenderAttend]);
+
+  const setAttend = () => {
+    if(!attenderAttend?.isLoading) {
+      dispatch(submitAttenderAttend(dataScan));
+    }
+  }
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -60,7 +96,6 @@ const ScanQr = () => {
               if (canScan && data) {
                 setCanScan(false);
                 setDataScan(data?.text);
-                setShowSuccessAlert(true);
               }
             }}
           />
@@ -68,6 +103,7 @@ const ScanQr = () => {
         <div className="flex flex-col items-center justify-center text-sm tablet:text-xl gap-2 desktop:gap-5">
           <div className="flex items-center justify-center text-center">Scan your Qr code here</div>
           <div className="flex items-center justify-center text-center">Or manually sign on a signature book</div>
+          <div className="flex items-center justify-center text-center text-xs">If your can't scan your QR, click&nbsp;<span className="cursor-pointer font-bold text-sky-500" onClick={() => window.location.reload()}>here</span>&nbsp;for refresh the page</div>
 
         </div>
       </div>
@@ -76,7 +112,7 @@ const ScanQr = () => {
         show={showSuccessAlert}
         type="success"
         title="Success"
-        message={`Thanks for comming<br>(<b class="text-sm">${dataScan}</b>)<br><span class="text-xs">Tap confirm to close<span>`}
+        message={`Thanks for comming<br><b className="text-sm">${attenderAttend?.data?.name}</b><br><span className="text-xs">Tap confirm to close<span>`}
         showCancelButton={false}
         onConfirm={() => window.location.reload()}
       />
@@ -87,7 +123,13 @@ const ScanQr = () => {
         title="Warning"
         message={errorMessageScan}
         showCancelButton={false}
-        onConfirm={() => window.location.reload()}
+        onConfirm={() => {
+          if (errorMessageScan?.includes('Failed scan QR')) {
+            navigate('/dashboard');
+          } else {
+            window.location.reload();
+          }
+        }}
       />
     </div>
   );

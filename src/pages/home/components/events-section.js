@@ -12,12 +12,13 @@ import Left from './../../../assets/svgs/left.svg';
 import Right from './../../../assets/svgs/right.svg';
 
 const EventsSection = React.forwardRef((props, ref) => {
+  let { date } = props;
   const [selectedDate, setSelectedDate] = useState(null);
   const [countDown, setCountDown] = useState({days: 0, hours: 0, minutes: 0, seconds: 0});
 
   useEffect(() => {
-    setSelectedDate('11/17/2023 22:49');
-  }, [])
+    setSelectedDate(date);
+  }, [date])
 
   useEffect(() => {
     let  intervalTimer = null;

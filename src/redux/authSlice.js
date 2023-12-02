@@ -76,7 +76,7 @@ export const signIn = (params, width, desktopSize) => {
     dispatch(logIn());
     return AUTH.login(params)
       .then((response) => {
-        if (response?.data?.meta?.status === 200) {
+        if (response?.data?.meta?.is_success) {
           const data = {
             token: response?.data?.data?.access_token,
             data: response?.data?.data

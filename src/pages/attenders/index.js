@@ -6,6 +6,7 @@ import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSl
 import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
 import { defaultAttenderNotDisplayed, submitAttenderNotDisplay } from "../../redux/attenderNotDisplayedSlice";
 import { defaultAttenderRemove, removeAttender } from "../../redux/attenderRemoveSlice";
+import { defaultAttenderQr, regenerateAttenderQr } from "../../redux/attenderQrSlice";
 
 import { decodeParams } from './../../helper';
 
@@ -23,14 +24,18 @@ const Attenders = () => {
   const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
   const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
   const attenderRemove = useSelector(({ attenderRemove }) => attenderRemove);
+  const attenderQr = useSelector(({ attenderQr }) => attenderQr);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [alertListError, setAlertListError] = useState({show: false, message: ''});
   const [alertDisplayed, setAlertDisplayed] = useState({show: false, type: '', message: ''});
   const [alertNotDisplayed, setAlertNotDisplayed] = useState({show: false, type: '', message: ''});
   const [alertRemove, setAlertRemove] = useState({show: false, type: '', message: ''})
+  const [alertRegenerateQr, setAlertRegenerateQr] = useState({show: false, type: '', message: ''})
   const [filter, setFilter] = useState({
     keyword: decodeParams(location?.search)?.keyword ?? '',
     attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
     status: { value: decodeParams(location?.search)?.status === 'displayed' ? 2 : decodeParams(location?.search)?.status === 'not_displayed' ? 1 : null, label: decodeParams(location?.search)?.status === 'displayed' ? 'Displayed' : decodeParams(location?.search)?.status === 'not_displayed' ? 'Not Displayed' : null},
+    status_attend: {value: decodeParams(location?.search)?.scan === 'yes' ? 2 : decodeParams(location?.search)?.scan === 'no' ? 1 : null, label: decodeParams(location?.search)?.scan === 'yes' ? 'Scanned' : decodeParams(location?.search)?.scan === 'no' ? 'Not Scan Yet' : null},
   })
   const [currnetPage, setCurrentPage] = useState('1');
   const [perPage, setPerPage] = useState('10');
@@ -39,6 +44,7 @@ const Attenders = () => {
   const [showNotDisplayedAlert, setShowNotDisplayedAlert] = useState(false);
   const [showDisplayedAlert, setShowDisplayedAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showRegenerateQrAlert, setShowRegenerateQrAlert] = useState(false);
   const title = [
     {
       label: 'Name',
@@ -77,18 +83,38 @@ const Attenders = () => {
           return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Displayed</span></div>
         }
       }
+    },
+    {
+      label: 'Scan QR',
+      object: 'status_attend',
+      customRender: (data) => {
+        if (parseInt(data?.status_attend) === 2) {
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Scanned</span></div>
+        } else {
+          return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Scan Yet</span></div>
+        }
+      }
     }
   ];
 
   useEffect(() => {
-    getListData({
-      keyword: filter?.keyword !== '' ? filter?.keyword : null,
-      attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
-      status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
-      page: parseInt(1),
-      perPage: parseInt(10),
-    });
+    setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setIsLoaded(false);
+      console.log('filter ', filter);
+      getListData({
+        keyword: filter?.keyword !== '' ? filter?.keyword : null,
+        attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+        status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+        status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
+        page: parseInt(1),
+        perPage: parseInt(10),
+      });
+    }
+  }, [isLoaded])
 
   useEffect(() => {
     let {
@@ -123,7 +149,7 @@ const Attenders = () => {
       setAlertDisplayed({
         show: true,
         type: 'success',
-        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Displayed</span>`
+        message: `<span clas="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span clas="font-bold">Displayed</span>`
       })
     }
 
@@ -194,15 +220,44 @@ const Attenders = () => {
 
   }, [attenderRemove]);
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage
+    } = attenderQr;
+
+    if(!isLoading && isSuccess) {
+      setShowRegenerateQrAlert(false);
+      setAlertRegenerateQr({
+        show: true,
+        type: 'success',
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Regenerated</span>`
+      });
+    }
+
+    if(!isLoading && isError) {
+      setShowRegenerateQrAlert(false);
+      setAlertRegenerateQr({
+        show: true,
+        type: 'danger',
+        message: errorMessage
+      })
+    }
+
+  }, [attenderQr]);
+
   const onReset = () => {
     let resetParams = {
       keyword: null,
       attendance: {},
       status: {},
+      status_attend: {},
     }
     setCurrentPage('1');
     setFilter({...resetParams, keyword: ''});
-    getListData({keyword: null, attendance: null, status: null, page: 1, perPage: parseInt(perPage)})
+    getListData({keyword: null, attendance: null, status: null, status_attend: null, page: 1, perPage: parseInt(perPage)})
   }
 
   const getListData = (params) => {
@@ -211,6 +266,7 @@ const Attenders = () => {
         keyword: params?.keyword ?? '',
         attendance: params?.attendance ?? '',
         status: params?.status ?? '',
+        status_attend: params?.status_attend ?? '',
         page: params?.page ?? 1,
         limit: params?.perPage ?? 10,
       }
@@ -268,6 +324,17 @@ const Attenders = () => {
                       <i className="fa-solid fa-toggle-off"></i>
                     </span>
                   )}
+                  {parseInt(data?.status_attend) === 1 ? (
+                    <span
+                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-amber-600 text-white"
+                      onClick={() => {
+                        setSelectData(data);
+                        setShowRegenerateQrAlert(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-qrcode"></i>
+                    </span>
+                  ) : null}
                   {parseInt(data?.status) === 1 ? (
                     <span
                       className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
@@ -327,6 +394,21 @@ const Attenders = () => {
                     onChange={(data) => setFilter({...filter, status: data})}
                   />
                 </div>
+                <div className="w-full flex flex-col gap-1">
+                  <span className="text-xs">Status Scan</span>
+                  <SelectOption
+                    isLoading={false}
+                    placeholder={'Select Status'}
+                    options={[{label: 'Scanned', value: '2'}, {label: 'Not Scan Yet', value: '1'}]}
+                    objectLabel={'label'}
+                    objectUniq={'value'}
+                    value={filter?.status_attend}
+                    showClear={true}
+                    onClear={(data) => setFilter({...filter, status_attend: data})}
+                    showSearch={false}
+                    onChange={(data) => setFilter({...filter, status_attend: data})}
+                  />
+                </div>
                 <div className="w-full tablet:w-fit flex flex-col gap-1">
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
                   <div
@@ -337,6 +419,7 @@ const Attenders = () => {
                         keyword: filter?.keyword !== '' ? filter?.keyword : null,
                         attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
                         status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+                        status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
                         page: 1,
                         perPage: parseInt(perPage),
                       })
@@ -356,6 +439,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: 1,
               perPage: parseInt(data),
             })
@@ -366,6 +450,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -376,6 +461,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -386,6 +472,7 @@ const Attenders = () => {
               keyword: filter?.keyword !== '' ? filter?.keyword : null,
               attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
               status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+              status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -523,6 +610,44 @@ const Attenders = () => {
         onConfirm={() => {
           setAlertListError({show: false, message: ''});
           dispatch(defaultAttenderList());
+        }}
+      />
+
+      <Alert
+        isLoading={attenderQr?.isLoading}
+        show={showRegenerateQrAlert}
+        type="question"
+        title="Regenerate QR"
+        message={`<span>Will you regenerate</span>&nbsp;<span class="font-bold">${selectData?.name}</span>&nbsp;<span>QR</span>?`}
+        showCancelButton={true}
+        onCancel={() => {
+          setSelectData({})
+          setShowRegenerateQrAlert(false);
+        }}
+        onConfirm={() => dispatch(regenerateAttenderQr(selectData?.id))}
+      />
+
+      <Alert
+        show={alertRegenerateQr?.show}
+        type={alertRegenerateQr?.type}
+        title={"Regenerate Qr"}
+        message={alertRegenerateQr?.message}
+        showCancelButton={false}
+        onConfirm={() => {
+          setAlertRegenerateQr({
+            show: false,
+            type: '',
+            message: ''
+          });
+          setSelectData({});
+          dispatch(defaultAttenderQr());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
         }}
       />
     </div>

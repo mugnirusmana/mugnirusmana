@@ -23,6 +23,7 @@ const useOutsideClick = (callback) => {
 const SelectOption = (props) => {
   let {
     isLoading,
+    height,
     options,
     objectLabel,
     objectUniq,
@@ -174,21 +175,37 @@ const SelectOption = (props) => {
   }
 
   const renderClear = () => {
-    if (showClear && value[objectLabel]) {
-      return (
-        <span
-          className="w-fit h-full flex items-center ml-2"
-          onClick={() => {
-            if (onClear) {
-              setShowList(false);
-              if (objectLabel) return onClear({})
-              if (typeof value !== 'object') return onClear(null);
-            } else {
-              return {}
-            }
-          }}
-        ><i className="fa-solid fa-xmark"></i></span>
-      )
+    if (showClear) {
+      if (objectLabel && value[objectLabel]) {
+        return (
+          <span
+            className="w-fit h-full flex items-center ml-2"
+            onClick={() => {
+              if (onClear) {
+                setShowList(false);
+                if (objectLabel) return onClear({})
+                if (typeof value !== 'object') return onClear(null);
+              } else {
+                return {}
+              }
+            }}
+          ><i className="fa-solid fa-xmark"></i></span>
+        )
+      } else if (typeof value !== 'object' && value) {
+        return (
+          <span
+            className="w-fit h-full flex items-center ml-2"
+            onClick={() => {
+              if (onClear) {
+                setShowList(false);
+                if (typeof value !== 'object') return onClear(null);
+              } else {
+                return {}
+              }
+            }}
+          ><i className="fa-solid fa-xmark"></i></span>
+        )
+      }
     }
   }
 
@@ -219,7 +236,7 @@ const SelectOption = (props) => {
   }
 
   return (
-    <div ref={selectRef} className="w-full h-[30px] rounded flex flex-col border border-sky-900 text-xs relative">
+    <div ref={selectRef} className={`w-full ${height??'h-[30px]'} rounded flex flex-col border border-sky-900 text-xs relative`}>
       <div className="w-full h-full flex flex-row px-2 cursor-pointer">
         <span className={`w-full h-full whitespace-nowrap text-ellipsis flex items-center ${renderStyleValue()}`} onClick={() => setShowList(!showList)}>{renderSelectedValue()}</span>
         {renderClear()}
