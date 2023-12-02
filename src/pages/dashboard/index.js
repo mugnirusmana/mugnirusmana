@@ -93,7 +93,7 @@ const Dashboard = () => {
         <div className="w-full h-full flex flex-col gap-5 desktop:pb-0">
           <div
             className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
-            onClick={() => navigate('/attenders?attendance=will_attend')}
+            onClick={() => navigate('/attenders?scan=yes')}
           >
             <span
               className="font-bold"
@@ -106,7 +106,7 @@ const Dashboard = () => {
 
           <div
             className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
-            onClick={() => navigate('/attenders?status=displayed')}
+            onClick={() => navigate('/attenders?scan=no')}
           >
             <span className="font-bold" >Total Attender Not Scan Yet</span>
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">

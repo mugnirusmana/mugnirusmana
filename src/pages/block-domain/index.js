@@ -4,21 +4,25 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { defaultBlockDomainList, getBlockDomainList } from "../../redux/blockDomainListSlice";
 import { defaultBlockDomainRemove, removeBlockDomain } from "../../redux/blockDomainRemoveSlice";
+import { defaultBlockDomainCreate, createBlockDomain } from "../../redux/blockDomainCreateSlice";
 
 import { decodeParams } from './../../helper';
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
 import Alert from "../../components/alert";
+import Modal from "../../components/modal";
 
 const BlockDomain = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const blockDomainList = useSelector(({ blockDomainList }) => blockDomainList);
   const blockDomainRemove = useSelector(({ blockDomainRemove }) => blockDomainRemove);
+  const blockDomainCreate = useSelector(({ blockDomainCreate }) => blockDomainCreate);
   const [isLoaded, setIsLoaded] = useState(false);
   const [alertListError, setAlertListError] = useState({show: false, message: ''});
   const [alertRemove, setAlertRemove] = useState({show: false, type: '', message: ''})
+  const [alertCreate, setAlertCreate] = useState({show: false, type: '', message: ''})
   const [filter, setFilter] = useState({
     keyword: decodeParams(location?.search)?.keyword ?? '',
   })
@@ -27,6 +31,11 @@ const BlockDomain = () => {
   const [selectData, setSelectData] = useState({})
   const [showSuccessdAlert, setShowSuccessdAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showModalAddData, setShowModalAddData] = useState(false);
+  const [dataAddEmailDomain, setDataAddEmailDomain] = useState({
+    value: '',
+    errorMessage: '&nbsp;'
+  });
   const title = [
     {
       label: 'Name',
@@ -101,6 +110,28 @@ const BlockDomain = () => {
 
   }, [blockDomainRemove]);
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      data
+    } = blockDomainCreate;
+
+    if (!isLoading && isSuccess) {
+      setShowModalAddData(false);
+      setAlertCreate({show: true, type: 'success', message: `<span class="font-bold">${dataAddEmailDomain?.value}</span>&nbsp;successfully&nbsp;<span class="font-bold">Created</span>`})
+    }
+
+    if (!isLoading && isError) {
+      setDataAddEmailDomain({
+        ...dataAddEmailDomain,
+        errorMessage: `<span>${data?.error?.name}</span>`
+      });
+    }
+
+  }, [blockDomainCreate]);
+
   const onReset = () => {
     let resetParams = {
       keyword: null,
@@ -118,6 +149,36 @@ const BlockDomain = () => {
         limit: params?.perPage ?? 10,
       }
       dispatch(getBlockDomainList(result));
+    }
+  }
+
+  const validateAddEmailDomain = (value) => {
+    let result = {
+      isError: false,
+      errorMessage: '&nbsp;',
+    }
+    if (!value || value === "") {
+     result.isError = true;
+     result.errorMessage = "Name is required";
+    } else if (value?.length > 50) {
+      result.isError = true;
+      result.errorMessage = "Name max 50 characters";
+    }
+    return result;
+  }
+
+  const submitAddEmailDomain = () => {
+    let result = validateAddEmailDomain(dataAddEmailDomain?.value);
+    if(result?.isError) {
+      setDataAddEmailDomain({
+        ...dataAddEmailDomain,
+        errorMessage: result.errorMessage,
+      });
+    } else {
+      let params = {
+        name: dataAddEmailDomain?.value,
+      }
+      dispatch(createBlockDomain(params));
     }
   }
 
@@ -142,7 +203,7 @@ const BlockDomain = () => {
           withAction={true}
           showAddAction={true}
           addLabel={'Add Email Domain +'}
-          onAdd={() => {console.log('add action')}}
+          onAdd={() => setShowModalAddData(true)}
           renderAction={(data) => (
             <div className="flex flex-row items-center justify-end gap-2">
               <span
@@ -276,11 +337,86 @@ const BlockDomain = () => {
           dispatch(defaultBlockDomainRemove());
           getListData({
             keyword: filter?.keyword !== '' ? filter?.keyword : null,
-            attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
-            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
             page: 1,
             perPage: parseInt(perPage)
           })
+        }}
+      />
+
+      <Alert
+        show={alertCreate?.show}
+        type={alertCreate?.type}
+        title="Add Email Domain"
+        message={alertCreate.message}
+        showCancelButton={false}
+        onConfirm={() => {
+          setAlertCreate({
+            show:false,
+            type: '',
+            message: ''
+          })
+          setDataAddEmailDomain({value: '', errorMessage: '&nbsp;'});
+          dispatch(defaultBlockDomainCreate());
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            page: 1,
+            perPage: parseInt(perPage)
+          })
+        }}
+      />
+
+      <Modal
+        show={showModalAddData}
+        onClose={() => {
+          setShowModalAddData(false)
+          setDataAddEmailDomain({
+            value: '',
+            errorMessage: '&nbsp;',
+          })
+        }}
+        isLoading={blockDomainCreate?.isLoading}
+        renderContent={() => {
+          return (
+            <div className="w-full h-fit flex flex-col">
+              <span className="text-center font-bold mb-5">Add Email Domain</span>
+              <span className="text-xs mb-2">Name</span>
+              <input
+                type={'text'}
+                className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900 text-xs"
+                placeholder="Fill email domain here"
+                value={dataAddEmailDomain?.value}
+                onChange={(e) => {
+                  let value = e?.target?.value?.toLocaleLowerCase();
+                  setDataAddEmailDomain({
+                    value: value,
+                    errorMessage: validateAddEmailDomain(value)?.errorMessage,
+                  })
+                  dispatch(defaultBlockDomainCreate());
+                }}
+              />
+              <span className="text-xs text-red-500 mb-10" dangerouslySetInnerHTML={{__html: dataAddEmailDomain.errorMessage}}></span>
+              <div className="w-full flex items-center justify-center gap-5">
+                <div
+                  className={`p-2 ${blockDomainCreate?.isLoading ? 'cursor-default' : 'cursor-pointer'} w-full flex items-center justify-center rounded border border-sky-900 text-sky-900 bg-white`}
+                  onClick={() => {
+                    if (!blockDomainCreate?.isLoading) {
+                      setDataAddEmailDomain({
+                        value: '',
+                        errorMessage: '&nbsp;',
+                      });
+                      dispatch(defaultBlockDomainCreate());
+                    }
+                  }}
+                >{blockDomainCreate?.isLoading ? 'Loading...' : 'Reset'}</div>
+                <div
+                  className={`p-2 ${blockDomainCreate?.isLoading ? 'cursor-default' : 'cursor-pointer'} w-full flex items-center justify-center rounded border border-sky-900 text-white bg-sky-900`}
+                  onClick={() => {
+                    if (!blockDomainCreate?.isLoading) submitAddEmailDomain();
+                  }}
+                >{blockDomainCreate?.isLoading ? 'Loading...' : 'Submit'}</div>
+              </div>
+            </div>
+          )
         }}
       />
     </div>

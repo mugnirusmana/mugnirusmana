@@ -35,7 +35,7 @@ const Attenders = () => {
     keyword: decodeParams(location?.search)?.keyword ?? '',
     attendance: { value: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 2 : decodeParams(location?.search)?.attendance === 'will_attend' ? 1 : null, label: decodeParams(location?.search)?.attendance === 'will_not_attend' ? 'Will Not Attend' : decodeParams(location?.search)?.attendance === 'will_attend' ? 'Will Attend' : null},
     status: { value: decodeParams(location?.search)?.status === 'displayed' ? 2 : decodeParams(location?.search)?.status === 'not_displayed' ? 1 : null, label: decodeParams(location?.search)?.status === 'displayed' ? 'Displayed' : decodeParams(location?.search)?.status === 'not_displayed' ? 'Not Displayed' : null},
-    status_attend: {},
+    status_attend: {value: decodeParams(location?.search)?.scan === 'yes' ? 2 : decodeParams(location?.search)?.scan === 'no' ? 1 : null, label: decodeParams(location?.search)?.scan === 'yes' ? 'Scanned' : decodeParams(location?.search)?.scan === 'no' ? 'Not Scan Yet' : null},
   })
   const [currnetPage, setCurrentPage] = useState('1');
   const [perPage, setPerPage] = useState('10');
@@ -104,11 +104,12 @@ const Attenders = () => {
   useEffect(() => {
     if (isLoaded) {
       setIsLoaded(false);
+      console.log('filter ', filter);
       getListData({
         keyword: filter?.keyword !== '' ? filter?.keyword : null,
         attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
         status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
-        status_attend: filter?.status_attend ? parseInt(filter?.status_attend) : null,
+        status_attend: filter?.status_attend?.value ? parseInt(filter?.status_attend?.value) : null,
         page: parseInt(1),
         perPage: parseInt(10),
       });

@@ -15,6 +15,7 @@ import settingDetailSlice from '../redux/settingDetailSlice';
 import settingSlice from '../redux/settingSlice';
 import blockDomainListSlice from '../redux/blockDomainListSlice';
 import blockDomainRemoveSlice from '../redux/blockDomainRemoveSlice';
+import blockDomainCreateSlice from '../redux/blockDomainCreateSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -34,6 +35,7 @@ const rootReducer = {
   setting: settingSlice,
   blockDomainList: blockDomainListSlice,
   blockDomainRemove: blockDomainRemoveSlice,
+  blockDomainCreate: blockDomainCreateSlice,
 }
 
 export default rootReducer;

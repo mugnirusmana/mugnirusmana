@@ -12,7 +12,7 @@ export const getList = (params, token) => {
 
 export const create = (params, token) => {
   let formData = new FormData();
-  formData.set('name', params?.fullname);
+  formData.set('name', params?.name);
   return axios.post(`${ENV.API}/block-domain/`, formData, {
     headers: {
       Authorization: token
