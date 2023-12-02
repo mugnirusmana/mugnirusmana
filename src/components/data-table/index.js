@@ -18,6 +18,9 @@ const DataTable = (props) => {
     onChangePage,
     onPrevPage,
     onNextPage,
+    showAddAction,
+    addLabel,
+    onAdd,
   } = props;
   let { paginate } = data;
   
@@ -210,8 +213,28 @@ const DataTable = (props) => {
     }
   }
 
+  const renderAddAction = () => {
+    if (showAddAction) {
+      return (
+        <div className="w-full flex flex-row justify-end">
+          <div
+            className="w-fit p-2 bg-sky-900 text-white cursor-pointer text-xs rounded"
+            onClick={() => {
+              if (onAdd) {
+                return onAdd();
+              } else {
+                return {}
+              }
+            }}
+          >{addLabel??'Add Data +'}</div>
+        </div>
+      )
+    }
+  }
+
   return (
     <div className="w-full flex flex-col relative p-5">
+      {renderAddAction()}
       {renderComponentFilter()}
       <div className="w-full flex flex-row overflow-auto hide-scroll border border-sky-900 tablet:border-transparent">
         <table className="w-full">

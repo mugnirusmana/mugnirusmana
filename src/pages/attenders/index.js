@@ -25,6 +25,7 @@ const Attenders = () => {
   const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
   const attenderRemove = useSelector(({ attenderRemove }) => attenderRemove);
   const attenderQr = useSelector(({ attenderQr }) => attenderQr);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [alertListError, setAlertListError] = useState({show: false, message: ''});
   const [alertDisplayed, setAlertDisplayed] = useState({show: false, type: '', message: ''});
   const [alertNotDisplayed, setAlertNotDisplayed] = useState({show: false, type: '', message: ''});
@@ -97,15 +98,22 @@ const Attenders = () => {
   ];
 
   useEffect(() => {
-    getListData({
-      keyword: filter?.keyword !== '' ? filter?.keyword : null,
-      attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
-      status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
-      status_attend: filter?.status_attend ? parseInt(filter?.status_attend) : null,
-      page: parseInt(1),
-      perPage: parseInt(10),
-    });
+    setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setIsLoaded(false);
+      getListData({
+        keyword: filter?.keyword !== '' ? filter?.keyword : null,
+        attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
+        status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+        status_attend: filter?.status_attend ? parseInt(filter?.status_attend) : null,
+        page: parseInt(1),
+        perPage: parseInt(10),
+      });
+    }
+  }, [isLoaded])
 
   useEffect(() => {
     let {
@@ -140,7 +148,7 @@ const Attenders = () => {
       setAlertDisplayed({
         show: true,
         type: 'success',
-        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Displayed</span>`
+        message: `<span clas="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span clas="font-bold">Displayed</span>`
       })
     }
 
@@ -168,7 +176,7 @@ const Attenders = () => {
       setAlertNotDisplayed({
         show: true,
         type: 'success',
-        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Hidden</span>`
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Hidden</span>`
       })
     }
 
@@ -196,7 +204,7 @@ const Attenders = () => {
       setAlertRemove({
         show: true,
         type: 'success',
-        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Deleted</span>`
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Deleted</span>`
       });
     }
 
@@ -224,7 +232,7 @@ const Attenders = () => {
       setAlertRegenerateQr({
         show: true,
         type: 'success',
-        message: `<span className="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Regenerated</span>`
+        message: `<span class="font-bold">${selectData?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Regenerated</span>`
       });
     }
 

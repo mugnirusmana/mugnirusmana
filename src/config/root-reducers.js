@@ -13,6 +13,8 @@ import commentSlice from '../redux/commentSlice';
 import settingSaveSlice from '../redux/settingSaveSlice';
 import settingDetailSlice from '../redux/settingDetailSlice';
 import settingSlice from '../redux/settingSlice';
+import blockDomainListSlice from '../redux/blockDomainListSlice';
+import blockDomainRemoveSlice from '../redux/blockDomainRemoveSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -30,6 +32,8 @@ const rootReducer = {
   settingSave: settingSaveSlice,
   settingDetail: settingDetailSlice,
   setting: settingSlice,
+  blockDomainList: blockDomainListSlice,
+  blockDomainRemove: blockDomainRemoveSlice,
 }
 
 export default rootReducer;
