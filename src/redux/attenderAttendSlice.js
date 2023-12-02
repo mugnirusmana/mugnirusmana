@@ -2,35 +2,38 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ATTENDER } from "../services";
 
 const initialState = {
+  data: {},
   isLoading: false,
   isError: false,
   isSuccess: false,
   errorMessage: null
 };
 
-export const attenderNotDisplayedSlice = createSlice({
-  name: "attenderNotDisplayed",
+export const attenderAttendSlice = createSlice({
+  name: "attenderAttend",
   initialState,
   reducers: {
-    defaultAttenderNotDisplayedSlice: (state) => {
+    defaultAttenderAttendSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
+      state.data = {}
     },
-    getAttenderNotDisplayedSlice: (state) => {
+    getAttenderAttendSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderNotDisplayedSuccessSlice: (state, action) => {
+    getAttenderAttendSuccessSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
+      state.data = action?.payload;
     },
-    getAttenderNotDisplayedFailedSlice: (state, action) => {
+    getAttenderAttendFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -39,32 +42,32 @@ export const attenderNotDisplayedSlice = createSlice({
   },
 });
 
-export const { defaultAttenderNotDisplayedSlice, getAttenderNotDisplayedSlice, getAttenderNotDisplayedSuccessSlice, getAttenderNotDisplayedFailedSlice } = attenderNotDisplayedSlice.actions;
+export const { defaultAttenderAttendSlice, getAttenderAttendSlice, getAttenderAttendSuccessSlice, getAttenderAttendFailedSlice } = attenderAttendSlice.actions;
 
-export const defaultAttenderNotDisplayed = () => {
+export const defaultAttenderAttend = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultAttenderNotDisplayedSlice());
+    dispatch(defaultAttenderAttendSlice());
   };
 }
 
-export const submitAttenderNotDisplay = (id) => {
+export const submitAttenderAttend = (dataScan) => {
   return async (dispatch, getState) => {
-    dispatch(getAttenderNotDisplayedSlice());
+    dispatch(getAttenderAttendSlice());
     const token = getState()?.auth?.token;
-    return ATTENDER.notDisplayed(id, token)
+    return ATTENDER.attend(dataScan, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getAttenderNotDisplayedSuccessSlice());
+          dispatch(getAttenderAttendSuccessSlice(response?.data?.data));
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';
-          dispatch(getAttenderNotDisplayedFailedSlice(message));
+          dispatch(getAttenderAttendFailedSlice(message));
         }
       })
       .catch((error) => {
         const message = error?.response?.data?.meta?.message??'Oops! Someting went wrong';
-        dispatch(getAttenderNotDisplayedFailedSlice(message));
+        dispatch(getAttenderAttendFailedSlice(message));
       })
   };
 }
 
-export default attenderNotDisplayedSlice.reducer;
+export default attenderAttendSlice.reducer;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ATTENDER } from "../services";
+import { BLOCKDOMAIN } from "../services";
 
 const initialState = {
   data: {
@@ -19,30 +19,30 @@ const initialState = {
   errorMessage: null
 };
 
-export const attenderListSlice = createSlice({
-  name: "attenderList",
+export const blockDomainListSlice = createSlice({
+  name: "blockDomainList",
   initialState,
   reducers: {
-    defaultAttenderListSlice: (state) => {
+    defaultBlockDomainListSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderListSlice: (state) => {
+    getBlockDomainListSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderListSuccessSlice: (state, action) => {
+    getBlockDomainListSuccessSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
       state.data = action?.payload;
     },
-    getAttenderListFailedSlice: (state, action) => {
+    getBlockDomainListFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -51,19 +51,19 @@ export const attenderListSlice = createSlice({
   },
 });
 
-export const { defaultAttenderListSlice, getAttenderListSlice, getAttenderListSuccessSlice, getAttenderListFailedSlice } = attenderListSlice.actions;
+export const { defaultBlockDomainListSlice, getBlockDomainListSlice, getBlockDomainListSuccessSlice, getBlockDomainListFailedSlice } = blockDomainListSlice.actions;
 
-export const defaultAttenderList = () => {
+export const defaultBlockDomainList = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultAttenderListSlice());
+    dispatch(defaultBlockDomainListSlice());
   };
 }
 
-export const getAttenderList = (params) => {
+export const getBlockDomainList = (params) => {
   return async (dispatch, getState) => {
-    dispatch(getAttenderListSlice());
+    dispatch(getBlockDomainListSlice());
     const token = getState()?.auth?.token;
-    return ATTENDER.getList(params, token)
+    return BLOCKDOMAIN.getList(params, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
           let data = {
@@ -77,17 +77,17 @@ export const getAttenderList = (params) => {
             currentPage: response?.data?.data?.current_page,
             perPage: response?.data?.data?.per_page,
           }
-          dispatch(getAttenderListSuccessSlice(data));
+          dispatch(getBlockDomainListSuccessSlice(data));
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';
-          dispatch(getAttenderListFailedSlice(message));
+          dispatch(getBlockDomainListFailedSlice(message));
         }
       })
       .catch((error) => {
         const message = error?.response?.data?.meta?.message??'Oops! Someting went wrong';
-        dispatch(getAttenderListFailedSlice(message));
+        dispatch(getBlockDomainListFailedSlice(message));
       })
   };
 }
 
-export default attenderListSlice.reducer;
+export default blockDomainListSlice.reducer;

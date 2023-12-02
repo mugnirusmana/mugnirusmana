@@ -8,29 +8,29 @@ const initialState = {
   errorMessage: null
 };
 
-export const attenderNotDisplayedSlice = createSlice({
-  name: "attenderNotDisplayed",
+export const attenderQrSlice = createSlice({
+  name: "attenderQr",
   initialState,
   reducers: {
-    defaultAttenderNotDisplayedSlice: (state) => {
+    defaultAttenderQrSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderNotDisplayedSlice: (state) => {
+    getAttenderQrSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderNotDisplayedSuccessSlice: (state, action) => {
+    getAttenderQrSuccessSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderNotDisplayedFailedSlice: (state, action) => {
+    getAttenderQrFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -39,32 +39,32 @@ export const attenderNotDisplayedSlice = createSlice({
   },
 });
 
-export const { defaultAttenderNotDisplayedSlice, getAttenderNotDisplayedSlice, getAttenderNotDisplayedSuccessSlice, getAttenderNotDisplayedFailedSlice } = attenderNotDisplayedSlice.actions;
+export const { defaultAttenderQrSlice, getAttenderQrSlice, getAttenderQrSuccessSlice, getAttenderQrFailedSlice } = attenderQrSlice.actions;
 
-export const defaultAttenderNotDisplayed = () => {
+export const defaultAttenderQr = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultAttenderNotDisplayedSlice());
+    dispatch(defaultAttenderQrSlice());
   };
 }
 
-export const submitAttenderNotDisplay = (id) => {
+export const regenerateAttenderQr = (id) => {
   return async (dispatch, getState) => {
-    dispatch(getAttenderNotDisplayedSlice());
+    dispatch(getAttenderQrSlice());
     const token = getState()?.auth?.token;
-    return ATTENDER.notDisplayed(id, token)
+    return ATTENDER.regenerateQr(id, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getAttenderNotDisplayedSuccessSlice());
+          dispatch(getAttenderQrSuccessSlice());
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';
-          dispatch(getAttenderNotDisplayedFailedSlice(message));
+          dispatch(getAttenderQrFailedSlice(message));
         }
       })
       .catch((error) => {
         const message = error?.response?.data?.meta?.message??'Oops! Someting went wrong';
-        dispatch(getAttenderNotDisplayedFailedSlice(message));
+        dispatch(getAttenderQrFailedSlice(message));
       })
   };
 }
 
-export default attenderNotDisplayedSlice.reducer;
+export default attenderQrSlice.reducer;

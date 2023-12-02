@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ATTENDER } from "../services";
+import { BLOCKDOMAIN } from "../services";
 
 const initialState = {
   isLoading: false,
@@ -8,29 +8,29 @@ const initialState = {
   errorMessage: null
 };
 
-export const attenderNotDisplayedSlice = createSlice({
-  name: "attenderNotDisplayed",
+export const blockDomainRemoveSlice = createSlice({
+  name: "blockDomainRemove",
   initialState,
   reducers: {
-    defaultAttenderNotDisplayedSlice: (state) => {
+    defaultBlockDomainRemoveSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderNotDisplayedSlice: (state) => {
+    getBlockDomainRemoveSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderNotDisplayedSuccessSlice: (state, action) => {
+    getBlockDomainRemoveSuccessSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
     },
-    getAttenderNotDisplayedFailedSlice: (state, action) => {
+    getBlockDomainRemoveFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -39,32 +39,32 @@ export const attenderNotDisplayedSlice = createSlice({
   },
 });
 
-export const { defaultAttenderNotDisplayedSlice, getAttenderNotDisplayedSlice, getAttenderNotDisplayedSuccessSlice, getAttenderNotDisplayedFailedSlice } = attenderNotDisplayedSlice.actions;
+export const { defaultBlockDomainRemoveSlice, getBlockDomainRemoveSlice, getBlockDomainRemoveSuccessSlice, getBlockDomainRemoveFailedSlice } = blockDomainRemoveSlice.actions;
 
-export const defaultAttenderNotDisplayed = () => {
+export const defaultBlockDomainRemove = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultAttenderNotDisplayedSlice());
+    dispatch(defaultBlockDomainRemoveSlice());
   };
 }
 
-export const submitAttenderNotDisplay = (id) => {
+export const removeBlockDomain = (id) => {
   return async (dispatch, getState) => {
-    dispatch(getAttenderNotDisplayedSlice());
+    dispatch(getBlockDomainRemoveSlice());
     const token = getState()?.auth?.token;
-    return ATTENDER.notDisplayed(id, token)
+    return BLOCKDOMAIN.remove(id, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getAttenderNotDisplayedSuccessSlice());
+          dispatch(getBlockDomainRemoveSuccessSlice());
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong';
-          dispatch(getAttenderNotDisplayedFailedSlice(message));
+          dispatch(getBlockDomainRemoveFailedSlice(message));
         }
       })
       .catch((error) => {
         const message = error?.response?.data?.meta?.message??'Oops! Someting went wrong';
-        dispatch(getAttenderNotDisplayedFailedSlice(message));
+        dispatch(getBlockDomainRemoveFailedSlice(message));
       })
   };
 }
 
-export default attenderNotDisplayedSlice.reducer;
+export default blockDomainRemoveSlice.reducer;

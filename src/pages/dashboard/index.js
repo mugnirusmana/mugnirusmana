@@ -62,8 +62,8 @@ const Dashboard = () => {
               <i className="fa-solid fa-user-xmark"></i>
             </div>
           </div>
-          
         </div>
+        
         <div className="w-full h-full flex flex-col gap-5 desktop:pb-0">
           <div
             className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
@@ -86,6 +86,32 @@ const Dashboard = () => {
             <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
               <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_post_comments??0}</span>
               <i className="fa-solid fa-comment"></i>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full h-full flex flex-col gap-5 desktop:pb-0">
+          <div
+            className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
+            onClick={() => navigate('/attenders?scan=yes')}
+          >
+            <span
+              className="font-bold"
+            >Total Attender Has Scan</span>
+            <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
+              <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_attender_scan??0}</span>
+              <i className="fa-solid fa-qrcode"></i>
+            </div>
+          </div>
+
+          <div
+            className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md cursor-pointer"
+            onClick={() => navigate('/attenders?scan=no')}
+          >
+            <span className="font-bold" >Total Attender Not Scan Yet</span>
+            <div className="w-fit h-fit flex flex-row items-center gap-5 font-bold tablet:text-4xl desktop:text-6xl">
+              <span>{dashboard?.isLoading ? '...' : dashboard?.data?.total_attender_not_scan??0}</span>
+              <i className="fa-solid fa-qrcode"></i>
             </div>
           </div>
         </div>
