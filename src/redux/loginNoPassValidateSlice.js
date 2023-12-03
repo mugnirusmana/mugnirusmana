@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setToken } from "./authSlice";
 import { AUTH } from "./../services";
 
 const initialState = {
@@ -9,30 +10,30 @@ const initialState = {
   errorMessage: null
 };
 
-export const forgotPasswordSlice = createSlice({
-  name: "forgotPassword",
+export const loginNoPassValidateSlice = createSlice({
+  name: "loginNoPassValidate",
   initialState,
   reducers: {
-    defaultForgotPasswordSlice: (state) => {
+    defaultLoginNoPassValidateSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
       state.data = {}
     },
-    getForgotPasswordSlice: (state) => {
+    getLoginNoPassValidateSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getForgotPasswordSuccessSlice: (state) => {
+    getLoginNoPassValidateSuccessSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
     },
-    getForgotPasswordFailedSlice: (state, action) => {
+    getLoginNoPassValidateFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -42,27 +43,32 @@ export const forgotPasswordSlice = createSlice({
   },
 });
 
-export const { defaultForgotPasswordSlice, getForgotPasswordSlice, getForgotPasswordSuccessSlice, getForgotPasswordFailedSlice } = forgotPasswordSlice.actions;
+export const { defaultLoginNoPassValidateSlice, getLoginNoPassValidateSlice, getLoginNoPassValidateSuccessSlice, getLoginNoPassValidateFailedSlice } = loginNoPassValidateSlice.actions;
 
-export const defaultForgotPassword = () => {
+export const defaultLoginNoPassValidate = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultForgotPasswordSlice());
+    dispatch(defaultLoginNoPassValidateSlice());
   };
 }
 
-export const submitForgotPassword = (params) => {
+export const submitLoginNoPassValidate = (params, width, desktopSize) => {
   return async (dispatch, getState) => {
-    dispatch(getForgotPasswordSlice());
-    return AUTH.forgotPassword(params)
+    dispatch(getLoginNoPassValidateSlice());
+    return AUTH.loginNoPassValidate(params)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getForgotPasswordSuccessSlice());
+          dispatch(getLoginNoPassValidateSuccessSlice());
+          const data = {
+            token: response?.data?.data?.access_token,
+            data: response?.data?.data
+          }
+          dispatch(setToken(data, width, desktopSize));
         } else {
           const data = {
             message: response?.data?.meta?.message??'Oops! Someting went wrong',
             data: response?.data?.data??{},
           }
-          dispatch(getForgotPasswordFailedSlice(data));
+          dispatch(getLoginNoPassValidateFailedSlice(data));
         }
       })
       .catch((error) => {
@@ -70,9 +76,9 @@ export const submitForgotPassword = (params) => {
           message: error?.response?.data?.meta?.message??'Oops! Someting went wrong',
           data: error?.response?.data?.data??{},
         }
-        dispatch(getForgotPasswordFailedSlice(data));
+        dispatch(getLoginNoPassValidateFailedSlice(data));
       })
   };
 }
 
-export default forgotPasswordSlice.reducer;
+export default loginNoPassValidateSlice.reducer;

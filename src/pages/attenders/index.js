@@ -104,7 +104,6 @@ const Attenders = () => {
   useEffect(() => {
     if (isLoaded) {
       setIsLoaded(false);
-      console.log('filter ', filter);
       getListData({
         keyword: filter?.keyword !== '' ? filter?.keyword : null,
         attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,

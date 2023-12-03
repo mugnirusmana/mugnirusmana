@@ -1,4 +1,6 @@
 import authSlice from './../redux/authSlice';
+import loginNoPassSlice from './../redux/loginNoPassSlice';
+import loginNoPassValidateSlice from './../redux/loginNoPassValidateSlice';
 import forgotPasswordSlice from './../redux/forgotPasswordSlice';
 import resetPasswordSlice from './../redux/resetPasswordSlice';
 import activateAccountSlice from './../redux/activateAccountSlice';
@@ -23,6 +25,8 @@ import blockDomainCreateSlice from '../redux/blockDomainCreateSlice';
 
 const rootReducer = {
   auth: authSlice,
+  loginNoPass: loginNoPassSlice,
+  loginNoPassValidate: loginNoPassValidateSlice,
   forgotPassword: forgotPasswordSlice,
   resetPassword: resetPasswordSlice,
   activateAccount: activateAccountSlice,

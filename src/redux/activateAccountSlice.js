@@ -53,10 +53,8 @@ export const defaultActivateAccount = () => {
 export const submitActivateAccount = (params) => {
   return async (dispatch, getState) => {
     dispatch(getActivateAccountSlice());
-    const token = getState()?.auth?.token;
-    return AUTH.activateAccount(params, token)
+    return AUTH.activateAccount(params)
       .then((response) => {
-        console.log('response ', response);
         if (response?.data?.meta?.is_success) {
           dispatch(getActivateAccountSuccessSlice());
         } else {
@@ -68,7 +66,6 @@ export const submitActivateAccount = (params) => {
         }
       })
       .catch((error) => {
-        console.log('error ', error);
         const data = {
           message: error?.response?.data?.meta?.message??'Oops! Someting went wrong',
           data: error?.response?.data?.data??{},

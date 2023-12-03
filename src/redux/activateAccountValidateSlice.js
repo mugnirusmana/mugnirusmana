@@ -55,7 +55,6 @@ export const submitActivateAccountValidate = (params) => {
     dispatch(getActivateAccountValidateSlice());
     return AUTH.activateAccountValidate(params)
       .then((response) => {
-        console.log('response ', response);
         if (response?.data?.meta?.is_success) {
           dispatch(getActivateAccountValidateSuccessSlice());
         } else {
@@ -67,7 +66,6 @@ export const submitActivateAccountValidate = (params) => {
         }
       })
       .catch((error) => {
-        console.log('error ', error);
         const data = {
           message: error?.response?.data?.meta?.message??'Oops! Someting went wrong',
           data: error?.response?.data?.data??{},

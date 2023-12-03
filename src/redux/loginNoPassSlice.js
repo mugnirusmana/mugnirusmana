@@ -9,30 +9,30 @@ const initialState = {
   errorMessage: null
 };
 
-export const forgotPasswordSlice = createSlice({
-  name: "forgotPassword",
+export const loginNoPassSlice = createSlice({
+  name: "loginNoPass",
   initialState,
   reducers: {
-    defaultForgotPasswordSlice: (state) => {
+    defaultLoginNoPassSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
       state.data = {}
     },
-    getForgotPasswordSlice: (state) => {
+    getLoginNoPassSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getForgotPasswordSuccessSlice: (state) => {
+    getLoginNoPassSuccessSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
     },
-    getForgotPasswordFailedSlice: (state, action) => {
+    getLoginNoPassFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -42,27 +42,27 @@ export const forgotPasswordSlice = createSlice({
   },
 });
 
-export const { defaultForgotPasswordSlice, getForgotPasswordSlice, getForgotPasswordSuccessSlice, getForgotPasswordFailedSlice } = forgotPasswordSlice.actions;
+export const { defaultLoginNoPassSlice, getLoginNoPassSlice, getLoginNoPassSuccessSlice, getLoginNoPassFailedSlice } = loginNoPassSlice.actions;
 
-export const defaultForgotPassword = () => {
+export const defaultLoginNoPass = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultForgotPasswordSlice());
+    dispatch(defaultLoginNoPassSlice());
   };
 }
 
-export const submitForgotPassword = (params) => {
+export const submitLoginNoPass = (params) => {
   return async (dispatch, getState) => {
-    dispatch(getForgotPasswordSlice());
-    return AUTH.forgotPassword(params)
+    dispatch(getLoginNoPassSlice());
+    return AUTH.loginNoPass(params)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getForgotPasswordSuccessSlice());
+          dispatch(getLoginNoPassSuccessSlice());
         } else {
           const data = {
             message: response?.data?.meta?.message??'Oops! Someting went wrong',
             data: response?.data?.data??{},
           }
-          dispatch(getForgotPasswordFailedSlice(data));
+          dispatch(getLoginNoPassFailedSlice(data));
         }
       })
       .catch((error) => {
@@ -70,9 +70,9 @@ export const submitForgotPassword = (params) => {
           message: error?.response?.data?.meta?.message??'Oops! Someting went wrong',
           data: error?.response?.data?.data??{},
         }
-        dispatch(getForgotPasswordFailedSlice(data));
+        dispatch(getLoginNoPassFailedSlice(data));
       })
   };
 }
 
-export default forgotPasswordSlice.reducer;
+export default loginNoPassSlice.reducer;

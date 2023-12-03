@@ -42,7 +42,7 @@ const ResetPassword = () => {
       errorMessage,
       data
     } = resetPasswordSlice;
-    console.log('resetPasswordSlice ', resetPasswordSlice);
+
     if (!isLoading && isSuccess) {
       setShowAlert({
         show: true,
@@ -66,7 +66,6 @@ const ResetPassword = () => {
     }
 
     if (!isLoading && isError) {
-      console.log('data ', data);
       let message = errorMessage
       if (data?.errors && data?.errors?.length > 0) {
         message = `<div>Someting wrong with your data<br /><span class="font-bold">${data?.error?.token}</span></div>`
@@ -103,7 +102,6 @@ const ResetPassword = () => {
   const onSubmit = () => {
     let resultPassword = validatePassword(field?.password?.value);
     if (!resultPassword?.isError) {
-      console.log('submit form ', field);
       let params = {
         token: resetPasswordToken,
         password: field?.password?.value

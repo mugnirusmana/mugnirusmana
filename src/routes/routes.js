@@ -8,6 +8,7 @@ import Settings from '../pages/settings';
 
 // imports unauthed pages
 import Login from './../pages/login';
+import LoginNoPass from '../pages/login-no-pass';
 import ForgotPassword from '../pages/forgot-password';
 import ResetPassword from '../pages/reset-password';
 import ActivateAccount from '../pages/activate-account';
@@ -55,6 +56,11 @@ const UnauthedRoute = [
 	{
 		path: "/login",
 		component: Login,
+		exact: true,
+	},
+	{
+		path: "/login-no-pass",
+		component: LoginNoPass,
 		exact: true,
 	},
 	{
