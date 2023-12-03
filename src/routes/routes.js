@@ -8,6 +8,8 @@ import Settings from '../pages/settings';
 
 // imports unauthed pages
 import Login from './../pages/login';
+import ForgotPassword from '../pages/forgot-password';
+import ResetPassword from '../pages/reset-password';
 
 // imports public pages
 import Home from './../pages/home';
@@ -44,7 +46,7 @@ const AuthedRoute = [
 		component: Settings,
 		accessRole: 'admin',
 		exact: true,
-	}
+	},
 ];
 
 const UnauthedRoute = [
@@ -52,7 +54,17 @@ const UnauthedRoute = [
 		path: "/login",
 		component: Login,
 		exact: true,
-	}
+	},
+	{
+		path: "/forgot-password",
+		component: ForgotPassword,
+		exact: true,
+	},
+	{
+		path: "/reset-password/:token",
+		component: ResetPassword,
+		exact: true,
+	},
 ];
 
 const PublicRoute = [
@@ -60,7 +72,7 @@ const PublicRoute = [
 		path: "/",
 		component: Home,
 		exact: true,
-	}
+	},
 ];
 
 export {
