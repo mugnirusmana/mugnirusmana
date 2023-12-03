@@ -1,6 +1,8 @@
 import authSlice from './../redux/authSlice';
 import forgotPasswordSlice from './../redux/forgotPasswordSlice';
 import resetPasswordSlice from './../redux/resetPasswordSlice';
+import activateAccountSlice from './../redux/activateAccountSlice';
+import activateAccountValidateSlice from './../redux/activateAccountValidateSlice';
 import sideMenuSlice from '../redux/sideMenuSlice';
 import dashboardSlice from '../redux/dashboardSlice';
 import attenderListSlice from '../redux/attenderListSlice';
@@ -23,6 +25,8 @@ const rootReducer = {
   auth: authSlice,
   forgotPassword: forgotPasswordSlice,
   resetPassword: resetPasswordSlice,
+  activateAccount: activateAccountSlice,
+  activateAccountValidate: activateAccountValidateSlice,
   sideMenu: sideMenuSlice,
   dashboard: dashboardSlice,
   attenderList: attenderListSlice,

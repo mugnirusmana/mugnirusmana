@@ -10,6 +10,8 @@ import Settings from '../pages/settings';
 import Login from './../pages/login';
 import ForgotPassword from '../pages/forgot-password';
 import ResetPassword from '../pages/reset-password';
+import ActivateAccount from '../pages/activate-account';
+import ActivateAccountValidate from '../pages/activate-account-validate';
 
 // imports public pages
 import Home from './../pages/home';
@@ -63,6 +65,16 @@ const UnauthedRoute = [
 	{
 		path: "/reset-password/:token",
 		component: ResetPassword,
+		exact: true,
+	},
+	{
+		path: "/activate-account",
+		component: ActivateAccount,
+		exact: true,
+	},
+	{
+		path: "/activate-account/:token",
+		component: ActivateAccountValidate,
 		exact: true,
 	},
 ];

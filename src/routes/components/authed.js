@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, Navigate } from "react-router-dom";
 
 import { AuthedTemplate } from './../templates';
+import AccessDenied from '../../pages/access-denied';
 
 const AuthedComponent = ({component: Component, token, accessRole, userRole}) => {
 	const navigateLocation = useLocation();
@@ -12,7 +13,7 @@ const AuthedComponent = ({component: Component, token, accessRole, userRole}) =>
 		if (accessRole && accessRole !== userRole) {
 			return (
 				<AuthedTemplate>
-					<div className='w-full h-full flex items-center justify-center'>403</div>
+					<AccessDenied />
 				</AuthedTemplate>
 			)
 		} else {

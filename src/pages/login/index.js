@@ -96,7 +96,7 @@ const Login = () => {
       isError: false,
       errorMessage: '',
     }
-    let name = 'Username';
+    let name = 'Email';
 
     if(!value) {
       result.isError = true;
@@ -186,6 +186,7 @@ const Login = () => {
           className={`w-full h-[40px] rounded ${auth?.isLoading? 'cursor-default text-gray-500 bg-gray-300' : 'text-white cursor-pointer bg-sky-600'} flex items-center justify-center text-center font-bold`}
           onClick={() => !auth?.isLoading ? onSubmit() : {}}
         >{auth?.isLoading ? 'Loading...' : 'LOGIN'}</div>
+        <div className='w-full text-center text-gray-400 text-xs'>If you has problem with your account because it's not active, <span className='cursor-pointer text-sky-600 font-bold' onClick={() => navigate('/activate-account')}>activate here</span></div>
       </form>
 
       <Alert

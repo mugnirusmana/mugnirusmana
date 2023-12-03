@@ -20,3 +20,15 @@ export const resetPassword = (params) => {
   formData.set('password', params?.password);
   return axios.post(`${ENV.API}/reset-password`, formData, {});
 }
+
+export const activateAccount = (params) => {
+  let formData = new FormData();
+  formData.set('email', params?.email);
+  return axios.post(`${ENV.API}/activate-account`, formData, {});
+}
+
+export const activateAccountValidate = (params) => {
+  let formData = new FormData();
+  formData.set('token', params?.token);
+  return axios.post(`${ENV.API}/activate-account-validate`, formData, {});
+}

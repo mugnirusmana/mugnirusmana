@@ -359,7 +359,7 @@ const Attenders = () => {
                   <input
                     type={'text'}
                     className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900 text-xs"
-                    placeholder="Search by name"
+                    placeholder="Search by name or email"
                     value={filter?.keyword}
                     onChange={(e) => setFilter({...filter, keyword: e?.currentTarget?.value})}
                   />
