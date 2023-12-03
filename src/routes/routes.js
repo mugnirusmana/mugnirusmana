@@ -8,6 +8,11 @@ import Settings from '../pages/settings';
 
 // imports unauthed pages
 import Login from './../pages/login';
+import LoginNoPass from '../pages/login-no-pass';
+import ForgotPassword from '../pages/forgot-password';
+import ResetPassword from '../pages/reset-password';
+import ActivateAccount from '../pages/activate-account';
+import ActivateAccountValidate from '../pages/activate-account-validate';
 
 // imports public pages
 import Home from './../pages/home';
@@ -44,7 +49,7 @@ const AuthedRoute = [
 		component: Settings,
 		accessRole: 'admin',
 		exact: true,
-	}
+	},
 ];
 
 const UnauthedRoute = [
@@ -52,7 +57,32 @@ const UnauthedRoute = [
 		path: "/login",
 		component: Login,
 		exact: true,
-	}
+	},
+	{
+		path: "/login-no-pass",
+		component: LoginNoPass,
+		exact: true,
+	},
+	{
+		path: "/forgot-password",
+		component: ForgotPassword,
+		exact: true,
+	},
+	{
+		path: "/reset-password/:token",
+		component: ResetPassword,
+		exact: true,
+	},
+	{
+		path: "/activate-account",
+		component: ActivateAccount,
+		exact: true,
+	},
+	{
+		path: "/activate-account/:token",
+		component: ActivateAccountValidate,
+		exact: true,
+	},
 ];
 
 const PublicRoute = [
@@ -60,7 +90,7 @@ const PublicRoute = [
 		path: "/",
 		component: Home,
 		exact: true,
-	}
+	},
 ];
 
 export {

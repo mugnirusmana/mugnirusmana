@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router";
 
 import {
   signIn,
@@ -13,13 +14,14 @@ import Alert from "../../components/alert";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const auth = useSelector(({ auth }) => auth);
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const desktopSize = 1025;
   const [field, setField] = useState({
     username: {
       value: '',
-      type: 'text',
+      type: 'email',
       isError: false,
       errorMessage: '',
     },
@@ -94,7 +96,7 @@ const Login = () => {
       isError: false,
       errorMessage: '',
     }
-    let name = 'Username';
+    let name = 'Email';
 
     if(!value) {
       result.isError = true;
@@ -127,7 +129,7 @@ const Login = () => {
           <input
             type="text"
             className={`h-[40px] rounded w-full outline-none bg-[#E8F0FF] px-2 borde ${field?.username?.isError ? 'border-red-400' : 'border-transparent'}`}
-            placeholder="Username"
+            placeholder="Email"
             value={field?.username?.value}
             onChange={(e) => {
               let resultValidate = validateUsername(e?.currentTarget?.value);
@@ -177,9 +179,15 @@ const Login = () => {
           <span className="text-red-400 text-xs">{field?.password?.isError ? field?.password?.errorMessage : ''}</span>
         </div>
         <div
-          className="w-full h-[40px] bg-sky-600 rounded cursor-pointer flex items-center justify-center text-center font-bold text-white"
-          onClick={onSubmit}
+          className="w-fit whitespace-nowrap text-sky-600 cursor-pointer"
+          onClick={() => navigate('/forgot-password')}
+        >Forgot Password?</div>
+        <div
+          className={`w-full h-[40px] rounded ${auth?.isLoading? 'cursor-default text-gray-500 bg-gray-300' : 'text-white cursor-pointer bg-sky-600'} flex items-center justify-center text-center font-bold`}
+          onClick={() => !auth?.isLoading ? onSubmit() : {}}
         >{auth?.isLoading ? 'Loading...' : 'LOGIN'}</div>
+        <div className='w-full text-center text-gray-400 text-xs'>Login <span className='cursor-pointer text-sky-600 font-bold' onClick={() => navigate('/login-no-pass')}>without password</span></div>
+        <div className='w-full text-center text-gray-400 text-xs'>If you has problem with your account because it's not active, just <span className='cursor-pointer text-sky-600 font-bold' onClick={() => navigate('/activate-account')}>activate here</span></div>
       </form>
 
       <Alert

@@ -64,12 +64,16 @@ export const authSlice = createSlice({
       state.isError = false;
       state.isUnathorized = false;
       state.errorMessage = null;
+    },
+    setTokenSlice: (state, action) => {
+      state.token = action?.payload?.token;
+      state.data = action?.payload?.data;
     }
   },
 });
 
 // this is for dispatch
-export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed, removeTokenUnathorized, defaultRemoveTokenUnathorized } = authSlice.actions;
+export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed, removeTokenUnathorized, defaultRemoveTokenUnathorized, setTokenSlice } = authSlice.actions;
 
 export const signIn = (params, width, desktopSize) => {
   return async (dispatch, getState) => {
@@ -127,5 +131,15 @@ export const defaultLogOutUnathorized = () => {
   };
 }
 
-// this is for configureStore
+export const setToken = (data, width, desktopSize) => {
+  return async (dispatch, getState) => {
+    if (width < desktopSize) {
+      dispatch(sideMenu(false));
+    } else {
+      dispatch(sideMenu(true));
+    }
+    dispatch(setTokenSlice(data))
+  }
+}
+
 export default authSlice.reducer;

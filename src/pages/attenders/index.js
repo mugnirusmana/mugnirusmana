@@ -104,7 +104,6 @@ const Attenders = () => {
   useEffect(() => {
     if (isLoaded) {
       setIsLoaded(false);
-      console.log('filter ', filter);
       getListData({
         keyword: filter?.keyword !== '' ? filter?.keyword : null,
         attendance: filter?.attendance?.value ? parseInt(filter?.attendance?.value) : null,
@@ -359,7 +358,7 @@ const Attenders = () => {
                   <input
                     type={'text'}
                     className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900 text-xs"
-                    placeholder="Search by name"
+                    placeholder="Search by name or email"
                     value={filter?.keyword}
                     onChange={(e) => setFilter({...filter, keyword: e?.currentTarget?.value})}
                   />
