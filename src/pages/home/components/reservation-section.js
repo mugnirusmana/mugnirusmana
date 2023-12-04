@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import Header from './header';
 
-import Bg from './../../../assets/images/bg-2.png';
+import Default from './../../../assets/images/defaul-img.png';
 
 import Right from './../../../assets/svgs/right.svg';
 
@@ -29,7 +29,7 @@ const useOutsideClick = (callback) => {
 };
 
 const ReservationSection = React.forwardRef((props, ref) => {
-  let { onSubmit } = props;
+  let { data, onSubmit } = props;
   const reservationSlice = useSelector(({ reservation }) => reservation);
   const fullNameRef = useRef();
   const emailRef = useRef();
@@ -182,14 +182,19 @@ const ReservationSection = React.forwardRef((props, ref) => {
   }
 
   return (
-    <div ref={ref} className="w-full min-h-screen tablet-lg:h-screen desktop:h-auto flex flex-col items-center relative">
+    <div ref={ref} className={`w-full min-h-screen tablet-lg:h-screen desktop:h-auto flex flex-col items-center relative `}>
       <Header
         title={'Reservation'}
         textColor={'text-light-pink'}
         zIndex={'z-[1]'}
       />
 
-      <img src={Bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      {data?.reservation_bg ? (
+        <img src={data?.reservation_bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      ) : (
+        <img src={Default} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      )}
+      
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-30" />
 
       <div className="w-full desktop:w-[750px] h-full flex flex-col px-5 pb-5 tablet:pb-20 tablet:mt-10 desktop:mt-0 tablet:px-20 desktop:px-5 z-[1]">

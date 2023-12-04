@@ -3,16 +3,17 @@ import React, { useEffect, useState } from 'react';
 
 import Header from './header';
 
-import Bg from './../../../assets/images/bg-1.png';
 import Ceremonial from './../../../assets/images/akad.jpg';
 import Party from './../../../assets/images/resepsi.jpeg';
 import Traditional from './../../../assets/images/mulung-mantu.jpg';
+import Default from './../../../assets/images/defaul-img.png';
 
 import Left from './../../../assets/svgs/left.svg';
 import Right from './../../../assets/svgs/right.svg';
+import { formatDate } from '../../../helper';
 
 const EventsSection = React.forwardRef((props, ref) => {
-  let { date } = props;
+  let { data, date } = props;
   const [selectedDate, setSelectedDate] = useState(null);
   const [countDown, setCountDown] = useState({days: 0, hours: 0, minutes: 0, seconds: 0});
 
@@ -59,8 +60,11 @@ const EventsSection = React.forwardRef((props, ref) => {
         zIndex='z-[1]'
         dropShadow={true}
       />
-
-      <img src={Bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      {data?.event_bg ? (
+        <img src={data?.event_bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      ) : (
+        <img src={Default} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      )}
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-30" />
 
       <div className="w-full desktop:h-full flex flex-col p-5 text-dark-pink tablet:items-center desktop:p-10">
@@ -100,18 +104,25 @@ const EventsSection = React.forwardRef((props, ref) => {
               <div className="w-full flex flex-col items-center">
                 <div className="w-full flex flex-row gap-5 justify-center">
                   <i className="fa-solid fa-calendar-check"></i>
-                  <span>Januari 01, 2021</span>
+                  <span>{formatDate(data?.event_ceremonial_date).month} {formatDate(data?.event_ceremonial_date).date}, {formatDate(data?.event_ceremonial_date).year}</span>
                 </div>
                 <div className="w-full flex flex-row gap-5 justify-center">
                   <i className="fa-solid fa-clock"></i>
-                  <span>09:00 - 10:00</span>
+                  <span>{data?.event_ceremonial_start_time && data?.event_ceremonial_start_time !== "" ? data?.event_ceremonial_start_time : "-"} - {data?.event_ceremonial_end_time && data?.event_ceremonial_end_time !== "" ? data?.event_ceremonial_end_time : "Finish"}</span>
                 </div>
               </div>
               <div className="w-full flex flex-row gap-5 justify-center text-sm z-[1]">
                 <i className="fa-solid fa-location-dot"></i>
-                <span className="text-center">Streen A No 123, 4 Floor</span>
+                <span className="text-center">{data?.event_ceremonial_address && data?.event_ceremonial_address !== "" ? data?.event_ceremonial_address : '-'}</span>
               </div>
-              <div className="w-fit transition-all duration-500 ease-in-out flex items-center justify-center px-4 py-2 bg-white text-dark-pink font-bold rounded-md shadow-lg cursor-pointer hover:bg-dark-pink hover:text-white">Open on Maps</div>
+              {data?.event_ceremonial_link ? (
+                <div
+                  className="w-fit transition-all duration-500 ease-in-out flex items-center justify-center px-4 py-2 bg-white text-dark-pink font-bold rounded-md shadow-lg cursor-pointer hover:bg-dark-pink hover:text-white"
+                  onClick={() => window.open(data?.event_ceremonial_link, '_blank')}
+                >Open on Maps</div>
+              ) : (
+                <div className='px-4 py-2'>&nbsp;</div>
+              )}
             </div>
           </div>
 
@@ -125,18 +136,25 @@ const EventsSection = React.forwardRef((props, ref) => {
               <div className="w-full flex flex-col items-center">
                 <div className="w-full flex flex-row gap-5 justify-center">
                   <i className="fa-solid fa-calendar-check"></i>
-                  <span>Januari 01, 2021</span>
+                  <span>{formatDate(data?.event_party_date).month} {formatDate(data?.event_party_date).date}, {formatDate(data?.event_party_date).year}</span>
                 </div>
                 <div className="w-full flex flex-row gap-5 justify-center">
                   <i className="fa-solid fa-clock"></i>
-                  <span>09:00 - 10:00</span>
+                  <span>{data?.event_party_start_time && data?.event_party_start_time !== "" ? data?.event_party_start_time : "-"} - {data?.event_party_end_time && data?.event_party_end_time !== "" ? data?.event_party_end_time : "Finish"}</span>
                 </div>
               </div>
               <div className="w-full flex flex-row gap-5 justify-center text-sm z-[1]">
                 <i className="fa-solid fa-location-dot"></i>
-                <span className="text-center">Streen A No 123, 4 Floor</span>
+                <span className="text-center">{data?.event_party_address && data?.event_party_address !== "" ? data?.event_party_address : '-'}</span>
               </div>
-              <div className="w-fit transition-all duration-500 ease-in-out flex items-center justify-center px-4 py-2 bg-white text-dark-pink font-bold rounded-md shadow-lg cursor-pointer hover:bg-dark-pink hover:text-white">Open on Maps</div>
+              {data?.event_party_link ? (
+                <div
+                  className="w-fit transition-all duration-500 ease-in-out flex items-center justify-center px-4 py-2 bg-white text-dark-pink font-bold rounded-md shadow-lg cursor-pointer hover:bg-dark-pink hover:text-white"
+                  onClick={() => window.open(data?.event_party_link, '_blank')}
+                >Open on Maps</div>
+              ) : (
+                <div className='px-4 py-2'>&nbsp;</div>
+              )}
             </div>
           </div>
 
@@ -150,18 +168,25 @@ const EventsSection = React.forwardRef((props, ref) => {
               <div className="w-full flex flex-col items-center">
                 <div className="w-full flex flex-row gap-5 justify-center">
                   <i className="fa-solid fa-calendar-check"></i>
-                  <span>Januari 01, 2021</span>
+                  <span>{formatDate(data?.event_traditional_date).month} {formatDate(data?.event_traditional_date).date}, {formatDate(data?.event_traditional_date).year}</span>
                 </div>
                 <div className="w-full flex flex-row gap-5 justify-center">
                   <i className="fa-solid fa-clock"></i>
-                  <span>09:00 - 10:00</span>
+                  <span>{data?.event_traditional_start_time && data?.event_traditional_start_time !== "" ? data?.event_traditional_start_time : "-"} - {data?.event_traditional_end_time && data?.event_traditional_end_time !== "" ? data?.event_traditional_end_time : "Finish"}</span>
                 </div>
               </div>
               <div className="w-full flex flex-row gap-5 justify-center text-sm z-[1]">
                 <i className="fa-solid fa-location-dot"></i>
-                <span className="text-center">Streen A No 123, 4 Floor</span>
+                <span className="text-center">{data?.event_traditional_address && data?.event_traditional_address !== "" ? data?.event_traditional_address : '-'}</span>
               </div>
-              <div className="w-fit transition-all duration-500 ease-in-out flex items-center justify-center px-4 py-2 bg-white text-dark-pink font-bold rounded-md shadow-lg cursor-pointer hover:bg-dark-pink hover:text-white">Open on Maps</div>
+              {data?.event_traditional_link ? (
+                <div
+                  className="w-fit transition-all duration-500 ease-in-out flex items-center justify-center px-4 py-2 bg-white text-dark-pink font-bold rounded-md shadow-lg cursor-pointer hover:bg-dark-pink hover:text-white"
+                  onClick={() => window.open(data?.event_traditional_link, '_blank')}
+                >Open on Maps</div>
+              ) : (
+                <div className='px-4 py-2'>&nbsp;</div>
+              )}
             </div>
           </div>
 

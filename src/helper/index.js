@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
   let data = {
@@ -21,4 +23,30 @@ export const decodeParams = (queryString) => {
   } else {
     return {}
   }
+}
+
+export const formatDate = (date) => {
+  let result = {
+    m: '-',
+    mon: '-',
+    month: '-',
+    date: '-',
+    year: '-'
+  }
+
+  if (date && (date !== "" || date !== false)) {
+    result.m = moment(date).format('MM');
+    result.mon = moment(date).format('MMM');
+    result.month = moment(date).format('MMMM');
+    result.date = moment(date).format('DD');
+    result.year = moment(date).format('YYYY');
+  }
+
+  return result;
+}
+
+export const formatDateCoundown = (date, time) => {
+  let result = null;
+  if ((date && (date !== "" || date !== false)) && (time && (time !== "" || time !== false))) result = moment(`${date} ${time}`).format('DD/MM/YYYY H:i');
+  return result;
 }

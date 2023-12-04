@@ -53,7 +53,7 @@ const Alert = (props) => {
         <div className="tablet:w-[400px] w-full h-fit bg-white rounded p-5 z-[1] shadow-lg flex flex-col gap-5">
           {renderIconType()}
           <span className="w-full flex items-center justify-center font-bold text-center">{title}</span>
-          <div className="w-full text-center mb-5" dangerouslySetInnerHTML={{ __html: message }} />
+          <div className="w-full text-center mb-5" dangerouslySetInnerHTML={{ __html: message?.replace('className', 'class') }} />
           <div className="w-full flex flex-col justify-center tablet:flex-row gap-5">
             {renderCancelButton()}
             <div
