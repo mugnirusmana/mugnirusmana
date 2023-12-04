@@ -5,6 +5,7 @@ import Attenders from '../pages/attenders';
 import AttendersDetail from '../pages/attender-detail';
 import ScanQr from '../pages/scan-qr';
 import Settings from '../pages/settings';
+import ChangePassword from '../pages/change-password';
 
 // imports unauthed pages
 import Login from './../pages/login';
@@ -48,6 +49,11 @@ const AuthedRoute = [
 		path: "/settings",
 		component: Settings,
 		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/profile/change-password",
+		component: ChangePassword,
 		exact: true,
 	},
 ];

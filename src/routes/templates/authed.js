@@ -149,11 +149,11 @@ const AuthedTemplate = ({ children }) => {
                 ><i className="fa-solid fa-user w-[25px]"></i> Profile</span>
                 <span
                   className="transition-all duration-500 ease-in-out hover:text-white hover:bg-sky-500 p-2 rounded cursor-pointer"
-                  onClick={() => navigate('/change-password')}
+                  onClick={() => navigate('/profile/change-password')}
                 ><i className="fa-solid fa-lock w-[25px]"></i> Change Password</span>
                 <span
                   className="transition-all duration-500 ease-in-out hover:text-white hover:bg-sky-500 p-2 rounded cursor-pointer"
-                  onClick={() => navigate('/update-username')}
+                  onClick={() => navigate('/profile/update-username')}
                 ><i className="fa-solid fa-id-card w-[25px]"></i> Update Username</span>
                 <span
                   className="transition-all duration-500 ease-in-out hover:text-white hover:bg-sky-500 p-2 rounded cursor-pointer"
