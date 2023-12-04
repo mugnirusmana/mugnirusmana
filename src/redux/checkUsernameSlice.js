@@ -9,30 +9,30 @@ const initialState = {
   errorMessage: null
 };
 
-export const changePasswordSlice = createSlice({
-  name: "changePassword",
+export const checkUsernameSlice = createSlice({
+  name: "checkUsername",
   initialState,
   reducers: {
-    defaultChangePasswordSlice: (state) => {
+    defaultCheckUsernameSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
       state.data = {}
     },
-    getChangePasswordSlice: (state) => {
+    getCheckUsernameSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getChangePasswordSuccessSlice: (state) => {
+    getCheckUsernameSuccessSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
     },
-    getChangePasswordFailedSlice: (state, action) => {
+    getCheckUsernameFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -42,28 +42,28 @@ export const changePasswordSlice = createSlice({
   },
 });
 
-export const { defaultChangePasswordSlice, getChangePasswordSlice, getChangePasswordSuccessSlice, getChangePasswordFailedSlice } = changePasswordSlice.actions;
+export const { defaultCheckUsernameSlice, getCheckUsernameSlice, getCheckUsernameSuccessSlice, getCheckUsernameFailedSlice } = checkUsernameSlice.actions;
 
-export const defaultChangePassword = () => {
+export const defaultCheckUsername = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultChangePasswordSlice());
+    dispatch(defaultCheckUsernameSlice());
   };
 }
 
-export const submitChangePassword = (params) => {
+export const submitCheckUsername = (params) => {
   return async (dispatch, getState) => {
-    dispatch(getChangePasswordSlice());
+    dispatch(getCheckUsernameSlice());
     const token = getState()?.auth?.token;
-    return PROFILE.changePassword(params, token)
+    return PROFILE.checkUsername(params, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getChangePasswordSuccessSlice());
+          dispatch(getCheckUsernameSuccessSlice());
         } else {
           const data = {
             message: response?.data?.meta?.message??'Oops! Someting went wrong',
             data: response?.data?.data??{},
           }
-          dispatch(getChangePasswordFailedSlice(data));
+          dispatch(getCheckUsernameFailedSlice(data));
         }
       })
       .catch((error) => {
@@ -71,9 +71,9 @@ export const submitChangePassword = (params) => {
           message: error?.response?.data?.meta?.message??'Oops! Someting went wrong',
           data: error?.response?.data?.data??{},
         }
-        dispatch(getChangePasswordFailedSlice(data));
+        dispatch(getCheckUsernameFailedSlice(data));
       })
   };
 }
 
-export default changePasswordSlice.reducer;
+export default checkUsernameSlice.reducer;

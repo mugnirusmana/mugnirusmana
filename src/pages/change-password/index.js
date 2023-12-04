@@ -6,11 +6,11 @@ import Alert from "../../components/alert";
 import Loader from "../../components/loader";
 import Button from "../../components/Button";
 
-import { defaultChangePasswordd, submitChangePasswordd } from './../../redux/changePasswordSlice';
+import { defaultChangePassword, submitChangePassword } from './../../redux/changePasswordSlice';
 
-const ChangePassowrd = () => {
+const ChangePassword = () => {
   const dispatch = useDispatch();
-  const changePassowrd = useSelector(({ changePassowrd }) => changePassowrd )
+  const changePassword = useSelector(({ changePassword }) => changePassword )
   const [showAlert, setShowAlert] = useState({
     show: false,
     type: '',
@@ -40,7 +40,7 @@ const ChangePassowrd = () => {
       isSuccess,
       errorMessage,
       data
-    } = changePassowrd;
+    } = changePassword;
 
     if(!isLoading && isSuccess) {
       setShowChangePassword(false);
@@ -69,7 +69,7 @@ const ChangePassowrd = () => {
               errorMessage: '',
             }
           })
-          dispatch(defaultChangePasswordd());
+          dispatch(defaultChangePassword());
         }
       })
     }
@@ -99,12 +99,12 @@ const ChangePassowrd = () => {
             message: '',
             onConfirm: () => {}
           })
-          dispatch(defaultChangePasswordd());
+          dispatch(defaultChangePassword());
         }
       })
     }
 
-  }, [changePassowrd])
+  }, [changePassword])
 
   const validateCurrentPassword = (value) => {
     let result = {
@@ -149,6 +149,23 @@ const ChangePassowrd = () => {
     return result;
   }
 
+  const onReset = () => {
+    setField({
+      current_password: {
+        ...field.current_password,
+        value: '',
+        isError: false,
+        errorMessage: '',
+      },
+      new_password: {
+        ...field.new_password,
+        value: '',
+        isError: false,
+        errorMessage: '',
+      }
+    });
+  }
+
   const onSave = () => {
     let resultCurrentPass = validateCurrentPassword(field?.current_password?.value);
     let resultNewPass = validateNewPassword(field?.new_password?.value);
@@ -171,6 +188,18 @@ const ChangePassowrd = () => {
     }
   }
 
+  const renderInfo = (show) => {
+    if (show) {
+      return (
+        <div className='w-fit flex flex-col text-orange-600 mb-5'>
+          <span className='font-bold'>INFO:</span>
+          <span className='text-xs'>Last udpate password <span className='font-bold'>January 12, 2023</span>.</span>
+          <span className='text-xs'>It has been more than <span className='font-bold'>60 days</span> since you changed your password, we recommend to changing your password.</span>
+        </div>
+      )  
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col overflow-x-hidden hide-scroll">
       <BreadCrumb
@@ -183,7 +212,8 @@ const ChangePassowrd = () => {
       />
 
       <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded pb-16 p-5 desktop:pb-5">
-        <div className='w-full tablet:w-1/2 flex flex-col gap-5'>
+        {renderInfo(false)}
+        <div className='w-full desktop:w-1/2 flex flex-col gap-5'>
           <div className='w-full flex flex-col gap-2'>
             <label className='font-bold'>Current Password</label>
             <div className='w-full flex flex-row gap-2'>
@@ -206,9 +236,12 @@ const ChangePassowrd = () => {
                   })
                 }}
               />
-              <div
-                className='w-[50px] h-fit bg-sky-900 rounded text-white p-2 cursor-pointer flex items-center justify-center text-center'
-                onClick={(() => {
+              <Button
+                width={'w-[50px]'}
+                isLoading={changePassword?.isLoading}
+                type={'submit'}
+                label={field?.current_password?.type === 'password' ? <i className='fa-solid fa-lock'></i> : <i className='fa-solid fa-lock-open'></i>}
+                onClick={() => {
                   setField({
                     ...field,
                     current_password: {
@@ -216,10 +249,8 @@ const ChangePassowrd = () => {
                       type: field.current_password?.type === 'password' ? 'text' : 'password'
                     }
                   })
-                })}
-              >
-                {field?.current_password?.type === 'password' ? <i className='fa-solid fa-lock'></i> : <i className='fa-solid fa-lock-open'></i>}
-              </div>
+                }}
+              />
             </div>
             <span className='text-red-500 text-xs'>{field?.current_password?.errorMessage}</span>
           </div>
@@ -246,9 +277,12 @@ const ChangePassowrd = () => {
                   })
                 }}
               />
-              <div
-                className='w-[50px] h-fit bg-sky-900 rounded text-white p-2 cursor-pointer flex items-center justify-center text-center'
-                onClick={(() => {
+              <Button
+                width={'w-[50px]'}
+                isLoading={changePassword?.isLoading}
+                type={'submit'}
+                label={field?.new_password?.type === 'password' ? <i className='fa-solid fa-lock'></i> : <i className='fa-solid fa-lock-open'></i>}
+                onClick={() => {
                   setField({
                     ...field,
                     new_password: {
@@ -256,22 +290,29 @@ const ChangePassowrd = () => {
                       type: field.new_password?.type === 'password' ? 'text' : 'password'
                     }
                   })
-                })}
-              >
-                {field?.new_password?.type === 'password' ? <i className='fa-solid fa-lock'></i> : <i className='fa-solid fa-lock-open'></i>}
-              </div>
+                }}
+              />
             </div>
             <span className='text-red-500 text-xs'>{field?.new_password?.errorMessage}</span>
           </div>
 
-          <Button
-            width={'w-full'}
-            isLoading={changePassowrd?.isLoading}
-            disabled={false}
-            type={'submit'}
-            label={'SAVE'}
-            onClick={() => onSave()}
-          />
+          <div className='w-full flex flex-col tablet:flex-row gap-5'>
+            <Button
+              width={'w-full'}
+              isLoading={changePassword?.isLoading}
+              type={'reset'}
+              label={'RESET'}
+              onClick={() => onReset()}
+            />
+            <Button
+              width={'w-full'}
+              isLoading={changePassword?.isLoading}
+              type={'submit'}
+              label={'SAVE'}
+              shadow={true}
+              onClick={() => onSave()}
+            />
+          </div>
         </div>
       </div>
 
@@ -285,13 +326,13 @@ const ChangePassowrd = () => {
 
       <Alert
         show={showChangePassword}
-        isLoading={changePassowrd?.isLoading}
+        isLoading={changePassword?.isLoading}
         type="question"
         title="Change Password"
         message="Are you sure want to change your password?"
         showCancelButton={true}
         onCancel={() => setShowChangePassword(false)}
-        onConfirm={() => dispatch(submitChangePasswordd({current_password: field?.current_password?.value, new_password: field?.new_password?.value}))}
+        onConfirm={() => dispatch(submitChangePassword({current_password: field?.current_password?.value, new_password: field?.new_password?.value}))}
       />
 
       <Loader show={false} />
@@ -299,4 +340,4 @@ const ChangePassowrd = () => {
   )
 }
 
-export default ChangePassowrd;
+export default ChangePassword;

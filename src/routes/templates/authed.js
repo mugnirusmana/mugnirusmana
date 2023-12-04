@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router";
+import { useOutsideClick } from "../../config/hook";
 
 import { setSideMenu } from './../../redux/sideMenuSlice';
 import { logOut } from './../../redux/authSlice';
 
+import DefaultImage from './../../assets/images/defaul-img.png';
+
 import Dash from './../../assets/svgs/icon-dash-admin.svg'
-import { useNavigate } from "react-router";
-import { useOutsideClick } from "../../config/hook";
 
 const AuthedTemplate = ({ children }) => {
   const dispatch = useDispatch();
@@ -22,28 +24,28 @@ const AuthedTemplate = ({ children }) => {
     {
       title: 'Dashboard',
       path: '/dashboard',
-      icon: 'fa-solid fa-chart-line',
+      icon: 'w-[20px] fa-solid fa-chart-line',
     },
     {
       title: 'Block Domain',
       path: '/block-domain',
-      icon: 'fa-solid fa-globe',
+      icon: 'w-[20px] fa-solid fa-globe',
       role: 'admin',
     },
     {
       title: 'Attenders',
       path: '/attenders',
-      icon: 'fa-solid fa-users',
+      icon: 'w-[20px] fa-solid fa-users',
     },
     {
       title: 'Scan Qr',
       path: '/scan-qr',
-      icon: 'fa-solid fa-qrcode',
+      icon: 'w-[20px] fa-solid fa-qrcode',
     },
     {
       title: 'Settings',
       path: '/settings',
-      icon: 'fa-solid fa-gear',
+      icon: 'w-[20px] fa-solid fa-gear',
       role: 'admin',
     }
   ];
@@ -138,10 +140,13 @@ const AuthedTemplate = ({ children }) => {
           <div className={`w-full ${setSideMenuByStatus().header_right_content} tablet:flex items-center justify-end pr-5 z-[1] relative`}>
             <div
               ref={profileRef}
-              className="w-fit cursor-pointer text-white font-bold flex flex-col relative"
+              className="w-fit cursor-pointer text-white font-bold flex flex-row relative"
               onClick={() => setShowProfileMenu(!showProfileMenu)}
             >
-              {auth?.data?.profile?.name}
+              <div className="w-[25px] h-[25px] rounded-full bg-red-500 mr-3 flex items-center justify-center">
+                <img src={DefaultImage} className="w-full h-full object-cover rounded-full" alt="profile"/>
+              </div>
+              {auth?.data?.profile?.name?.split(' ')[0]}
               <div className={`w-[250px] min-h-[50px] flex flex-col px-3 py-2 gap-2 font-bold text-xs text-sky-500 bg-white rounded shadow-lg absolute top-11 right-0 transition-all duration-300 ease-in-out border border-gray-300 ${showProfileMenu ? 'opacity-100 z-[60]' : 'opacity-0 z-[1]'}`}>
                 <span
                   className="transition-all duration-500 ease-in-out hover:text-white hover:bg-sky-500 p-2 rounded cursor-pointer"

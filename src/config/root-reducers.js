@@ -22,7 +22,10 @@ import settingSlice from '../redux/settingSlice';
 import blockDomainListSlice from '../redux/blockDomainListSlice';
 import blockDomainRemoveSlice from '../redux/blockDomainRemoveSlice';
 import blockDomainCreateSlice from '../redux/blockDomainCreateSlice';
-import changePassowrdSlice from '../redux/changePasswordSlice';
+import profileSlice from '../redux/profileSlice';
+import changePasswordSlice from '../redux/changePasswordSlice';
+import checkUsernameSlice from '../redux/checkUsernameSlice';
+import updateUsernameSlice from '../redux/updateUsernameSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -49,7 +52,10 @@ const rootReducer = {
   blockDomainList: blockDomainListSlice,
   blockDomainRemove: blockDomainRemoveSlice,
   blockDomainCreate: blockDomainCreateSlice,
-  changePassowrd: changePassowrdSlice
+  profile: profileSlice,
+  changePassword: changePasswordSlice,
+  checkUsername: checkUsernameSlice,
+  updateUsername: updateUsernameSlice,
 }
 
 export default rootReducer;
