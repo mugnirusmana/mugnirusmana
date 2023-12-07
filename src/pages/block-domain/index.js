@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { Tooltip } from "@material-tailwind/react";
 
 import { defaultBlockDomainList, getBlockDomainList } from "../../redux/blockDomainListSlice";
 import { defaultBlockDomainRemove, removeBlockDomain } from "../../redux/blockDomainRemoveSlice";
@@ -206,15 +207,25 @@ const BlockDomain = () => {
           onAdd={() => setShowModalAddData(true)}
           renderAction={(data) => (
             <div className="flex flex-row items-center justify-end gap-2">
-              <span
-                className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                onClick={() => {
-                  setSelectData(data);
-                  setShowDeleteAlert(true);
+              <Tooltip
+                className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                content={"Delete"}
+                placement="top"
+                animate={{
+                  mount: { scale: 1, y: 0 },
+                  unmount: { scale: 0, y: 25 },
                 }}
               >
-                <i className="fa-solid fa-trash"></i>
-              </span>
+                <span
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
+                  onClick={() => {
+                    setSelectData(data);
+                    setShowDeleteAlert(true);
+                  }}
+                >
+                  <i className="fa-solid fa-trash"></i>
+                </span>
+              </Tooltip>
             </div>
           )}
           renderCustomFilter={() => (
@@ -244,7 +255,7 @@ const BlockDomain = () => {
                       })
                     }}>Filter</div>
                 </div>
-                <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
+                <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={() => onReset()}>
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
                   <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-sky-900 border border-sky-900 rounded px-4">Reset</div>
                 </div>

@@ -251,9 +251,9 @@ const Attenders = () => {
   const onReset = () => {
     let resetParams = {
       keyword: null,
-      attendance: {},
-      status: {},
-      status_attend: {},
+      attendance: {value: '', label: ''},
+      status: {value: '', label: ''},
+      status_attend: {value: '', label: ''},
     }
     setCurrentPage('1');
     setFilter({...resetParams, keyword: ''});
@@ -477,7 +477,7 @@ const Attenders = () => {
                       })
                     }}>Filter</div>
                 </div>
-                <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
+                <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={() => onReset()}>
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
                   <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-sky-900 border border-sky-900 rounded px-4">Reset</div>
                 </div>
