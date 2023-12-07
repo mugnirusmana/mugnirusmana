@@ -33,3 +33,11 @@ export const disable = (id, token) => {
     }
   });
 }
+
+export const resetPassword = (id, token) => {
+  return axios.get(`${ENV.API}/user/reset-password/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}

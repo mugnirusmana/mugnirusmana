@@ -7,6 +7,7 @@ import { defaultUserList, getUserList } from './../../redux/userListSlice';
 import { defaultUserInactive, setUserInactive } from "../../redux/userInactiveSlice";
 import { defaultUserActive, setUserActive } from "../../redux/userActiveSlice";
 import { defaultUserDisable, setUserDisable } from "../../redux/userDisableSlice";
+import { defaultUserResetPassword, setUserResetPassword } from "../../redux/userResetPasswordSlice";
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
@@ -48,6 +49,7 @@ const User = () => {
   const userInactive = useSelector(({ userInactive }) => userInactive);
   const userActive = useSelector(({ userActive }) => userActive);
   const userDisable = useSelector(({ userDisable }) => userDisable);
+  const userResetPassword = useSelector(({ userResetPassword }) => userResetPassword);
 
   const title = [
     {
@@ -372,9 +374,81 @@ const User = () => {
         },
       })
     }
-
   }, [userDisable]);
-  
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage
+    } = userResetPassword;
+
+    if (!isLoading && isSuccess) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertSuccess({
+        show: true,
+        title: 'Reset Password',
+        message: `<b>${selectData?.profile?.name}</b> successfully reset password`,
+        onConfirm: () => {
+          setAlertSuccess({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserResetPassword());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertError({
+        show: true,
+        title: 'Reset Password',
+        message: errorMessage,
+        onConfirm: () => {
+          setAlertError({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserResetPassword());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+  }, [userResetPassword]);
+
   const getListData = (params) => {
     if (!userList?.isLoading) {
       let result = {
@@ -408,9 +482,9 @@ const User = () => {
   return (
     <div className="w-full h-full flex flex-col overflow-x-hidden hide-scroll">
       <BreadCrumb
-        title={'Users'}
+        title={'User'}
         list={[
-          {title: 'Users', path: '', active: true},
+          {title: 'User', path: '', active: true},
         ]}
       />
 
@@ -603,7 +677,7 @@ const User = () => {
                               onConfirm: () => {},
                             });
                           },
-                          onConfirm: () => {},
+                          onConfirm: () => dispatch(setUserResetPassword(data?.id)),
                         })
                     }}
                   >
@@ -762,7 +836,7 @@ const User = () => {
       <Alert
         show={alertConfirm?.show}
         type="question"
-        isLoading={userInactive?.isLoading || userActive?.isLoading || userDisable?.isLoading}
+        isLoading={userInactive?.isLoading || userActive?.isLoading || userDisable?.isLoading || userResetPassword?.isLoading}
         title={alertConfirm?.title}
         message={alertConfirm?.message}
         showCancelButton={true}
