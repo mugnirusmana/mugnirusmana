@@ -214,6 +214,13 @@ const User = () => {
           })
           dispatch(defaultUserInactive());
           setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          });
         },
       })
     }
@@ -280,6 +287,13 @@ const User = () => {
           })
           dispatch(defaultUserActive());
           setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
         },
       })
     }
