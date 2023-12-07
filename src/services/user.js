@@ -41,3 +41,11 @@ export const resetPassword = (id, token) => {
     }
   });
 }
+
+export const remove = (id, token) => {
+  return axios.delete(`${ENV.API}/user/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}

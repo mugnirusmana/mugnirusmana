@@ -8,6 +8,7 @@ import { defaultUserInactive, setUserInactive } from "../../redux/userInactiveSl
 import { defaultUserActive, setUserActive } from "../../redux/userActiveSlice";
 import { defaultUserDisable, setUserDisable } from "../../redux/userDisableSlice";
 import { defaultUserResetPassword, setUserResetPassword } from "../../redux/userResetPasswordSlice";
+import { defaultUserDelete, setUserDelete } from "../../redux/userDeleteSlice";
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
@@ -50,6 +51,7 @@ const User = () => {
   const userActive = useSelector(({ userActive }) => userActive);
   const userDisable = useSelector(({ userDisable }) => userDisable);
   const userResetPassword = useSelector(({ userResetPassword }) => userResetPassword);
+  const userDelete = useSelector(({ userDelete }) => userDelete);
 
   const title = [
     {
@@ -449,6 +451,79 @@ const User = () => {
     }
   }, [userResetPassword]);
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage
+    } = userDelete;
+
+    if (!isLoading && isSuccess) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertSuccess({
+        show: true,
+        title: 'Delete User',
+        message: `<b>${selectData?.profile?.name}</b> successfully <b>Deleted</b>`,
+        onConfirm: () => {
+          setAlertSuccess({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserDelete());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertError({
+        show: true,
+        title: 'Delete User',
+        message: errorMessage,
+        onConfirm: () => {
+          setAlertError({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserDelete());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+  }, [userDelete]);
+
   const getListData = (params) => {
     if (!userList?.isLoading) {
       let result = {
@@ -700,7 +775,7 @@ const User = () => {
                       setSelectData(data)
                         setAlertConfirm({
                           show: true,
-                          title: 'Remove User',
+                          title: 'Delete User',
                           message: `Will you delete <b>${data?.profile?.name}</b> user?`,
                           onCancel: () => {
                             setSelectData({});
@@ -712,7 +787,7 @@ const User = () => {
                               onConfirm: () => {},
                             });
                           },
-                          onConfirm: () => {},
+                          onConfirm: () => dispatch(setUserDelete(data?.id)),
                         })
                     }}
                   >
@@ -836,7 +911,7 @@ const User = () => {
       <Alert
         show={alertConfirm?.show}
         type="question"
-        isLoading={userInactive?.isLoading || userActive?.isLoading || userDisable?.isLoading || userResetPassword?.isLoading}
+        isLoading={userInactive?.isLoading || userActive?.isLoading || userDisable?.isLoading || userResetPassword?.isLoading || userDelete?.isLoading}
         title={alertConfirm?.title}
         message={alertConfirm?.message}
         showCancelButton={true}
