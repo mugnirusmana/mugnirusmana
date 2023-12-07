@@ -5,6 +5,7 @@ import { Tooltip } from "@material-tailwind/react";
 
 import { defaultUserList, getUserList } from './../../redux/userListSlice';
 import { defaultUserInactive, setUserInactive } from "../../redux/userInactiveSlice";
+import { defaultUserActive, setUserActive } from "../../redux/userActiveSlice";
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
@@ -44,6 +45,7 @@ const User = () => {
   })
   const userList = useSelector(({ userList }) => userList);
   const userInactive = useSelector(({ userInactive }) => userInactive);
+  const userActive = useSelector(({ userActive }) => userActive);
 
   const title = [
     {
@@ -216,6 +218,72 @@ const User = () => {
       })
     }
   }, [userInactive]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage
+    } = userActive;
+
+    if (!isLoading && isSuccess) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertSuccess({
+        show: true,
+        title: 'Active User',
+        message: `<b>${selectData?.profile?.name}</b> successfully set to <b>Active</b>`,
+        onConfirm: () => {
+          setAlertSuccess({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserActive());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertError({
+        show: true,
+        title: 'Active User',
+        message: errorMessage,
+        onConfirm: () => {
+          setAlertError({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserActive());
+          setSelectData({});
+        },
+      })
+    }
+  }, [userActive]);
   
   const getListData = (params) => {
     if (!userList?.isLoading) {
@@ -372,7 +440,7 @@ const User = () => {
                               onConfirm: () => {},
                             });
                           },
-                          onConfirm: () => {},
+                          onConfirm: () => dispatch(setUserActive(data?.id)),
                         })
                       }}
                     >
@@ -604,7 +672,7 @@ const User = () => {
       <Alert
         show={alertConfirm?.show}
         type="question"
-        isLoading={userInactive?.isLoading}
+        isLoading={userInactive?.isLoading || userActive?.isLoading}
         title={alertConfirm?.title}
         message={alertConfirm?.message}
         showCancelButton={true}
