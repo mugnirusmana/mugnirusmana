@@ -1,5 +1,6 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
+import User from './../pages/user';
 import BlockDomain from '../pages/block-domain';
 import Attenders from '../pages/attenders';
 import AttendersDetail from '../pages/attender-detail';
@@ -23,6 +24,12 @@ const AuthedRoute = [
 	{
 		path: "/dashboard",
 		component: Dashboard,
+		exact: true,
+	},
+	{
+		path: "/user",
+		component: User,
+		accessRole: 'admin',
 		exact: true,
 	},
 	{

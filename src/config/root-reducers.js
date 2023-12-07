@@ -26,6 +26,7 @@ import profileSlice from '../redux/profileSlice';
 import changePasswordSlice from '../redux/changePasswordSlice';
 import checkUsernameSlice from '../redux/checkUsernameSlice';
 import updateUsernameSlice from '../redux/updateUsernameSlice';
+import userListSlice from '../redux/userListSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -56,6 +57,7 @@ const rootReducer = {
   changePassword: changePasswordSlice,
   checkUsername: checkUsernameSlice,
   updateUsername: updateUsernameSlice,
+  userList: userListSlice,
 }
 
 export default rootReducer;

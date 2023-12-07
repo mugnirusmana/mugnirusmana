@@ -130,7 +130,7 @@ const DataTable = (props) => {
     if (showInfo) {
       return (
         <div className="w-full flex flex-col tablet:flex-row mt-5 text-sm text-sky-900 gap-3">
-          <div className="w-full whitespace-nowrap flex justify-center tablet:justify-start">Total Data:&nbsp;<b>({data?.data?.length} / {paginate?.totalData})</b></div>
+          <div className="w-full whitespace-nowrap flex justify-center tablet:justify-start">Total Data:&nbsp;<b>({data?.data?.length??0} / {paginate?.totalData??0})</b></div>
           <div className="w-full tablet:w-fit whitespace-nowrap flex flex-col tablet:flex-row items-center gap-2">
             <div className="w-full flex flex-row justify-center items-center gap-2">
               <span>Per Page</span>

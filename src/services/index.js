@@ -4,6 +4,7 @@ import * as ATTENDER from "./attender";
 import * as SETTING from "./setting";
 import * as BLOCKDOMAIN from "./block-domain";
 import * as PROFILE from "./profile";
+import * as USER from "./user";
 
 export {
   AUTH,
@@ -12,4 +13,5 @@ export {
   SETTING,
   BLOCKDOMAIN,
   PROFILE,
+  USER,
 };

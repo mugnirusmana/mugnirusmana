@@ -27,6 +27,12 @@ const AuthedTemplate = ({ children }) => {
       icon: 'w-[20px] fa-solid fa-chart-line',
     },
     {
+      title: 'User',
+      path: '/user',
+      icon: 'w-[20px] fa-solid fa-user',
+      role: 'admin',
+    },
+    {
       title: 'Block Domain',
       path: '/block-domain',
       icon: 'w-[20px] fa-solid fa-globe',
