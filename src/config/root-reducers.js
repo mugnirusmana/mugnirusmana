@@ -29,6 +29,7 @@ import updateUsernameSlice from '../redux/updateUsernameSlice';
 import userListSlice from '../redux/userListSlice';
 import userInactiveSlice from '../redux/userInactiveSlice';
 import userActiveSlice from '../redux/userActiveSlice';
+import userDisableSlice from '../redux/userDisableSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -62,6 +63,7 @@ const rootReducer = {
   userList: userListSlice,
   userInactive: userInactiveSlice,
   userActive: userActiveSlice,
+  userDisable: userDisableSlice,
 }
 
 export default rootReducer;

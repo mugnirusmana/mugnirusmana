@@ -6,6 +6,7 @@ import { Tooltip } from "@material-tailwind/react";
 import { defaultUserList, getUserList } from './../../redux/userListSlice';
 import { defaultUserInactive, setUserInactive } from "../../redux/userInactiveSlice";
 import { defaultUserActive, setUserActive } from "../../redux/userActiveSlice";
+import { defaultUserDisable, setUserDisable } from "../../redux/userDisableSlice";
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
@@ -46,6 +47,7 @@ const User = () => {
   const userList = useSelector(({ userList }) => userList);
   const userInactive = useSelector(({ userInactive }) => userInactive);
   const userActive = useSelector(({ userActive }) => userActive);
+  const userDisable = useSelector(({ userDisable }) => userDisable);
 
   const title = [
     {
@@ -298,6 +300,80 @@ const User = () => {
       })
     }
   }, [userActive]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage
+    } = userDisable;
+
+    if (!isLoading && isSuccess) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertSuccess({
+        show: true,
+        title: 'Disable User',
+        message: `<b>${selectData?.profile?.name}</b> successfully set to <b>Disable</b>`,
+        onConfirm: () => {
+          setAlertSuccess({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserDisable());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertError({
+        show: true,
+        title: 'Disable User',
+        message: errorMessage,
+        onConfirm: () => {
+          setAlertError({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserDisable());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+
+  }, [userDisable]);
   
   const getListData = (params) => {
     if (!userList?.isLoading) {
@@ -389,7 +465,7 @@ const User = () => {
                   </span>
                 </Tooltip>
 
-                {parseInt(data?.status) !== 1 ? (
+                {parseInt(data?.status) !== 1 && parseInt(data?.status) !== 3 ? (
                   <Tooltip
                     className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
                     content={"Inactive"}
@@ -491,7 +567,7 @@ const User = () => {
                               onConfirm: () => {},
                             });
                           },
-                          onConfirm: () => {},
+                          onConfirm: () => dispatch(setUserDisable(data?.id)),
                         })
                       }}
                     >
@@ -686,7 +762,7 @@ const User = () => {
       <Alert
         show={alertConfirm?.show}
         type="question"
-        isLoading={userInactive?.isLoading || userActive?.isLoading}
+        isLoading={userInactive?.isLoading || userActive?.isLoading || userDisable?.isLoading}
         title={alertConfirm?.title}
         message={alertConfirm?.message}
         showCancelButton={true}

@@ -25,3 +25,11 @@ export const inactive = (id, token) => {
     }
   });
 }
+
+export const disable = (id, token) => {
+  return axios.get(`${ENV.API}/user/disable/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
