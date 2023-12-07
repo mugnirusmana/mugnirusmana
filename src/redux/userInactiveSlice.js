@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setData } from "./authSlice";
-import { PROFILE } from "../services";
+import { USER } from "../services";
 
 const initialState = {
   isLoading: false,
@@ -9,29 +8,29 @@ const initialState = {
   errorMessage: null
 };
 
-export const profileSlice = createSlice({
-  name: "profile",
+export const userInactiveSlice = createSlice({
+  name: "userInactive",
   initialState,
   reducers: {
-    defaultProfileSlice: (state) => {
+    defaultUserInactiveSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getProfileSlice: (state) => {
+    getUserInactiveSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getProfileSuccessSlice: (state) => {
+    getUserInactiveSuccessSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
     },
-    getProfileFailedSlice: (state, action) => {
+    getUserInactiveFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -40,33 +39,32 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { defaultProfileSlice, getProfileSlice, getProfileSuccessSlice, getProfileFailedSlice } = profileSlice.actions;
+export const { defaultUserInactiveSlice, getUserInactiveSlice, getUserInactiveSuccessSlice, getUserInactiveFailedSlice } = userInactiveSlice.actions;
 
-export const defaultProfile = () => {
+export const defaultUserInactive = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultProfileSlice());
+    dispatch(defaultUserInactiveSlice());
   };
 }
 
-export const getProfile = () => {
+export const setUserInactive = (id) => {
   return async (dispatch, getState) => {
-    dispatch(getProfileSlice());
+    dispatch(getUserInactiveSlice());
     const token = getState()?.auth?.token;
-    return PROFILE.get(token)
+    return USER.inactive(id, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getProfileSuccessSlice());
-          dispatch(setData(response?.data?.data));
+          dispatch(getUserInactiveSuccessSlice());
         } else {
-          const message = response?.data?.meta?.message??'Oops! Someting went wrong'
-          dispatch(getProfileFailedSlice(message));
+          const message = response?.data?.meta?.message??'Oops! Someting went wrong';
+          dispatch(getUserInactiveFailedSlice(message));
         }
       })
       .catch((error) => {
         const message = error?.response?.data?.meta?.message??'Oops! Someting went wrong';
-        dispatch(getProfileFailedSlice(message));
+        dispatch(getUserInactiveFailedSlice(message));
       })
   };
 }
 
-export default profileSlice.reducer;
+export default userInactiveSlice.reducer;

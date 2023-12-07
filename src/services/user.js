@@ -9,3 +9,11 @@ export const getList = (params, token) => {
     }
   });
 }
+
+export const inactive = (id, token) => {
+  return axios.get(`${ENV.API}/user/inactive/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "@material-tailwind/react";
 
 import { defaultUserList, getUserList } from './../../redux/userListSlice';
+import { defaultUserInactive, setUserInactive } from "../../redux/userInactiveSlice";
 
 import BreadCrumb from "../../components/breadcrumb";
 import DataTable from '../../components/data-table';
@@ -17,7 +18,6 @@ const User = () => {
   const [selectData, setSelectData] = useState({})
   const [currnetPage, setCurrentPage] = useState('1');
   const [perPage, setPerPage] = useState('10');
-  const userList = useSelector(({ userList }) => userList);
   const [filter, setFilter] = useState({
     keyword: '',
     status: {value: '', label: ''},
@@ -30,6 +30,20 @@ const User = () => {
     onCancel: () => {},
     onConfirm: () => {},
   })
+  const [alertSuccess, setAlertSuccess] = useState({
+    show: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  })
+  const [alertError, setAlertError] = useState({
+    show: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  })
+  const userList = useSelector(({ userList }) => userList);
+  const userInactive = useSelector(({ userInactive }) => userInactive);
 
   const title = [
     {
@@ -120,10 +134,88 @@ const User = () => {
     }
 
     if (!isLoading && isError) {
-      console.log('errorMessage ', errorMessage);
-      dispatch(defaultUserList());
+      setAlertError({
+        show: false,
+        title: 'Get List Data',
+        message: errorMessage,
+        onConfirm: () => {
+          setAlertError({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserList());
+        },
+      })
     }
   }, [userList]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage
+    } = userInactive;
+
+    if (!isLoading && isSuccess) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertSuccess({
+        show: true,
+        title: 'Inactive User',
+        message: `<b>${selectData?.profile?.name}</b> successfully set to <b>Inactive</b>`,
+        onConfirm: () => {
+          setAlertSuccess({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserInactive());
+          setSelectData({});
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status: filter?.status?.value ? parseInt(filter?.status?.value) : null,
+            role: filter?.role?.value??null,
+            page: 1,
+            perPage: parseInt(perPage),
+          })
+        },
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlertConfirm({
+        show: false,
+        title: '',
+        message: '',
+        onCancel: () => {},
+        onConfirm: () => {},
+      })
+      setAlertError({
+        show: true,
+        title: 'Inactive User',
+        message: errorMessage,
+        onConfirm: () => {
+          setAlertError({
+            show: false,
+            title: '',
+            message: '',
+            onConfirm: () => {},
+          })
+          dispatch(defaultUserInactive());
+          setSelectData({});
+        },
+      })
+    }
+  }, [userInactive]);
   
   const getListData = (params) => {
     if (!userList?.isLoading) {
@@ -243,7 +335,7 @@ const User = () => {
                               onConfirm: () => {},
                             });
                           },
-                          onConfirm: () => {},
+                          onConfirm: () => dispatch(setUserInactive(data?.id)),
                         })
                       }}
                     >
@@ -512,12 +604,28 @@ const User = () => {
       <Alert
         show={alertConfirm?.show}
         type="question"
-        isLoading={false}
+        isLoading={userInactive?.isLoading}
         title={alertConfirm?.title}
         message={alertConfirm?.message}
         showCancelButton={true}
         onCancel={() => alertConfirm?.onCancel ? alertConfirm.onCancel() : {}}
         onConfirm={() => alertConfirm?.onConfirm ? alertConfirm.onConfirm() : {}}
+      />
+
+      <Alert
+        show={alertSuccess?.show}
+        type="success"
+        title={alertSuccess?.title}
+        message={alertSuccess?.message}
+        onConfirm={() => alertSuccess?.onConfirm ? alertSuccess.onConfirm() : {}}
+      />
+
+      <Alert
+        show={alertError?.show}
+        type="warning"
+        title={alertError?.title}
+        message={alertError?.message}
+        onConfirm={() => alertError?.onConfirm ? alertError.onConfirm() : {}}
       />
     </div>
   )
