@@ -210,7 +210,7 @@ const AttenderDetail = () => {
         ]}
       />
 
-      <div className="w-full h-fit tablet-md:h-full flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5">
+      <div className="w-full h-fit tablet-md:h-full flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5 text-xs tablet:text-md">
         <table className="w-full">
           <tbody>
             <tr className="border-b border-b-gray-400">
@@ -245,10 +245,8 @@ const AttenderDetail = () => {
             </tr>
             {auth?.data?.role === 'admin' ? (
               <tr>
-                <td className="py-5"></td>
-                <td className="py-5"></td>
-                <td className="py-5">
-                  <div className="w-full flex flex-row justify-end gap-2">
+                <td className="py-5" colSpan={3}>
+                  <div className="w-full flex flex-row justify-start tablet:justify-end gap-2">
                     {parseInt(attenderDetail?.data?.status) === 1 ? (
                       <Tooltip
                         className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"

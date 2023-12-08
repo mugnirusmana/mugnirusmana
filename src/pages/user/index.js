@@ -589,7 +589,7 @@ const User = () => {
               >
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white"
-                  onClick={() => navigate(`/user/${data?.id}`)}
+                  onClick={() => navigate(`/user/detail/${data?.id}`)}
                 >
                   <i className="fa-solid fa-eye"></i>
                 </span>
@@ -597,23 +597,6 @@ const User = () => {
 
               {data?.role !== 'admin' ? (
                 <>
-                  <Tooltip
-                  className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
-                  content={"Edit"}
-                  placement="top"
-                  animate={{
-                    mount: { scale: 1, y: 0 },
-                    unmount: { scale: 0, y: 25 },
-                  }}
-                >
-                  <span
-                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-600 text-white"
-                    onClick={() => navigate(`/user/edit/${data?.id}`)}
-                  >
-                    <i className="fa-solid fa-pen-to-square"></i>
-                  </span>
-                </Tooltip>
-
                 {parseInt(data?.status) !== 1 && parseInt(data?.status) !== 3 ? (
                   <Tooltip
                     className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"

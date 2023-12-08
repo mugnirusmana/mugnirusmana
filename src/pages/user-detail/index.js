@@ -100,16 +100,18 @@ const UserDetail = () => {
         ]}
       />
 
-      <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5">
+      <div className="w-full h-fit flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5 text-xs tablet:text-md">
         <table className="w-full">
           <tbody>
             <tr className="border-b border-b-gray-400">
-              <td width={'10%'} className="pb-5" colSpan={3}>
-                {userDetail?.data?.profile?.image ? (
-                  <img src={userDetail?.data?.profile?.image} className="w-[200px] h-[200px] rounded-full border border-sky-900" alt="profile" />
-                ) : (
-                  <img src={DefaultImage} className="w-[200px] h-[200px] rounded-full border border-sky-900" alt="profile" />
-                )}
+              <td width={'10%'} className="pr-5 py-5" colSpan={3}>
+                <div className="w-full flex justify-center tablet:justify-start">
+                  {userDetail?.data?.profile?.image ? (
+                    <img src={userDetail?.data?.profile?.image} className="w-[200px] h-[200px] rounded-full border border-sky-900" alt="profile" />
+                  ) : (
+                    <img src={DefaultImage} className="w-[200px] h-[200px] rounded-full border border-sky-900" alt="profile" />
+                  )}
+                </div>
               </td>
             </tr>
             <tr className="border-b border-b-gray-400">

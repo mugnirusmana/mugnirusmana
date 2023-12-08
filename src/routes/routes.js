@@ -35,7 +35,7 @@ const AuthedRoute = [
 		exact: true,
 	},
 	{
-		path: "/user/:id",
+		path: "/user/detail/:id",
 		component: UserDetail,
 		accessRole: 'admin',
 		exact: true,
