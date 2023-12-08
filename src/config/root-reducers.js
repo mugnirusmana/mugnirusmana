@@ -23,9 +23,11 @@ import blockDomainListSlice from '../redux/blockDomainListSlice';
 import blockDomainRemoveSlice from '../redux/blockDomainRemoveSlice';
 import blockDomainCreateSlice from '../redux/blockDomainCreateSlice';
 import profileSlice from '../redux/profileSlice';
+import updateProfileSlice from '../redux/updateProfileSlice';
 import changePasswordSlice from '../redux/changePasswordSlice';
 import checkUsernameSlice from '../redux/checkUsernameSlice';
 import updateUsernameSlice from '../redux/updateUsernameSlice';
+import changeProfilePictureSlice from '../redux/changeProfilePictureSlice';
 import userListSlice from '../redux/userListSlice';
 import userInactiveSlice from '../redux/userInactiveSlice';
 import userActiveSlice from '../redux/userActiveSlice';
@@ -59,9 +61,11 @@ const rootReducer = {
   blockDomainRemove: blockDomainRemoveSlice,
   blockDomainCreate: blockDomainCreateSlice,
   profile: profileSlice,
+  updateProfile: updateProfileSlice,
   changePassword: changePasswordSlice,
   checkUsername: checkUsernameSlice,
   updateUsername: updateUsernameSlice,
+  changeProfilePicture: changeProfilePictureSlice,
   userList: userListSlice,
   userInactive: userInactiveSlice,
   userActive: userActiveSlice,

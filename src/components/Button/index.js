@@ -31,7 +31,7 @@ const Button = (props) => {
 
   return (
     <div
-      className={`${width??'w-fit'} flex items-center justify-center p-2 font-bold ${renderButtonType()} rounded ${shadow && !disabled ? 'shadow-lg' : ''}`}
+      className={`${width??'w-fit'} flex items-center justify-center px-4 py-2 font-bold ${renderButtonType()} rounded ${shadow && !disabled ? 'shadow-lg' : ''}`}
       onClick={() => onClickButton()}
     >{isLoading && !disabled ? <i className="fa-solid fa-spinner animate-spin"></i> : label??'Confirm'}</div>
   )

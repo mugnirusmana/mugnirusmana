@@ -241,7 +241,7 @@ const LoginEmail = () => {
                   }
                 }}
               >
-                <i className="fa-solid fa-share"></i>
+                {loginNoPassSlice?.isLoading ? <i className="fa-solid fa-spinner animate-spin"></i> : <i className="fa-solid fa-share"></i>}
               </div>
             </div>
             <span className="text-red-400 text-xs">{field?.email?.isError ? field?.email?.errorMessage : ''}</span>

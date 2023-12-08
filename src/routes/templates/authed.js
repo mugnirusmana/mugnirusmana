@@ -150,7 +150,11 @@ const AuthedTemplate = ({ children }) => {
               onClick={() => setShowProfileMenu(!showProfileMenu)}
             >
               <div className="w-[25px] h-[25px] rounded-full bg-red-500 mr-3 flex items-center justify-center">
-                <img src={DefaultImage} className="w-full h-full object-cover rounded-full" alt="profile"/>
+                {auth?.data.profile?.image ? (
+                  <img src={auth?.data.profile?.image} className="w-full h-full object-cover rounded-full" alt="profile"/>
+                ) : (
+                  <img src={DefaultImage} className="w-full h-full object-cover rounded-full" alt="profile"/>
+                )}
               </div>
               {auth?.data?.profile?.name?.split(' ')[0]}
               <div className={`w-[250px] min-h-[50px] flex flex-col px-3 py-2 gap-2 font-bold text-xs text-sky-500 bg-white rounded shadow-lg absolute top-11 right-0 transition-all duration-300 ease-in-out border border-gray-300 ${showProfileMenu ? 'opacity-100 z-[60]' : 'opacity-0 z-[1]'}`}>

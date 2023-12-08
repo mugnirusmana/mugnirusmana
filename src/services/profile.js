@@ -11,10 +11,10 @@ export const get = (token) => {
 
 export const update = (params, token) => {
   let formData = new FormData();
-  formData.set('name', params?.current_password);
+  formData.set('name', params?.name);
   formData.set('phone', params?.phone);
-  formData.set('image', params?.image);
-  return axios.put(`${ENV.API}/profile`, formData, {
+  formData.set('_method', 'PUT');
+  return axios.post(`${ENV.API}/profile`, formData, {
     headers: {
       Authorization: token,
     }
@@ -46,6 +46,16 @@ export const updateUsername = (params, token) => {
   let formData = new FormData();
   formData.set('username', params?.username);
   return axios.post(`${ENV.API}/profile/change-username`, formData, {
+    headers: {
+      Authorization: token,
+    }
+  });
+}
+
+export const changePicture = (params, token) => {
+  let formData = new FormData();
+  formData.set('image', params?.image);
+  return axios.post(`${ENV.API}/profile/change-picture`, formData, {
     headers: {
       Authorization: token,
     }
