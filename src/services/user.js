@@ -10,6 +10,14 @@ export const getList = (params, token) => {
   });
 }
 
+export const detail = (id, token) => {
+  return axios.get(`${ENV.API}/user/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
+
 export const active = (id, token) => {
   return axios.get(`${ENV.API}/user/active/${id}`, {
     headers: {

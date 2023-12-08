@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { defaultActivateAccount, submitActivateAccount } from './../../redux/activateAccountSlice';
@@ -9,7 +9,9 @@ import Alert from "../../components/alert";
 const ActivateAccount = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const activateAccountSlice = useSelector(({ activateAccount }) => activateAccount);
+  const [firstLoaded, setFirstLoaded] = useState(false);
   const [showAlert, setShowAlert] = useState({
     show: false,
     type: '',
@@ -26,6 +28,29 @@ const ActivateAccount = () => {
       errorMessage: '',
     }
   });
+
+  useEffect(() => {
+    setFirstLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (firstLoaded) {
+      if (location?.search) {
+        let search = location.search.substring(1);
+        let queryParams = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+        if (queryParams?.email) {
+          setField({
+            ...field,
+            email: {
+              ...field.email,
+              value: queryParams?.email,
+            }
+          });
+        }
+      }
+      setFirstLoaded(false);
+    }
+  }, [firstLoaded]);
 
   useEffect(() => {
     let {
