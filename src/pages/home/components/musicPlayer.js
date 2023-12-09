@@ -54,8 +54,8 @@ const MusicPlayer = (props) => {
   useEffect(() => {
     if (isFirstPlay) {
       onPlay(true);
-      setIsFirstPlay(false)
-;    }
+      setIsFirstPlay(false);
+    }
   }, [isFirstPlay]);
 
   useEffect(() => {
