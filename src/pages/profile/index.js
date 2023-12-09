@@ -267,7 +267,7 @@ const Profile = () => {
       result.errorMessage = `${name} maximum 15 character`;
     } else if (!regex.test(value)) {
       result.isError = true;
-      result.errorMessage = `${name} format is invalid, please use valid phone`;
+      result.errorMessage = `${name} format is invalid, make sure to use country code like +62, min 6 char and max 15 char`;
     }
 
     return result;

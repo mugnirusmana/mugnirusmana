@@ -574,7 +574,7 @@ const User = () => {
           withNumber={true}
           showAddAction={true}
           addLabel={'Add User +'}
-          onAdd={() => navigate('/user/create')}
+          onAdd={() => navigate('/user/add')}
           withAction={true}
           renderAction={(data) => (
             <div className="flex flex-row items-center justify-end gap-2">

@@ -1,6 +1,7 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
 import User from './../pages/user';
+import UserCreate from './../pages/user-create';
 import UserDetail from './../pages/user-detail';
 import BlockDomain from '../pages/block-domain';
 import Attenders from '../pages/attenders';
@@ -31,6 +32,12 @@ const AuthedRoute = [
 	{
 		path: "/user",
 		component: User,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: '/user/add',
+		component: UserCreate,
 		accessRole: 'admin',
 		exact: true,
 	},

@@ -10,6 +10,18 @@ export const getList = (params, token) => {
   });
 }
 
+export const create = (params, token) => {
+  let formData = new FormData();
+  formData.set('name', params?.name);
+  formData.set('email', params?.email);
+  formData.set('phone', params?.phone);
+  return axios.post(`${ENV.API}/user`, formData, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
+
 export const detail = (id, token) => {
   return axios.get(`${ENV.API}/user/${id}`, {
     headers: {
