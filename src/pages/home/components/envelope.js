@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 const Envelope = (props) => {
   let {
     show,
-    windowDimensions
+    windowDimensions,
+    onOpen
   } = props;
   const [loveStyles, setLoveStyle] = useState({});
   const [midStyles, setMidStyle] = useState({});
@@ -107,7 +108,12 @@ const Envelope = (props) => {
             <div
               className="w-[60px] h-[60px] cursor-pointer rounded-full bg-dark-pink flex items-center justify-center text-center z-[92] text-md text-light-pink transition-all duration-500 absolute left-[calc(50%_-_30px)]"
               style={midStyles}
-              onClick={() => onOpenEnvelope()}
+              onClick={() => {
+                onOpenEnvelope();
+                if (onOpen) {
+                  return onOpen();
+                }
+              }}
             >Open</div>
             <div className="w-1/2 h-full absolute backdrop-blur-lg top-0 transition-all duration-500 ease-in-out z-[91]" style={leftStyles}></div>
             <div className="w-1/2 h-full absolute backdrop-blur-lg top-0 transition-all duration-500 ease-in-out z-[91]" style={rightStyles}></div>

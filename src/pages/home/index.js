@@ -14,6 +14,7 @@ import Envelope from "./components/envelope";
 import Alert from "./components/alert";
 import Menu from "./components/menu";
 import ScrollToTop from "./components/scrollToTop";
+import MusicPlayer from "./components/musicPlayer";
 import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
@@ -56,6 +57,7 @@ const Home = () => {
   const [showSubmitForm, setShowSubmitForm] = useState(false);
   const [dataForm, setDataForm] = useState(null);
   const [dataComment, setDataComment] = useState([]);
+  const [playMusic, setPlayMusic] = useState(false);
   const homeRef = useRef();
   const aboutUsRef = useRef();
   const ourStoryRef = useRef();
@@ -430,6 +432,7 @@ const Home = () => {
       <Envelope
         show={showEnvelope}
         windowDimensions={windowDimensions}
+        onOpen={() => setPlayMusic(true)}
       />
 
       <Alert
@@ -488,6 +491,10 @@ const Home = () => {
         onScrollToTop={() => {
           homeRef?.current?.scrollIntoView({ behavior: 'smooth' })
         }}
+      />
+
+      <MusicPlayer
+        firstPlay={playMusic}
       />
 
       <HomeSection
