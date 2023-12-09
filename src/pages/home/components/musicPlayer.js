@@ -210,7 +210,7 @@ const MusicPlayer = (props) => {
           <i className="text-xs fa-solid fa-xmark"></i>
         </div>
         <div className="w-full flex border-b border-b-dark-pink py-2">
-          <Marquee play={true} className="text-dark-pink font-bold text-xs">{titleSong??'-'}</Marquee>
+          <Marquee play={isPlaying} className="text-dark-pink font-bold text-xs">{titleSong??'-'}</Marquee>
         </div>
         <div className="w-full flex flex-row justify-center gap-3">
           <div
