@@ -5,6 +5,7 @@ import * as SETTING from "./setting";
 import * as BLOCKDOMAIN from "./block-domain";
 import * as PROFILE from "./profile";
 import * as USER from "./user";
+import * as BROADCAST from "./broadcast";
 
 export {
   AUTH,
@@ -14,4 +15,5 @@ export {
   BLOCKDOMAIN,
   PROFILE,
   USER,
+  BROADCAST,
 };

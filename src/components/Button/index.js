@@ -1,6 +1,8 @@
 const Button = (props) => {
   let {
     width,
+    text,
+    bold,
     shadow,
     isLoading,
     disabled,
@@ -31,9 +33,14 @@ const Button = (props) => {
 
   return (
     <div
-      className={`${width??'w-fit'} flex items-center justify-center px-4 py-2 font-bold ${renderButtonType()} rounded ${shadow && !disabled ? 'shadow-lg' : ''}`}
+      className={`${width??'w-fit'} flex items-center justify-center px-4 py-2 ${bold ? 'font-bold' : 'font-normal'} ${renderButtonType()} whitespace-nowrap rounded ${shadow && !disabled ? 'shadow-lg' : ''} ${text ?? 'text-md'}`}
       onClick={() => onClickButton()}
-    >{isLoading && !disabled ? <i className="fa-solid fa-spinner animate-spin"></i> : label??'Confirm'}</div>
+    >{isLoading && !disabled ? (
+      <div className="w-full flex flex-row gap-3">
+        <span>{label??'Confirm'}</span>
+        <i className="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    ) : label??'Confirm'}</div>
   )
 }
 

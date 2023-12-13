@@ -218,7 +218,7 @@ const DataTable = (props) => {
       return (
         <div className="w-full flex flex-row justify-end">
           <div
-            className="w-fit p-2 bg-sky-900 text-white cursor-pointer text-xs rounded"
+            className="w-full tablet:w-fit py-2 px-4 bg-sky-900 text-white cursor-pointer text-xs rounded text-center flex items-center justify-center mb-5 tablet:mb-0"
             onClick={() => {
               if (onAdd) {
                 return onAdd();

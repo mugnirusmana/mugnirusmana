@@ -39,6 +39,12 @@ const AuthedTemplate = ({ children }) => {
       role: 'admin',
     },
     {
+      title: 'Broadcast',
+      path: '/broadcast',
+      icon: 'w-[20px] fa-solid fa-tower-broadcast',
+      role: 'admin',
+    },
+    {
       title: 'Attenders',
       path: '/attenders',
       icon: 'w-[20px] fa-solid fa-users',

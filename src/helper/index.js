@@ -50,3 +50,18 @@ export const formatDateCoundown = (date, time) => {
   if ((date && (date !== "" || date !== false)) && (time && (time !== "" || time !== false))) result = moment(`${date} ${time}`).format('DD/MM/YYYY H:i');
   return result;
 }
+
+export const downloadFile = (params) => {
+  if (params && params?.url) {
+    let name = params?.name??'download-file';
+    let link = document.createElement("a");
+    link.download = name;
+    link.href = params?.url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return true;
+  } else {
+    return false;
+  }
+}

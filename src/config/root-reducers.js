@@ -36,6 +36,7 @@ import userResetPasswordSlice from '../redux/userResetPasswordSlice';
 import userDeleteSlice from '../redux/userDeleteSlice';
 import userDetailSlice from '../redux/userDetailSlice';
 import userCreateSlice from '../redux/userCreateSlice';
+import broadcastListSlice from '../redux/broadcastListSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -76,6 +77,7 @@ const rootReducer = {
   userDelete: userDeleteSlice,
   userDetail: userDetailSlice,
   userCreate: userCreateSlice,
+  broadcastList: broadcastListSlice,
 }
 
 export default rootReducer;
