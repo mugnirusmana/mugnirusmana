@@ -7,7 +7,7 @@ import { defaultBroadcastWhatsapp, sendToWhatsapp } from './../../redux/broadcas
 
 import { downloadFile } from './../../helper';
 
-import SampleBroadcast from './../../assets/sample-file/sample-import-broadcast-user.xlsx';
+import SampleBroadcast from './../../assets/sample-file/broadcasts-import.xlsx';
 
 import BreadCrumb from "../../components/breadcrumb";
 import Button from "../../components/Button";
@@ -24,7 +24,6 @@ const Broadcast = () => {
   const [filter, setFilter] = useState({
     keyword: '',
     status_whatsapp: {value: '', label: ''},
-    status_telegram: {value: '', label: ''},
     status_email: {value: '', label: ''},
   });
   const [showModalInfo, setShowModalInfo] = useState(false);
@@ -58,7 +57,6 @@ const Broadcast = () => {
       customRender: (data) => {
         return <div className="flex flex-col">
           <span className='whitespace-nowrap'>Whatsapp: <b className='text-xs'>{data?.whatsapp??'-'}</b></span>
-          <span className='whitespace-nowrap'>Telegram: <b className='text-xs'>{data?.telegram??'-'}</b></span>
           <span className='whitespace-nowrap'>Email: <b className='text-xs'>{data?.email??'-'}</b></span>
         </div>
       }
@@ -68,20 +66,6 @@ const Broadcast = () => {
       customRender: (data) => {
         if(data?.whatsapp) {
           if (parseInt(data?.status_whatsapp) === 2) {
-            return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Sent</span></div>
-          } else {
-            return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Sent Yet</span></div>
-          }
-        } else {
-          return <div className="w-full flex items-center justify-center"><span className="text-xs rounded p-1 text-center whitespace-nowrap">-</span></div>;
-        }
-      }
-    },
-    {
-      label: 'Status Telegram',
-      customRender: (data) => {
-        if(data?.telegram) {
-          if (parseInt(data?.status_telegram) === 2) {
             return <div className="w-full flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Sent</span></div>
           } else {
             return <div className="w-full flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Sent Yet</span></div>
@@ -115,10 +99,9 @@ const Broadcast = () => {
     if (isLoaded) {
       setIsLoaded(false);
       getListData({
-        keyword: filter?.keyword !== '' ? filter?.keyword : null,
-        status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : null,
-        status_telegram: filter?.status_telegram?.value ? parseInt(filter?.status_telegram?.value) : null,
-        status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : null,
+        keyword: filter?.keyword !== '' ? filter?.keyword : '',
+        status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : '',
+        status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : '',
         page: parseInt(1),
         perPage: parseInt(10),
       });
@@ -202,10 +185,9 @@ const Broadcast = () => {
             onConfirm: () => {}
           });
           getListData({
-            keyword: filter?.keyword !== '' ? filter?.keyword : null,
-            status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : null,
-            status_telegram: filter?.status_telegram?.value ? parseInt(filter?.status_telegram?.value) : null,
-            status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : null,
+            keyword: filter?.keyword !== '' ? filter?.keyword : '',
+            status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : '',
+            status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : '',
             page: parseInt(1),
             perPage: parseInt(perPage),
           });
@@ -254,9 +236,8 @@ const Broadcast = () => {
     if (!broadcastList?.isLoading) {
       let result = {
         keyword: params?.keyword ?? '',
-        status_whatsapp: params?.status_whatsapp ?? null,
-        status_telegram: params?.status_telegram ?? null,
-        status_email: params?.status_email ?? null,
+        status_whatsapp: params?.status_whatsapp ?? '',
+        status_email: params?.status_email ?? '',
         page: params?.page ?? 1,
         limit: params?.perPage ?? 10,
       }
@@ -266,18 +247,16 @@ const Broadcast = () => {
 
   const onReset = () => {
     let resetParams = {
-      keyword: null,
+      keyword: '',
       status_whatsapp: {value: '', label: ''},
-      status_telegram: {value: '', label: ''},
       status_email: {value: '', label: ''},
     }
     setCurrentPage('1');
     setFilter({...resetParams, keyword: ''});
     getListData({
-      keyword: null,
-      status_whatsapp: null,
-      status_telegram: null,
-      status_email: null,
+      keyword: '',
+      status_whatsapp: '',
+      status_email: '',
       page: parseInt(1),
       perPage: parseInt(perPage),
     });
@@ -431,27 +410,6 @@ const Broadcast = () => {
                 </Tooltip>
               ) : null}
 
-              {data?.telegram ? (
-                <Tooltip
-                  className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
-                  content={data?.status_telegram === 2 ? "Resend invitation to Telegram" : "Send invitation to Telegram"}
-                  placement="top"
-                  animate={{
-                    mount: { scale: 1, y: 0 },
-                    unmount: { scale: 0, y: 25 },
-                  }}
-                >
-                  <span
-                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white border border-sky-600"
-                    onClick={() => {
-                      setSelectedData(data);
-                    }}
-                  >
-                    <i className="fa-brands fa-telegram"></i>
-                  </span>
-                </Tooltip>
-              ) : null}
-
               {data?.email ? (
                 <Tooltip
                   className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
@@ -536,7 +494,7 @@ const Broadcast = () => {
                   <input
                     type={'text'}
                     className="w-full px-2 rounded h-[30px] text outline-none border border-sky-900 text-xs"
-                    placeholder="Search by name, whatsapp, telegram or email"
+                    placeholder="Search by name, whatsapp or email"
                     value={filter?.keyword}
                     onChange={(e) => setFilter({...filter, keyword: e?.currentTarget?.value})}
                   />
@@ -553,20 +511,6 @@ const Broadcast = () => {
                     onClear={(data) => setFilter({...filter, status_whatsapp: data})}
                     showSearch={false}
                     onChange={(data) => setFilter({...filter, status_whatsapp: data})}
-                  />
-                </div>
-                <div className="w-full flex flex-col gap-1">
-                  <span className="text-xs">Status Telegram</span>
-                  <SelectOption
-                    isLoading={false}
-                    options={[{label: 'Not Sent Yet', value: '1'}, {label: 'Sent', value: '2'}, {label: '-', value: '3'}]}
-                    objectLabel={'label'}
-                    objectUniq={'value'}
-                    value={filter?.status_telegram}
-                    showClear={true}
-                    onClear={(data) => setFilter({...filter, status_telegram: data})}
-                    showSearch={false}
-                    onChange={(data) => setFilter({...filter, status_telegram: data})}
                   />
                 </div>
                 <div className="w-full flex flex-col gap-1">
@@ -590,10 +534,9 @@ const Broadcast = () => {
                     onClick={() => {
                       setCurrentPage('1');
                       getListData({
-                        keyword: filter?.keyword !== '' ? filter?.keyword : null,
-                        status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : null,
-                        status_telegram: filter?.status_telegram?.value ? parseInt(filter?.status_telegram?.value) : null,
-                        status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : null,
+                        keyword: filter?.keyword !== '' ? filter?.keyword : '',
+                        status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : '',
+                        status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : '',
                         page: 1,
                         perPage: parseInt(perPage),
                       })
@@ -610,7 +553,7 @@ const Broadcast = () => {
             setPerPage(data)
             setCurrentPage('1');
             getListData({
-              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              keyword: filter?.keyword !== '' ? filter?.keyword : '',
               page: 1,
               perPage: parseInt(data),
             })
@@ -618,7 +561,7 @@ const Broadcast = () => {
           onChangePage={(data) => {
             setCurrentPage(data);
             getListData({
-              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              keyword: filter?.keyword !== '' ? filter?.keyword : '',
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -626,7 +569,7 @@ const Broadcast = () => {
           onPrevPage={(data) => {
             setCurrentPage(data);
             getListData({
-              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              keyword: filter?.keyword !== '' ? filter?.keyword : '',
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -634,7 +577,7 @@ const Broadcast = () => {
           onNextPage={(data) => {
             setCurrentPage(data);
             getListData({
-              keyword: filter?.keyword !== '' ? filter?.keyword : null,
+              keyword: filter?.keyword !== '' ? filter?.keyword : '',
               page: parseInt(data),
               perPage: parseInt(perPage),
             })
@@ -666,11 +609,6 @@ const Broadcast = () => {
                 <span>• Need to login to whatsapp web first (<span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://web.whatsapp.com', '_blank')}>https://web.whatsapp.com</span>).</span>
                 <span>• More info to login web whatsapp <span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://faq.whatsapp.com/1317564962315842/?cms_platform=web&lang=id', '_blank')}>here</span>.</span>
               </div>
-              <span className="text-xs mb-2 font-bold">2. Send / Resend to Telegram</span>
-              <div className='w-full flex flex-col border-l-2 border-l-sky-900 ml-4 pl-2 text-xs mb-3'>
-                <span>• Need to login to whatsapp web first (<span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://web.telegram.org', '_blank')}>https://web.telegram.org</span>).</span>
-                <span>• More info to login web telegram <span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://telegram.org/blog/login', '_blank')}>here</span>.</span>
-              </div>
             </div>
           )
         }}
@@ -698,16 +636,6 @@ const Broadcast = () => {
                 <span className='pl-2'>• min 6 digits</span>
                 <span className='pl-2'>• max 15 digits</span>
                 <span className='pl-2'>• unique whatsapp number (cannot input same number with other whatsapp)</span>
-              </div>
-              <span className="text-xs mb-2 font-bold">3. Telegram</span>
-              <div className='w-full flex flex-col border-l-2 border-l-sky-900 ml-4 pl-2 text-xs mb-3'>
-                <span>• Field is optional</span>
-                <span>• If filled:</span>
-                <span className='pl-2'>• must be containt country code, like +62</span>
-                <span className='pl-2'>• must be valid format telegram number</span>
-                <span className='pl-2'>• min 6 digits</span>
-                <span className='pl-2'>• max 15 digits</span>
-                <span className='pl-2'>• unique telegram number (cannot input same number with other telegram)</span>
               </div>
               <span className="text-xs mb-2 font-bold">4. Email</span>
               <div className='w-full flex flex-col border-l-2 border-l-sky-900 ml-4 pl-2 text-xs mb-3'>
