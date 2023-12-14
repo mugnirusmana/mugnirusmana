@@ -65,3 +65,26 @@ export const downloadFile = (params) => {
     return false;
   }
 }
+
+export const getInvitaionMessage = (data) => {
+  if (data) {
+    return `Assalamualaikum Warahmatullahi Wabarakatuh%0a
+%0a
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, untuk menghadiri acara pernikahan kami, pada:%0a
+- Tanggal: ${data?.date??'-'}%0a
+- ⁠Lokasi: ${data?.location??'-'}%0a
+%0a
+Suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.%0a
+%0a
+Terima kasih banyak atas perhatiannya.%0a
+%0a
+Wassalamualaikum Warahmatullahi Wabarakatuh%0a
+%0a
+~ _Ade dan Nova_%0a
+%0a
+Info lebih lanjut & undangan pernikahan:%0a
+https://www.google.com${data?.name ? '?name='+data?.name : ''}`
+  } else {
+    return null;
+  }
+}

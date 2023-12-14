@@ -9,3 +9,27 @@ export const getList = (params, token) => {
     }
   });
 }
+
+export const sentToWhatsapp = (id, token) => {
+  return axios.get(`${ENV.API}/broadcast/whatsapp/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
+
+export const sentToTelegram = (id, token) => {
+  return axios.get(`${ENV.API}/broadcast/telegram/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}
+
+export const sentToEmail = (id, token) => {
+  return axios.get(`${ENV.API}/broadcast/email/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}

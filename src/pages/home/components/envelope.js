@@ -4,10 +4,12 @@ const Envelope = (props) => {
   let {
     show,
     windowDimensions,
-    onOpen
+    onOpen,
+    name
   } = props;
   const [loveStyles, setLoveStyle] = useState({});
   const [midStyles, setMidStyle] = useState({});
+  const [nameStyles, setNameStyle] = useState({});
   const [leftStyles, setLeftStyle] = useState({});
   const [rightStyles, setRightStyle] = useState({});
   const [isHide, setIsHide] = useState(false);
@@ -15,12 +17,14 @@ const Envelope = (props) => {
 
   useEffect(() => {
     renderStateStyle();
+    // console.log('name ', name, props);
   }, [show]);
 
   const renderStateStyle = () => {
     let width = windowDimensions.width / 2;
     let loveStyles = null;
     let midStyle = null;
+    let nameStyle = null;
     let leftStyle = null;
     let rightStyle = null;
 
@@ -30,7 +34,11 @@ const Envelope = (props) => {
         top: '40%',
       };
       midStyle = {
+        top: '60%',
+      };
+      nameStyle = {
         top: '50%',
+        left: 'calc(50%-1%)',
       };
       leftStyle = {
         left: 0,
@@ -43,7 +51,11 @@ const Envelope = (props) => {
         top: -200,
       };
       midStyle = {
-        top: -100,
+        top: -200,
+      };
+      nameStyle = {
+        top: -200,
+        left: 'calc(50%-1%)',
       };
       leftStyle = {
         left: ( width - width - width) - 20,
@@ -54,6 +66,7 @@ const Envelope = (props) => {
     }
     setLoveStyle(loveStyles);
     setMidStyle(midStyle);
+    setNameStyle(nameStyle)
     setLeftStyle(leftStyle);
     setRightStyle(rightStyle);
 
@@ -71,7 +84,11 @@ const Envelope = (props) => {
       top: -200,
     };
     let midStyle = {
-      top: -100,
+      top: -200,
+    };
+    let nameStyle = {
+      top: -200,
+      left: 'calc(50%-1%)',
     };
     let leftStyle = {
       left: ( width - width - width) - 20,
@@ -81,6 +98,7 @@ const Envelope = (props) => {
     };
     setLoveStyle(loveStyles);
     setMidStyle(midStyle);
+    setNameStyle(nameStyle);
     setLeftStyle(leftStyle);
     setRightStyle(rightStyle);
 
@@ -105,6 +123,15 @@ const Envelope = (props) => {
                 <i className="fa-solid fa-heart absolute left-[100%] opacity-0 translate-y-0 -top-14 text-4xl animate-[flying_2s_ease-in-out_infinite_1810ms]"></i>
               </div>
             </div>
+            {name ? (
+              <div
+                className="transition-all duration-500 ease-in-out w-fit flex flex-col items-center text-dark-pink my-2 absolute z-[92]"
+                style={nameStyles}
+              >
+                <span>Hi, <b>{name}</b></span>
+                <span>Click button bellow to open the invitation</span>
+              </div>
+            ) : null}
             <div
               className="w-[60px] h-[60px] cursor-pointer rounded-full bg-dark-pink flex items-center justify-center text-center z-[92] text-md text-light-pink transition-all duration-500 absolute left-[calc(50%_-_30px)]"
               style={midStyles}

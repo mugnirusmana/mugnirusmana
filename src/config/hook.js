@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 
 export const useOutsideClick = (callback) => {
   const ref = useRef();
@@ -19,3 +20,19 @@ export const useOutsideClick = (callback) => {
 
   return ref;
 };
+
+export const useQueryParams = () => {
+  const location = useLocation();
+  let { search } = location;
+  const [queryParams, setQueryParams] = useState({});
+  
+  useEffect(() => {
+    if (search) {
+      let params = search.substring(1);
+      let decoded = JSON.parse('{"' + decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+      setQueryParams(decoded);
+    }
+  }, []);
+
+  return queryParams;
+}

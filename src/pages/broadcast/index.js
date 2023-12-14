@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from "@material-tailwind/react";
 
 import { defaultBroadcastList, getBroadcastList } from './../../redux/broadcastListSlice';
+import { defaultBroadcastWhatsapp, sendToWhatsapp } from './../../redux/broadcastWhatsappSlice';
 
 import { downloadFile } from './../../helper';
 
@@ -18,6 +19,7 @@ import Modal from "../../components/modal";
 const Broadcast = () => {
   const dispatch = useDispatch();
   const broadcastList = useSelector(({ broadcastList }) => broadcastList);
+  const broadcastWhatsapp = useSelector(({ broadcastWhatsapp }) => broadcastWhatsapp);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filter, setFilter] = useState({
     keyword: '',
@@ -25,7 +27,8 @@ const Broadcast = () => {
     status_telegram: {value: '', label: ''},
     status_email: {value: '', label: ''},
   });
-  const [showModal, setShowModal] = useState(false);
+  const [showModalInfo, setShowModalInfo] = useState(false);
+  const [showModalRulesExcel, setShowModalRulesExcel] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
     isLoading: false,
@@ -38,6 +41,7 @@ const Broadcast = () => {
     confirmLabel: '',
     onConfirm: () => {}
   });
+  const [selectedData, setSelectedData] = useState({});
   const [currnetPage, setCurrentPage] = useState('1');
   const [perPage, setPerPage] = useState('10');
   const title = [
@@ -161,7 +165,90 @@ const Broadcast = () => {
         }
       })
     }
-  }, [broadcastList])
+  }, [broadcastList]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage,
+      data,
+    } = broadcastWhatsapp;
+
+    if (!isLoading && isSuccess) {
+      let link = data?.link;
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'success',
+        title: 'Whatsapp',
+        message: `Successfully udpate status whatsap <b>${selectedData?.name}</b>`,
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : null,
+            status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : null,
+            status_telegram: filter?.status_telegram?.value ? parseInt(filter?.status_telegram?.value) : null,
+            status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : null,
+            page: parseInt(1),
+            perPage: parseInt(perPage),
+          });
+          setSelectedData({});
+          dispatch(defaultBroadcastWhatsapp());
+          setTimeout(() => {
+            window.open(link, '_blank');
+          }, 300);
+        }
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'warning',
+        title: 'Whatsapp',
+        message: errorMessage,
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          dispatch(defaultBroadcastList());
+          setSelectedData({});
+        }
+      })
+    }
+
+  }, [broadcastWhatsapp]);
 
   const getListData = (params) => {
     if (!broadcastList?.isLoading) {
@@ -217,8 +304,21 @@ const Broadcast = () => {
               isLoading={broadcastList?.isLoading}
               disabled={false}
               type={'reset'}
+              label={'Info'}
+              onClick={() => setShowModalInfo(true)}
+            />
+          </div>
+          <div className='w-full tablet:w-fit'>
+            <Button
+              width={'w-full tablet:w-fit'}
+              text={'text-xs'}
+              bold={false}
+              shadow={false}
+              isLoading={broadcastList?.isLoading}
+              disabled={false}
+              type={'reset'}
               label={'Rules Field Excel'}
-              onClick={() => setShowModal(true)}
+              onClick={() => setShowModalRulesExcel(true)}
             />
           </div>
           <div className='w-full tablet:w-fit'>
@@ -266,7 +366,147 @@ const Broadcast = () => {
           addLabel={'Add Broadcast User +'}
           onAdd={() => {}}
           renderAction={(data) => (
-            <div className="flex flex-row items-center justify-end gap-2">
+            <div className="flex flex-row items-center justify-end gap-2 text-xs">
+              {data?.whatsapp ? (
+                <Tooltip
+                  className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                  content={data?.status_whatsapp === 2 ? "Resend invitation to Whatsapp" : "Send invitation to Whatsapp"}
+                  placement="top"
+                  animate={{
+                    mount: { scale: 1, y: 0 },
+                    unmount: { scale: 0, y: 25 },
+                  }}
+                >
+                  <span
+                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white border border-green-600"
+                    onClick={() => {
+                      let status = data?.status_whatsapp === 2 ? "resend" : "send"
+                      setSelectedData(data);
+                      setAlert({
+                        show: true,
+                        isLoading: false,
+                        type: 'question',
+                        title: `Whatsapp`,
+                        message: `Will you ${status} the invitation whatsapp to <b>${data?.name}</b>?`,
+                        showCancel: true,
+                        cancelLabel: 'Cancel',
+                        onCancel: () => {
+                          setAlert({
+                            show: false,
+                            isLoading: false,
+                            type: '',
+                            title: '',
+                            message: '',
+                            showCancel: false,
+                            cancelLabel: '',
+                            onCancel: () => {},
+                            confirmLabel: '',
+                            onConfirm: () => {}
+                          });
+                          setSelectedData({});
+                        },
+                        confirmLabel: 'Yes',
+                        onConfirm: () => {
+                          console.log('test 1');
+                          setAlert({
+                            show: false,
+                            isLoading: false,
+                            type: '',
+                            title: '',
+                            message: '',
+                            showCancel: false,
+                            cancelLabel: '',
+                            onCancel: () => {},
+                            confirmLabel: '',
+                            onConfirm: () => {}
+                          });
+                          dispatch(sendToWhatsapp(data?.id));
+                          console.log('test 2');
+                        }
+                      })
+                    }}
+                  >
+                    <i className="fa-brands fa-whatsapp"></i>
+                  </span>
+                </Tooltip>
+              ) : null}
+
+              {data?.telegram ? (
+                <Tooltip
+                  className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                  content={data?.status_telegram === 2 ? "Resend invitation to Telegram" : "Send invitation to Telegram"}
+                  placement="top"
+                  animate={{
+                    mount: { scale: 1, y: 0 },
+                    unmount: { scale: 0, y: 25 },
+                  }}
+                >
+                  <span
+                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white border border-sky-600"
+                    onClick={() => {
+                      setSelectedData(data);
+                    }}
+                  >
+                    <i className="fa-brands fa-telegram"></i>
+                  </span>
+                </Tooltip>
+              ) : null}
+
+              {data?.email ? (
+                <Tooltip
+                  className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                  content={data?.status_email === 2 ? "Resend invitation to Email" : "Send invitation to Email"}
+                  placement="top"
+                  animate={{
+                    mount: { scale: 1, y: 0 },
+                    unmount: { scale: 0, y: 25 },
+                  }}
+                >
+                  <span
+                    className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-transparent text-sky-900 border border-sky-900"
+                    onClick={() => {
+                      setSelectedData(data);
+                    }}
+                  >
+                    <i className="fa-regular fa-envelope"></i>
+                  </span>
+                </Tooltip>
+              ) : null}
+
+              <Tooltip
+                className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                content={"Open Detail"}
+                placement="top"
+                animate={{
+                  mount: { scale: 1, y: 0 },
+                  unmount: { scale: 0, y: 25 },
+                }}
+              >
+                <span
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-blue-600 text-white border border-blue-600"
+                  onClick={() => {}}
+                >
+                  <i className="fa-solid fa-eye"></i>
+                </span>
+              </Tooltip>
+
+              <Tooltip
+                className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                content={"Edit"}
+                placement="top"
+                animate={{
+                  mount: { scale: 1, y: 0 },
+                  unmount: { scale: 0, y: 25 },
+                }}
+              >
+                <span
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-600 text-white border border-orange-600"
+                  onClick={() => {}}
+                >
+                  <i className="fa-solid fa-pen-to-square"></i>
+                </span>
+              </Tooltip>
+
               <Tooltip
                 className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
                 content={"Delete"}
@@ -277,8 +517,10 @@ const Broadcast = () => {
                 }}
               >
                 <span
-                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                  onClick={() => {}}
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white border border-red-600"
+                  onClick={() => {
+                    setSelectedData(data);
+                  }}
                 >
                   <i className="fa-solid fa-trash"></i>
                 </span>
@@ -303,7 +545,7 @@ const Broadcast = () => {
                   <span className="text-xs">Status Whatsapp</span>
                   <SelectOption
                     isLoading={false}
-                    options={[{label: 'Not Sent Yet', value: '1'}, {label: 'Sent', value: '2'}]}
+                    options={[{label: 'Not Sent Yet', value: '1'}, {label: 'Sent', value: '2'}, {label: '-', value: '3'}]}
                     objectLabel={'label'}
                     objectUniq={'value'}
                     value={filter?.status_whatsapp}
@@ -317,7 +559,7 @@ const Broadcast = () => {
                   <span className="text-xs">Status Telegram</span>
                   <SelectOption
                     isLoading={false}
-                    options={[{label: 'Not Sent Yet', value: '1'}, {label: 'Sent', value: '2'}]}
+                    options={[{label: 'Not Sent Yet', value: '1'}, {label: 'Sent', value: '2'}, {label: '-', value: '3'}]}
                     objectLabel={'label'}
                     objectUniq={'value'}
                     value={filter?.status_telegram}
@@ -331,7 +573,7 @@ const Broadcast = () => {
                   <span className="text-xs">Status Email</span>
                   <SelectOption
                     isLoading={false}
-                    options={[{label: 'Not Sent Yet', value: '1'}, {label: 'Sent', value: '2'}]}
+                    options={[{label: 'Not Sent Yet', value: '1'}, {label: 'Sent', value: '2'}, {label: '-', value: '3'}]}
                     objectLabel={'label'}
                     objectUniq={'value'}
                     value={filter?.status_email}
@@ -410,11 +652,34 @@ const Broadcast = () => {
         cancelLabel={alert?.cancelLabel}
         onCancel={() => alert?.onCancel ? alert?.onCancel() : {}}
         confirmLabel={alert?.confirmLabel}
-        onConfirm={() => alert?.onConfirm ? alert?.onConfirm : {}}
+        onConfirm={() => alert?.onConfirm ? alert?.onConfirm() : {}}
       />
 
       <Modal
-        show={showModal}
+        show={showModalInfo}
+        renderContent={() => {
+          return (
+            <div className="w-full h-full flex flex-col">
+              <span className="text-center font-bold mb-5">Info</span>
+              <span className="text-xs mb-2 font-bold">1. Send / Resend to Whatsapp</span>
+              <div className='w-full flex flex-col border-l-2 border-l-sky-900 ml-4 pl-2 text-xs mb-3'>
+                <span>• Need to login to whatsapp web first (<span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://web.whatsapp.com', '_blank')}>https://web.whatsapp.com</span>).</span>
+                <span>• More info to login web whatsapp <span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://faq.whatsapp.com/1317564962315842/?cms_platform=web&lang=id', '_blank')}>here</span>.</span>
+              </div>
+              <span className="text-xs mb-2 font-bold">2. Send / Resend to Telegram</span>
+              <div className='w-full flex flex-col border-l-2 border-l-sky-900 ml-4 pl-2 text-xs mb-3'>
+                <span>• Need to login to whatsapp web first (<span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://web.telegram.org', '_blank')}>https://web.telegram.org</span>).</span>
+                <span>• More info to login web telegram <span className='cursor-pointer text-sky-400 font-bold' onClick={() => window.open('https://telegram.org/blog/login', '_blank')}>here</span>.</span>
+              </div>
+            </div>
+          )
+        }}
+        onClose={() => setShowModalInfo(false)}
+        isLoading={false}
+      />
+
+      <Modal
+        show={showModalRulesExcel}
         renderContent={() => {
           return (
             <div className="w-full h-full flex flex-col">
@@ -455,7 +720,7 @@ const Broadcast = () => {
             </div>
           )
         }}
-        onClose={() => setShowModal(false)}
+        onClose={() => setShowModalRulesExcel(false)}
         isLoading={false}
       />
     </div>

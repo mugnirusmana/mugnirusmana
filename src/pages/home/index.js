@@ -27,9 +27,12 @@ import EndSection from "./components/end-section";
 import Footer from "./components/footer";
 
 import { formatDateCoundown, getWindowDimensions } from './../../helper';
+import { useQueryParams } from "../../config/hook";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const queryParams = useQueryParams();
+  const [name, setName] = useState(queryParams?.name?.replaceAll('__', ' '));
   const reservationSlice = useSelector(({ reservation }) => reservation);
   const commentSlice = useSelector(({ comment }) => comment);
   const settingSlice = useSelector(({ setting }) => setting);
@@ -145,6 +148,7 @@ const Home = () => {
 
   useEffect(() => {
     if (firstLoaded) {
+      setName(queryParams?.name?.replaceAll('__', ' '));
       setFirstLoaded(false);
       dispatch(getSetting());
     }
@@ -433,6 +437,7 @@ const Home = () => {
         show={showEnvelope}
         windowDimensions={windowDimensions}
         onOpen={() => setPlayMusic(true)}
+        name={name}
       />
 
       <Alert
@@ -537,6 +542,7 @@ const Home = () => {
       <ReservationSection
         ref={reservationRef}
         data={settingSlice?.data}
+        name={name}
         onSubmit={(data) => {
           if (!data?.isError) {
             setDataForm(data?.data);

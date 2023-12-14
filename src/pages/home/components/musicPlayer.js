@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Marquee from "react-fast-marquee";
 
 import Song1 from './../../../assets/musics/song1.mp3';
 import Song2 from './../../../assets/musics/song2.mp3';
@@ -192,7 +191,7 @@ const MusicPlayer = (props) => {
   }
 
   return (
-    <div className={`w-[200px] flex flex-col transition-all duration-500 ease-in-out border border-dark-pink fixed ${close ? '-bottom-32' : show ? '-bottom-24' : 'bottom-5 desktop:bottom-20'} right-24 desktop:right-36 z-[60] rounded bg-light-pink shadow-lg p-3 text-dark-pink`}>
+    <div className={`w-[200px] flex flex-col transition-all duration-500 ease-in-out border border-dark-pink fixed ${close ? '-bottom-32' : show ? '-bottom-20' : 'bottom-5 desktop:bottom-20'} right-24 desktop:right-36 z-[60] rounded bg-light-pink shadow-lg p-3 text-dark-pink`}>
       <div className="w-full flex flex-col gap-3 relative">
         <div
           className="w-[30px] h-[20px] bg-light-pink rounded border border-dark-pink flex items-center justify-center absolute -top-5 right-8 cursor-pointer"
@@ -209,8 +208,9 @@ const MusicPlayer = (props) => {
         >
           <i className="text-xs fa-solid fa-xmark"></i>
         </div>
-        <div className="w-full flex border-b border-b-dark-pink py-2">
-          <Marquee play={isPlaying} className="text-dark-pink font-bold text-xs">{titleSong??'-'}</Marquee>
+        <div className="w-full flex flex-row items-center gap-2 border-b border-b-dark-pink py-2">
+          <span className="text-dark-pink font-bold text-xs w-full">{titleSong??'-'}</span>
+          <i className={`fa-solid fa-music text-xs w-fit transition-all duration-500 ${isPlaying ? 'opacity-100 animate-pulse' : 'opacity-0'}`}></i>
         </div>
         <div className="w-full flex flex-row justify-center gap-3">
           <div

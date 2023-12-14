@@ -29,7 +29,7 @@ const useOutsideClick = (callback) => {
 };
 
 const ReservationSection = React.forwardRef((props, ref) => {
-  let { data, onSubmit } = props;
+  let { data, name, onSubmit } = props;
   const reservationSlice = useSelector(({ reservation }) => reservation);
   const fullNameRef = useRef();
   const emailRef = useRef();
@@ -50,7 +50,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
   const [valueParticipant, setValueParticipant] = useState(0);
   const [activeParticipantList, setActiveParticipantList] = useState(false);
 
-  const [fullname, setFullname] = useState('');
+  const [fullname, setFullname] = useState(name??'');
   const [email, setEmail] = useState('');
   const [participant, setParticipant] = useState({label: 'Select Participant', value: 0})
   const [attendance, setAttendance] = useState(0);
@@ -79,6 +79,10 @@ const ReservationSection = React.forwardRef((props, ref) => {
 
   }, [reservationSlice]);
 
+  useEffect(() => {
+    if(name && !fullname) setFullname(name);
+  }, [name]);
+
   const resetForm = () => {
     setErrorFullname(`&nbsp;`);
     setErrorEmail(`&nbsp;`);
@@ -86,7 +90,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
     setErrorAttendance(`&nbsp;`);
     setErrorComment(`&nbsp;`);
 
-    setFullname('');
+    setFullname(name??'');
     setEmail('');
     setParticipant({label: 'Select Participant', value: 0})
     setAttendance(0);
