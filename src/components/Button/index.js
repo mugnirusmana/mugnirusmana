@@ -33,7 +33,7 @@ const Button = (props) => {
 
   return (
     <div
-      className={`${width??'w-fit'} flex items-center justify-center px-4 py-2 ${bold ? 'font-bold' : 'font-normal'} ${renderButtonType()} whitespace-nowrap rounded ${shadow && !disabled ? 'shadow-lg' : ''} ${text ?? 'text-md'}`}
+      className={`${width??'w-fit'} flex items-center justify-center px-4 py-2 ${bold ? 'font-bold' : 'font-normal'} ${renderButtonType()} whitespace-nowrap rounded ${shadow && !disabled ? 'shadow-lg' : ''} ${text ?? 'text-base'}`}
       onClick={() => onClickButton()}
     >{isLoading && !disabled ? (
       <div className="w-full flex flex-row gap-3">

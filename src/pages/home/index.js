@@ -190,7 +190,7 @@ const Home = () => {
         show: true,
         title: 'Submit Form',
         type: 'success',
-        message: '<div class="w-full text-center flex flex-col items-center justify-center"><span class="text-md font-bold">Thanks for submitting the form</span><br class="hidden" /><span class="text-xs">We have send you a QR Code URL to your email</span><br class="hidden" /><span class="text-xs">and copy this QR Code URL</span><br class="hidden" /><span class="text-xs">You can use it for your attendance</span><br class="hidden" /><span class="text-xs">or you can manual sign by sign a signature book</span></div>',
+        message: '<div class="w-full text-center flex flex-col items-center justify-center"><span class="text-base font-bold">Thanks for submitting the form</span><br class="hidden" /><span class="text-xs">We have send you a QR Code URL to your email</span><br class="hidden" /><span class="text-xs">and copy this QR Code URL</span><br class="hidden" /><span class="text-xs">You can use it for your attendance</span><br class="hidden" /><span class="text-xs">or you can manual sign by sign a signature book</span></div>',
         confirmButtonText: 'Copy QR Url & Close',
         action: () => {
           navigator.clipboard.writeText(data?.link_qr);
@@ -223,7 +223,7 @@ const Home = () => {
           show: true,
           title: 'Submit Form',
           type: 'warning',
-          message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-md font-bold">Something went wrong with the data you send${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
+          message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-base font-bold">Something went wrong with the data you send${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
           confirmButtonText: 'Confirm',
           action: () => {
             setShowNotifGlobal({

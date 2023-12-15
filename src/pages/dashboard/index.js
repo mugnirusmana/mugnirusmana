@@ -43,7 +43,7 @@ const Dashboard = () => {
         ]}
       />
 
-      <div className="w-full h-full flex flex-col tablet:flex-row gap-5 pb-14 desktop:pb-0 text-xs tablet:text-md desktop:text-xl text-sky-900">
+      <div className="w-full h-full flex flex-col tablet:flex-row gap-5 pb-14 desktop:pb-0 text-xs tablet:text-base desktop:text-xl text-sky-900">
         <div className="w-full h-full flex flex-col gap-5 desktop:pb-0">
           <div className="w-full h-full bg-white rounded flex flex-col justify-center items-center tablet:gap-10 gap-5 shadow-md">
             <span className="font-bold">Total Participant</span>

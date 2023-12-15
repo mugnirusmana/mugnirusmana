@@ -37,7 +37,7 @@ const CommentSection = (props) => {
             <span className="text-xs">{item?.date}</span>
           </div>
           <div className="w-full h-fit border-l-4 border-l-dark-pink pt-1.5 pl-3">
-            <span className="text-justify text:xs tablet:text-md">{item?.comment}</span>
+            <span className="text-justify text:xs tablet:text-base">{item?.comment}</span>
           </div>
         </div>
       )

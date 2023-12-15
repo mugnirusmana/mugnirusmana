@@ -33,7 +33,7 @@ const Alert = (props) => {
       <div className="w-fit h-fit rounded shadow-lg bg-white p-5 tablet:p-10 flex flex-col items-center justify-center gap-5 border border-gray-200">
         {renderAlertIcon()}
         <span className="text-xl font-bold text-dark-pink text-center">{title}</span>
-        <div className="text-md" dangerouslySetInnerHTML={{ __html: message }} />
+        <div className="text-base" dangerouslySetInnerHTML={{ __html: message }} />
         <div className="w-full flex flex-col tablet:flex-row gap-5">
           {showCancelButton ? <div className="w-full p-2 flex items-center justify-center rounded border border-dark-pink text-dark-pink font-bold cursor-pointer" onClick={() => cancelButtonAction && !isLoading ? cancelButtonAction() : {}}>{isLoading ? 'Loading...' : cancelButtonText??'Cancel'}</div> : null }
           <div className="w-full p-2 flex items-center justify-center rounded border border-dark-pink bg-dark-pink text-white font-bold cursor-pointer" onClick={() => confirmButtonAction && !isLoading ? confirmButtonAction() : {}}>{isLoading ? 'Loading...' : confirmButtonText??'Confirm'}</div>

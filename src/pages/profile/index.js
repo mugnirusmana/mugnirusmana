@@ -438,7 +438,7 @@ const Profile = () => {
           </div>
           <hr className="border-[0.5px] border-sky-900 w-full" />
           <div className="w-fill flex flex-col mt-3">
-            <span className="font-bold mb-3 text-md">PERSONAL</span>
+            <span className="font-bold mb-3 text-base">PERSONAL</span>
             <div className={`w-full flex ${editMode ? 'flex-col gap-0' : 'flex-row gap-3'}`}>
               <span className="w-fit tablet:w-[80px]">Name</span>
               {editMode ? (

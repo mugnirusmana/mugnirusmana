@@ -132,7 +132,7 @@ const Envelope = (props) => {
               </div>
             ) : null}
             <div
-              className="w-[60px] h-[60px] cursor-pointer rounded-full bg-dark-pink flex items-center justify-center text-center z-[92] text-md text-light-pink transition-all duration-500 absolute left-[calc(50%_-_30px)]"
+              className="w-[60px] h-[60px] cursor-pointer rounded-full bg-dark-pink flex items-center justify-center text-center z-[92] text-base text-light-pink transition-all duration-500 absolute left-[calc(50%_-_30px)]"
               style={midStyles}
               onClick={() => {
                 onOpenEnvelope();

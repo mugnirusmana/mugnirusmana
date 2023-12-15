@@ -42,6 +42,7 @@ import broadcastEmailSlice from '../redux/broadcastEmailSlice';
 import broadcastRemoveSlice from '../redux/broadcastRemoveSlice';
 import broadcastCreateSlice from '../redux/broadcastCreateSlice';
 import broadcastImportExcelSlice from '../redux/broadcastImportExcelSlice';
+import broadcastDetailSlice from '../redux/broadcastDetailSlice';
 
 const rootReducer = {
   auth: authSlice,
@@ -88,6 +89,7 @@ const rootReducer = {
   broadcastRemove: broadcastRemoveSlice,
   broadcastCreate: broadcastCreateSlice,
   broadcastImportExcel: broadcastImportExcelSlice,
+  broadcastDetail: broadcastDetailSlice,
 }
 
 export default rootReducer;

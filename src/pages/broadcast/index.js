@@ -813,7 +813,7 @@ const Broadcast = () => {
               >
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-blue-600 text-white border border-blue-600"
-                  onClick={() => {}}
+                  onClick={() => navigate(`/broadcast/detail/${data?.id}`)}
                 >
                   <i className="fa-solid fa-eye"></i>
                 </span>
@@ -830,7 +830,7 @@ const Broadcast = () => {
               >
                 <span
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-600 text-white border border-orange-600"
-                  onClick={() => {}}
+                  onClick={() => navigate(`/broadcast/edit/${data?.id}`)}
                 >
                   <i className="fa-solid fa-pen-to-square"></i>
                 </span>

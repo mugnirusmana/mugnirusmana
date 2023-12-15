@@ -210,7 +210,7 @@ const AttenderDetail = () => {
         ]}
       />
 
-      <div className="w-full h-fit tablet-md:h-full flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5 text-xs tablet:text-md">
+      <div className="w-full h-fit tablet-md:h-full flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5 text-xs tablet:text-base">
         <table className="w-full">
           <tbody>
             <tr className="border-b border-b-gray-400">
