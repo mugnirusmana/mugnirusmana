@@ -329,24 +329,24 @@ const UserCreate = () => {
           </div>
         </div>
         <div className="w-full flex flex-col tablet:flex-row gap-5">
-            <Button
-              width={'w-full'}
-              shadow={true}
-              isLoading={false}
-              type={'reset'}
-              label={'Reset'}
-              onClick={() => onReset()}
-            />
+          <Button
+            width={'w-full'}
+            shadow={true}
+            isLoading={false}
+            type={'reset'}
+            label={'Reset'}
+            onClick={() => onReset()}
+          />
 
-            <Button
-              width={'w-full'}
-              shadow={true}
-              isLoading={false}
-              type={'submit'}
-              label={'Save'}
-              onClick={() => onSubmit()}
-            />
-          </div>
+          <Button
+            width={'w-full'}
+            shadow={true}
+            isLoading={false}
+            type={'submit'}
+            label={'Save'}
+            onClick={() => onSubmit()}
+          />
+        </div>
       </div>
 
       <Alert

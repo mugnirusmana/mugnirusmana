@@ -5,6 +5,7 @@ import UserCreate from './../pages/user-create';
 import UserDetail from './../pages/user-detail';
 import BlockDomain from '../pages/block-domain';
 import Broadcast from '../pages/broadcast';
+import BroadcastCreate from '../pages/broadcast-create';
 import Attenders from '../pages/attenders';
 import AttendersDetail from '../pages/attender-detail';
 import ScanQr from '../pages/scan-qr';
@@ -51,6 +52,12 @@ const AuthedRoute = [
 	{
 		path: "/broadcast",
 		component: Broadcast,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/broadcast/create",
+		component: BroadcastCreate,
 		accessRole: 'admin',
 		exact: true,
 	},

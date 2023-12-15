@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from "@material-tailwind/react";
+import { useNavigate } from 'react-router';
 
 import { defaultBroadcastList, getBroadcastList } from './../../redux/broadcastListSlice';
 import { defaultBroadcastWhatsapp, sendToWhatsapp } from './../../redux/broadcastWhatsappSlice';
@@ -20,6 +21,7 @@ import Modal from "../../components/modal";
 import Loader from "../../components/loader";
 
 const Broadcast = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const broadcastList = useSelector(({ broadcastList }) => broadcastList);
   const broadcastWhatsapp = useSelector(({ broadcastWhatsapp }) => broadcastWhatsapp);
@@ -500,7 +502,7 @@ const Broadcast = () => {
           withAction={true}
           showAddAction={true}
           addLabel={'Add Broadcast User +'}
-          onAdd={() => {}}
+          onAdd={() => navigate('/broadcast/create')}
           renderAction={(data) => (
             <div className="flex flex-row items-center justify-end gap-2 text-xs">
               {data?.whatsapp ? (
