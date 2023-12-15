@@ -9,30 +9,30 @@ const initialState = {
   data: {}
 };
 
-export const broadcastCreateSlice = createSlice({
-  name: "broadcastCreate",
+export const broadcastImportExcelSlice = createSlice({
+  name: "broadcastImportExcel",
   initialState,
   reducers: {
-    defaultBroadcastCreateSlice: (state) => {
+    defaultBroadcastImportExcelSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
       state.data = {};
     },
-    getBroadcastCreateSlice: (state) => {
+    getBroadcastImportExcelSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getBroadcastCreateSuccessSlice: (state) => {
+    getBroadcastImportExcelSuccessSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
     },
-    getBroadcastCreateFailedSlice: (state, action) => {
+    getBroadcastImportExcelFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -42,28 +42,28 @@ export const broadcastCreateSlice = createSlice({
   },
 });
 
-export const { defaultBroadcastCreateSlice, getBroadcastCreateSlice, getBroadcastCreateSuccessSlice, getBroadcastCreateFailedSlice } = broadcastCreateSlice.actions;
+export const { defaultBroadcastImportExcelSlice, getBroadcastImportExcelSlice, getBroadcastImportExcelSuccessSlice, getBroadcastImportExcelFailedSlice } = broadcastImportExcelSlice.actions;
 
-export const defaultBroadcastCreate = () => {
+export const defaultBroadcastImportExcel = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultBroadcastCreateSlice());
+    dispatch(defaultBroadcastImportExcelSlice());
   };
 }
 
-export const submitBroadcastCreate = (params) => {
+export const submitBroadcastImportExcel = (params) => {
   return async (dispatch, getState) => {
-    dispatch(getBroadcastCreateSlice());
+    dispatch(getBroadcastImportExcelSlice());
     const token = getState()?.auth?.token;
-    return BROADCAST.create(params, token)
+    return BROADCAST.importExcel(params, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getBroadcastCreateSuccessSlice());
+          dispatch(getBroadcastImportExcelSuccessSlice());
         } else {
           const data = {
             message: response?.data?.meta?.message??'Oops! Someting went wrong',
             data: response?.data?.data??{},
           }
-          dispatch(getBroadcastCreateFailedSlice(data));
+          dispatch(getBroadcastImportExcelFailedSlice(data));
         }
       })
       .catch((error) => {
@@ -71,9 +71,9 @@ export const submitBroadcastCreate = (params) => {
           message: error?.response?.data?.meta?.message??'Oops! Someting went wrong',
           data: error?.response?.data?.data??{},
         }
-        dispatch(getBroadcastCreateFailedSlice(data));
+        dispatch(getBroadcastImportExcelFailedSlice(data));
       })
   };
 }
 
-export default broadcastCreateSlice.reducer;
+export default broadcastImportExcelSlice.reducer;

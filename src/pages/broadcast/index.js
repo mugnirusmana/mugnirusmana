@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from "@material-tailwind/react";
 import { useNavigate } from 'react-router';
+import _ from 'lodash';
 
 import { defaultBroadcastList, getBroadcastList } from './../../redux/broadcastListSlice';
 import { defaultBroadcastWhatsapp, sendToWhatsapp } from './../../redux/broadcastWhatsappSlice';
 import { defaultBroadcastEmail, sendToEmail } from './../../redux/broadcastEmailSlice';
 import { defaultBroadcastRemove, setBroadcastRemove } from './../../redux/broadcastRemoveSlice';
+import { defaultBroadcastImportExcel, submitBroadcastImportExcel } from './../../redux/broadcastImportExcelSlice';
 
 import { downloadFile } from './../../helper';
 
@@ -27,6 +29,7 @@ const Broadcast = () => {
   const broadcastWhatsapp = useSelector(({ broadcastWhatsapp }) => broadcastWhatsapp);
   const broadcastEmail = useSelector(({ broadcastEmail }) => broadcastEmail);
   const broadcastRemove = useSelector(({ broadcastRemove }) => broadcastRemove);
+  const broadcastImportExcel = useSelector(({ broadcastImportExcel }) => broadcastImportExcel);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filter, setFilter] = useState({
     keyword: '',
@@ -35,6 +38,13 @@ const Broadcast = () => {
   });
   const [showModalInfo, setShowModalInfo] = useState(false);
   const [showModalRulesExcel, setShowModalRulesExcel] = useState(false);
+  const [showModalBulkImport, setShowModalBulkImport] = useState(false);
+  const [fieldExcel, setFieldExcel] = useState({
+    value: '',
+    file: {},
+    isError: false,
+    errorMessage: ''
+  });
   const [alert, setAlert] = useState({
     show: false,
     isLoading: false,
@@ -391,6 +401,94 @@ const Broadcast = () => {
     }
   }, [broadcastRemove]);
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage,
+      data
+    } = broadcastImportExcel;
+
+    if(!isLoading && isSuccess) {
+      setFieldExcel({
+        value: '',
+        file: {},
+        isError: false,
+        errorMessage: ''
+      });
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'success',
+        title: 'Import Excel',
+        message: 'Successfully import excel',
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          dispatch(defaultBroadcastImportExcel());
+        }
+      });
+    }
+
+    if(!isLoading && isError) {
+      let message = errorMessage;
+      if (data?.errors && data?.errors?.length > 0) {
+        let sparator = data?.errors?.length > 1 ? '- ' : '';
+        message = `<div class="font-bold flex flex-col items-start justify-start text-xs"><span class="mb-1">Someting wrong with your data:</span>`;
+        data?.errors?.map((item, index) => {
+          if (index === data?.errors?.length-1) {
+            message = message + `<span class="font-normal">${sparator}${item?.message}</span></div>`;
+          } else {
+            message = message + `<span class="font-normal">${sparator}${item?.message}</span>`;
+          }
+          return item;
+        });
+      }
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'warning',
+        title: 'Import Excel',
+        message: message,
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          dispatch(defaultBroadcastImportExcel());
+          setShowModalBulkImport(true);
+        }
+      });
+    }
+  }, [broadcastImportExcel]);
+
   const getListData = (params) => {
     if (!broadcastList?.isLoading) {
       let result = {
@@ -419,6 +517,81 @@ const Broadcast = () => {
       page: parseInt(1),
       perPage: parseInt(perPage),
     });
+  }
+
+  const validateExcel = (file) => {
+    let result = {
+      isError: false,
+      errorMessage: ''
+    }
+    let name = "Excel";
+    let acceptFormat = ['xlsx', 'xls'];
+
+    let file_name = file?.name;
+    let checkFormat = _.includes(acceptFormat, _.last(file_name?.split('.')));
+
+    if (!file_name) {
+      result.isError = true;
+      result.errorMessage = `${name} is required`;
+    } else if (!checkFormat) {
+      result.isError = true;
+      result.errorMessage = `${name} format file is invalid, only xlsx or xls`;
+    }
+
+    return result;
+  }
+
+  const importBroadcast = () => {
+    let result = validateExcel(fieldExcel?.file);
+    if(!result?.isError) {
+      setShowModalBulkImport(false);
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'question',
+        title: 'Import Excel',
+        message: 'Are you sure about the data you are going to submit?',
+        showCancel: true,
+        cancelLabel: 'Cancel',
+        onCancel: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          setShowModalBulkImport(true);
+        },
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          dispatch(submitBroadcastImportExcel({excel: fieldExcel?.file}));
+        }
+      });
+    } else {
+      setFieldExcel({
+        ...fieldExcel,
+        isError: result?.isError,
+        errorMessage: result?.errorMessage,
+      })
+    }
   }
 
   return (
@@ -486,8 +659,8 @@ const Broadcast = () => {
               isLoading={broadcastList?.isLoading}
               disabled={false}
               type={'submit'}
-              label={'Bulk Add Broadcast User +'}
-              onClick={() => {}}
+              label={'Import Excel +'}
+              onClick={() => setShowModalBulkImport(true)}
             />
           </div>
         </div>
@@ -890,7 +1063,75 @@ const Broadcast = () => {
         isLoading={false}
       />
 
-      <Loader show={broadcastWhatsapp?.isLoading || broadcastEmail?.isLoading || broadcastRemove?.isLoading} />
+      <Modal
+        show={showModalBulkImport}
+        renderContent={() => {
+          return (
+            <div className="w-full h-full flex flex-col">
+              <span className="text-center font-bold mb-5">Import Excel</span>
+              
+              <div className='w-full flex flex-col'>
+                <input
+                  type="file"
+                  accept='.xlsx,.xls'
+                  className="w-full bg-white outline-none rounded"
+                  value={fieldExcel?.value}
+                  onChange={(e) => {
+                    let name = e?.currentTarget?.value??"";
+                    let val = e?.target?.files[0]??{};
+                    let result = validateExcel(val);
+                    setFieldExcel({
+                      value: name,
+                      file: val,
+                      isError: result?.isError,
+                      errorMessage: result?.errorMessage
+                    });
+                  }}
+                />
+                <span className='text-xs text-red-500 my-3'>{fieldExcel?.errorMessage}</span>
+              </div>
+              <div className='w-full flex flex-col tablet:flex-row gap-5'>
+                <Button
+                  width={'w-full'}
+                  shadow={false}
+                  isLoading={false}
+                  type={'reset'}
+                  label={'Reset'}
+                  onClick={() => {
+                    setFieldExcel({
+                      value: '',
+                      file: {},
+                      isError: false,
+                      errorMessage: ''
+                    });
+                  }}
+                />
+
+                <Button
+                  width={'w-full'}
+                  shadow={true}
+                  isLoading={false}
+                  type={'submit'}
+                  label={'Save'}
+                  onClick={() => importBroadcast()}
+                />
+              </div>
+            </div>
+          )
+        }}
+        onClose={() => {
+          setFieldExcel({
+            value: '',
+            file: {},
+            isError: false,
+            errorMessage: ''
+          });
+          setShowModalBulkImport(false)
+        }}
+        isLoading={false}
+      />
+
+      <Loader show={broadcastWhatsapp?.isLoading || broadcastEmail?.isLoading || broadcastRemove?.isLoading || broadcastImportExcel?.isLoading} />
     </div>
   )
 }

@@ -54,9 +54,10 @@ export const remove = (id, token) => {
 export const importExcel = (params, token) => {
   let formData = new FormData();
   formData.set('excel', params?.excel);
-  return axios.post(`${ENV.API}/broadcast/import`, {
+  return axios.post(`${ENV.API}/broadcast/import`, formData, {
     headers: {
-      Authorization: token
+      Authorization: token,
+      'Content-Type': 'multipart/form-data'
     }
   });
 }
