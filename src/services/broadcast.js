@@ -25,3 +25,11 @@ export const sentToEmail = (id, token) => {
     }
   });
 }
+
+export const remove = (id, token) => {
+  return axios.delete(`${ENV.API}/broadcast/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  });
+}

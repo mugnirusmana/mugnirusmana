@@ -17,7 +17,6 @@ const Envelope = (props) => {
 
   useEffect(() => {
     renderStateStyle();
-    // console.log('name ', name, props);
   }, [show]);
 
   const renderStateStyle = () => {

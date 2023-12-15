@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 
+import { formatDate } from './../../../helper';
+
 import Header from './header';
 
 import Default from './../../../assets/images/defaul-img.png';
@@ -198,13 +200,13 @@ const ReservationSection = React.forwardRef((props, ref) => {
       ) : (
         <img src={Default} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
       )}
-      
+
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-30" />
 
       <div className="w-full desktop:w-[750px] h-full flex flex-col px-5 pb-5 tablet:pb-20 tablet:mt-10 desktop:mt-0 tablet:px-20 desktop:px-5 z-[1]">
         <div className="w-full h-fit px-10 flex flex-col items-center text-center mb-10 tablet:mb-15 desktop:mb-10 text-light-pink font-bold text-sm desktop:text-lg">
           <span>Please Fill this form before</span>
-          <span className="mb-10 tablet:mb-15 desktop:mb-10">January 01, 2021</span>
+          <span className="mb-10 tablet:mb-15 desktop:mb-10">{formatDate(data?.event_ceremonial_date).month} {formatDate(data?.event_ceremonial_date).date}, {formatDate(data?.event_ceremonial_date).year}</span>
           <span>We are looking forward to your presence</span>
         </div>
         

@@ -5,6 +5,7 @@ import { Tooltip } from "@material-tailwind/react";
 import { defaultBroadcastList, getBroadcastList } from './../../redux/broadcastListSlice';
 import { defaultBroadcastWhatsapp, sendToWhatsapp } from './../../redux/broadcastWhatsappSlice';
 import { defaultBroadcastEmail, sendToEmail } from './../../redux/broadcastEmailSlice';
+import { defaultBroadcastRemove, setBroadcastRemove } from './../../redux/broadcastRemoveSlice';
 
 import { downloadFile } from './../../helper';
 
@@ -23,6 +24,7 @@ const Broadcast = () => {
   const broadcastList = useSelector(({ broadcastList }) => broadcastList);
   const broadcastWhatsapp = useSelector(({ broadcastWhatsapp }) => broadcastWhatsapp);
   const broadcastEmail = useSelector(({ broadcastEmail }) => broadcastEmail);
+  const broadcastRemove = useSelector(({ broadcastRemove }) => broadcastRemove);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filter, setFilter] = useState({
     keyword: '',
@@ -311,6 +313,82 @@ const Broadcast = () => {
     }
   }, [broadcastEmail])
 
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage
+    } = broadcastRemove;
+
+    if (!isLoading && isSuccess) {
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'success',
+        title: 'Delete',
+        message: `<b>${selectedData?.name}</b> user broadcast successfully deleted`,
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : '',
+            status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : '',
+            status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : '',
+            page: parseInt(1),
+            perPage: parseInt(perPage),
+          });
+          setSelectedData({});
+          dispatch(defaultBroadcastRemove());
+        }
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'warning',
+        title: 'Delete',
+        message: errorMessage,
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          dispatch(defaultBroadcastRemove());
+          setSelectedData({});
+        }
+      });
+    }
+  }, [broadcastRemove]);
+
   const getListData = (params) => {
     if (!broadcastList?.isLoading) {
       let result = {
@@ -596,6 +674,46 @@ const Broadcast = () => {
                   className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white border border-red-600"
                   onClick={() => {
                     setSelectedData(data);
+                    setAlert({
+                      show: true,
+                      isLoading: false,
+                      type: 'question',
+                      title: `Delete`,
+                      message: `Will you delete <b>${data?.name}</b> user broadcast?`,
+                      showCancel: true,
+                      cancelLabel: 'Cancel',
+                      onCancel: () => {
+                        setAlert({
+                          show: false,
+                          isLoading: false,
+                          type: '',
+                          title: '',
+                          message: '',
+                          showCancel: false,
+                          cancelLabel: '',
+                          onCancel: () => {},
+                          confirmLabel: '',
+                          onConfirm: () => {}
+                        });
+                        setSelectedData({});
+                      },
+                      confirmLabel: 'Yes',
+                      onConfirm: () => {
+                        setAlert({
+                          show: false,
+                          isLoading: false,
+                          type: '',
+                          title: '',
+                          message: '',
+                          showCancel: false,
+                          cancelLabel: '',
+                          onCancel: () => {},
+                          confirmLabel: '',
+                          onConfirm: () => {}
+                        });
+                        dispatch(setBroadcastRemove(data?.id));
+                      }
+                    })
                   }}
                 >
                   <i className="fa-solid fa-trash"></i>
@@ -770,7 +888,7 @@ const Broadcast = () => {
         isLoading={false}
       />
 
-      <Loader show={broadcastWhatsapp?.isLoading || broadcastEmail?.isLoading} />
+      <Loader show={broadcastWhatsapp?.isLoading || broadcastEmail?.isLoading || broadcastRemove?.isLoading} />
     </div>
   )
 }
