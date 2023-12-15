@@ -4,6 +4,7 @@ import { Tooltip } from "@material-tailwind/react";
 
 import { defaultBroadcastList, getBroadcastList } from './../../redux/broadcastListSlice';
 import { defaultBroadcastWhatsapp, sendToWhatsapp } from './../../redux/broadcastWhatsappSlice';
+import { defaultBroadcastEmail, sendToEmail } from './../../redux/broadcastEmailSlice';
 
 import { downloadFile } from './../../helper';
 
@@ -15,11 +16,13 @@ import DataTable from '../../components/data-table';
 import SelectOption from "../../components/select-option";
 import Alert from "../../components/alert";
 import Modal from "../../components/modal";
+import Loader from "../../components/loader";
 
 const Broadcast = () => {
   const dispatch = useDispatch();
   const broadcastList = useSelector(({ broadcastList }) => broadcastList);
   const broadcastWhatsapp = useSelector(({ broadcastWhatsapp }) => broadcastWhatsapp);
+  const broadcastEmail = useSelector(({ broadcastEmail }) => broadcastEmail);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filter, setFilter] = useState({
     keyword: '',
@@ -224,13 +227,89 @@ const Broadcast = () => {
             confirmLabel: '',
             onConfirm: () => {}
           });
-          dispatch(defaultBroadcastList());
+          dispatch(defaultBroadcastWhatsapp());
           setSelectedData({});
         }
       })
     }
 
   }, [broadcastWhatsapp]);
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isSuccess,
+      isError,
+      errorMessage
+    } = broadcastEmail;
+
+    if (!isLoading && isSuccess) {
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'success',
+        title: 'Email',
+        message: `Successfully sent the invitation via email to <b>${selectedData?.name}</b>`,
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          getListData({
+            keyword: filter?.keyword !== '' ? filter?.keyword : '',
+            status_whatsapp: filter?.status_whatsapp?.value ? parseInt(filter?.status_whatsapp?.value) : '',
+            status_email: filter?.status_email?.value ? parseInt(filter?.status_email?.value) : '',
+            page: parseInt(1),
+            perPage: parseInt(perPage),
+          });
+          setSelectedData({});
+          dispatch(defaultBroadcastEmail());
+        }
+      })
+    }
+
+    if (!isLoading && isError) {
+      setAlert({
+        show: true,
+        isLoading: false,
+        type: 'warning',
+        title: 'Whatsapp',
+        message: errorMessage,
+        showCancel: false,
+        cancelLabel: '',
+        onCancel: () => {},
+        confirmLabel: 'Confirm',
+        onConfirm: () => {
+          setAlert({
+            show: false,
+            isLoading: false,
+            type: '',
+            title: '',
+            message: '',
+            showCancel: false,
+            cancelLabel: '',
+            onCancel: () => {},
+            confirmLabel: '',
+            onConfirm: () => {}
+          });
+          dispatch(defaultBroadcastEmail());
+          setSelectedData({});
+        }
+      })
+    }
+  }, [broadcastEmail])
 
   const getListData = (params) => {
     if (!broadcastList?.isLoading) {
@@ -366,7 +445,7 @@ const Broadcast = () => {
                         isLoading: false,
                         type: 'question',
                         title: `Whatsapp`,
-                        message: `Will you ${status} the invitation whatsapp to <b>${data?.name}</b>?`,
+                        message: `Will you ${status} the invitation via whatsapp to <b>${data?.name}</b>?`,
                         showCancel: true,
                         cancelLabel: 'Cancel',
                         onCancel: () => {
@@ -386,7 +465,6 @@ const Broadcast = () => {
                         },
                         confirmLabel: 'Yes',
                         onConfirm: () => {
-                          console.log('test 1');
                           setAlert({
                             show: false,
                             isLoading: false,
@@ -400,7 +478,6 @@ const Broadcast = () => {
                             onConfirm: () => {}
                           });
                           dispatch(sendToWhatsapp(data?.id));
-                          console.log('test 2');
                         }
                       })
                     }}
@@ -423,7 +500,48 @@ const Broadcast = () => {
                   <span
                     className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-transparent text-sky-900 border border-sky-900"
                     onClick={() => {
+                      let status = data?.status_email === 2 ? "resend" : "send"
                       setSelectedData(data);
+                      setAlert({
+                        show: true,
+                        isLoading: false,
+                        type: 'question',
+                        title: `Email`,
+                        message: `Will you ${status} the invitation via email to <b>${data?.name}</b>?`,
+                        showCancel: true,
+                        cancelLabel: 'Cancel',
+                        onCancel: () => {
+                          setAlert({
+                            show: false,
+                            isLoading: false,
+                            type: '',
+                            title: '',
+                            message: '',
+                            showCancel: false,
+                            cancelLabel: '',
+                            onCancel: () => {},
+                            confirmLabel: '',
+                            onConfirm: () => {}
+                          });
+                          setSelectedData({});
+                        },
+                        confirmLabel: 'Yes',
+                        onConfirm: () => {
+                          setAlert({
+                            show: false,
+                            isLoading: false,
+                            type: '',
+                            title: '',
+                            message: '',
+                            showCancel: false,
+                            cancelLabel: '',
+                            onCancel: () => {},
+                            confirmLabel: '',
+                            onConfirm: () => {}
+                          });
+                          dispatch(sendToEmail(data?.id));
+                        }
+                      })
                     }}
                   >
                     <i className="fa-regular fa-envelope"></i>
@@ -651,6 +769,8 @@ const Broadcast = () => {
         onClose={() => setShowModalRulesExcel(false)}
         isLoading={false}
       />
+
+      <Loader show={broadcastWhatsapp?.isLoading || broadcastEmail?.isLoading} />
     </div>
   )
 }

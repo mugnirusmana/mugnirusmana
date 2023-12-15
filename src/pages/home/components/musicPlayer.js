@@ -7,7 +7,7 @@ import Song4 from './../../../assets/musics/song4.mp3';
 
 const MusicPlayer = (props) => {
   let { firstPlay } = props;
-  const [show, setShow] = useState(false);
+  const [hide, setHide] = useState(true);
   const [close, setClose] = useState(false);
   const [isFirstPlay, setIsFirstPlay] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
@@ -191,13 +191,13 @@ const MusicPlayer = (props) => {
   }
 
   return (
-    <div className={`w-[200px] flex flex-col transition-all duration-500 ease-in-out border border-dark-pink fixed ${close ? '-bottom-32' : show ? '-bottom-20' : 'bottom-5 desktop:bottom-20'} right-24 desktop:right-36 z-[60] rounded bg-light-pink shadow-lg p-3 text-dark-pink`}>
+    <div className={`w-[200px] flex flex-col transition-all duration-500 ease-in-out border border-dark-pink fixed ${close ? '-bottom-32' : hide ? '-bottom-20' : 'bottom-5 desktop:bottom-20'} right-24 desktop:right-36 z-[60] rounded bg-light-pink shadow-lg p-3 text-dark-pink`}>
       <div className="w-full flex flex-col gap-3 relative">
         <div
           className="w-[30px] h-[20px] bg-light-pink rounded border border-dark-pink flex items-center justify-center absolute -top-5 right-8 cursor-pointer"
-          onClick={() => setShow(!show)}
+          onClick={() => setHide(!hide)}
         >
-          <i className={`text-xs transition-all duration-300 ease-in-out fa-solid fa-angle-down ${show ? 'rotate-[0deg]' : 'rotate-[-180deg]'}`}></i>
+          <i className={`text-xs transition-all duration-300 ease-in-out fa-solid fa-angle-down ${hide ? 'rotate-[0deg]' : 'rotate-[-180deg]'}`}></i>
         </div>
         <div
           className="w-[30px] h-[20px] bg-light-pink rounded border border-dark-pink flex items-center justify-center absolute -top-5 right-0 cursor-pointer"

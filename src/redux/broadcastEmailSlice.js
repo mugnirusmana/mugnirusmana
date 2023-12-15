@@ -5,35 +5,32 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  errorMessage: null,
-  data: {}
+  errorMessage: null
 };
 
-export const broadcastWhatsappSlice = createSlice({
-  name: "broadcastWhatsapp",
+export const broadcastEmailSlice = createSlice({
+  name: "broadcastEmail",
   initialState,
   reducers: {
-    defaultBroadcastWhatsappSlice: (state) => {
+    defaultBroadcastEmailSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
-      state.data = {};
     },
-    getBroadcastWhatsappSlice: (state) => {
+    getBroadcastEmailSlice: (state) => {
       state.isLoading = true;
       state.isSuccess = false;
       state.isError = false;
       state.errorMessage = null;
     },
-    getBroadcastWhatsappSuccessSlice: (state, action) => {
+    getBroadcastEmailSuccessSlice: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.errorMessage = null;
-      state.data = action?.payload;
     },
-    getBroadcastWhatsappFailedSlice: (state, action) => {
+    getBroadcastEmailFailedSlice: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -42,32 +39,32 @@ export const broadcastWhatsappSlice = createSlice({
   },
 });
 
-export const { defaultBroadcastWhatsappSlice, getBroadcastWhatsappSlice, getBroadcastWhatsappSuccessSlice, getBroadcastWhatsappFailedSlice } = broadcastWhatsappSlice.actions;
+export const { defaultBroadcastEmailSlice, getBroadcastEmailSlice, getBroadcastEmailSuccessSlice, getBroadcastEmailFailedSlice } = broadcastEmailSlice.actions;
 
-export const defaultBroadcastWhatsapp = () => {
+export const defaultBroadcastEmail = () => {
   return async (dispatch, getState) => {
-    dispatch(defaultBroadcastWhatsappSlice());
+    dispatch(defaultBroadcastEmailSlice());
   };
 }
 
-export const sendToWhatsapp = (id) => {
+export const sendToEmail = (id) => {
   return async (dispatch, getState) => {
-    dispatch(getBroadcastWhatsappSlice());
+    dispatch(getBroadcastEmailSlice());
     const token = getState()?.auth?.token;
-    return BROADCAST.sentToWhatsapp(id, token)
+    return BROADCAST.sentToEmail(id, token)
       .then((response) => {
         if (response?.data?.meta?.is_success) {
-          dispatch(getBroadcastWhatsappSuccessSlice(response?.data?.data));
+          dispatch(getBroadcastEmailSuccessSlice());
         } else {
           const message = response?.data?.meta?.message??'Oops! Someting went wrong'
-          dispatch(getBroadcastWhatsappFailedSlice(message));
+          dispatch(getBroadcastEmailFailedSlice(message));
         }
       })
       .catch((error) => {
         const message = error?.response?.data?.meta?.message??'Oops! Someting went wrong'
-        dispatch(getBroadcastWhatsappFailedSlice(message));
+        dispatch(getBroadcastEmailFailedSlice(message));
       })
   };
 }
 
-export default broadcastWhatsappSlice.reducer;
+export default broadcastEmailSlice.reducer;

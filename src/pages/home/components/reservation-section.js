@@ -276,7 +276,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
                 onClick={() => setAttendance(2)}
               >
                 <input type="radio" className="cursor-pointer" val={2} onChange={() => setAttendance(2)} checked={attendance===2}/>
-                <span className="mt-1 cursor-pointer">Sorry, I will attend</span>
+                <span className="mt-1 cursor-pointer">Sorry, I will not attend</span>
               </div>
             </div>
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorAttendance}}></span>

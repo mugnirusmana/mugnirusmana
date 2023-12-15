@@ -18,14 +18,6 @@ export const sentToWhatsapp = (id, token) => {
   });
 }
 
-export const sentToTelegram = (id, token) => {
-  return axios.get(`${ENV.API}/broadcast/telegram/${id}`, {
-    headers: {
-      Authorization: token
-    }
-  });
-}
-
 export const sentToEmail = (id, token) => {
   return axios.get(`${ENV.API}/broadcast/email/${id}`, {
     headers: {
