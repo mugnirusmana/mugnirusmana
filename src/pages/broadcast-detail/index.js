@@ -148,6 +148,7 @@ const BroadcastDetail = () => {
         onConfirm={() => {
           setShowError(false);
           dispatch(defaultBroadcastDetail());
+          navigate('/broadcast');
         }}
       />
 

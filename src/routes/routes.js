@@ -7,6 +7,7 @@ import BlockDomain from '../pages/block-domain';
 import Broadcast from '../pages/broadcast';
 import BroadcastCreate from '../pages/broadcast-create';
 import BroadcastDetail from '../pages/broadcast-detail';
+import BroadcastEdit from '../pages/broadcast-edit';
 import Attenders from '../pages/attenders';
 import AttendersDetail from '../pages/attender-detail';
 import ScanQr from '../pages/scan-qr';
@@ -65,6 +66,12 @@ const AuthedRoute = [
 	{
 		path: "/broadcast/detail/:id",
 		component: BroadcastDetail,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/broadcast/edit/:id",
+		component: BroadcastEdit,
 		accessRole: 'admin',
 		exact: true,
 	},

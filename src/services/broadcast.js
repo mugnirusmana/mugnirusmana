@@ -36,7 +36,7 @@ export const update = (id, params, token) => {
   formData.set('whatsapp', params?.whatsapp);
   formData.set('email', params?.email);
   formData.set('_method', 'PUT');
-  return axios.post(`${ENV.API}/broadcast/${id}`, {
+  return axios.post(`${ENV.API}/broadcast/${id}`, formData, {
     headers: {
       Authorization: token
     }
