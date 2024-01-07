@@ -2,10 +2,12 @@ import { useLocation, useNavigate } from "react-router";
 import _ from 'lodash';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Tooltip } from "@material-tailwind/react";
 
 import { defaultAttenderDetail, getAttenderDetail } from '../../redux/attenderDetailSlice';
 import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
 import { defaultAttenderNotDisplayed, submitAttenderNotDisplay } from "../../redux/attenderNotDisplayedSlice";
+import { defaultAttenderQr, regenerateAttenderQr } from "../../redux/attenderQrSlice";
 import { defaultAttenderRemove, removeAttender } from "../../redux/attenderRemoveSlice";
 
 import BreadCrumb from "../../components/breadcrumb";
@@ -17,24 +19,34 @@ const AttenderDetail = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const id = _.last(location?.pathname?.split('/'));
+  const [firstLoaded, setFirstLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const [alertDetail, setAlertDetail] = useState({show: false, type: '', title: '', message: '', action: () => {}});
   const [showDisplayAlert, setShowDisplayAlert] = useState(false);
   const [showNotDisplayAlert, setShowNotDisplayAlert] = useState(false);
+  const [showRegenerateQrAlert, setShowRegenerateQrAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const auth = useSelector(({ auth }) => auth);
   const attenderDetail = useSelector(({ attenderDetail }) => attenderDetail);
   const attenderDisplayed = useSelector(({ attenderDisplayed }) => attenderDisplayed);
   const attenderNotDisplayed = useSelector(({ attenderNotDisplayed }) => attenderNotDisplayed);
+  const attenderQr = useSelector(({ attenderQr }) => attenderQr);
   const attenderRemove = useSelector(({ attenderRemove }) => attenderRemove);
 
   useEffect(() => {
-    if (id) {
-      dispatch(getAttenderDetail(id));
-    } else {
-      setAlertDetail({show: true, title: 'Get Detail', type: 'danger', message: 'Data not found', action: () => {navigate('/attenders')}});
-    }
+    setFirstLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (firstLoaded) {
+      if (id) {
+        dispatch(getAttenderDetail(id));
+      } else {
+        setAlertDetail({show: true, title: 'Get Detail', type: 'danger', message: 'Data not found', action: () => {navigate('/attenders')}});
+      }
+      setFirstLoaded(false);
+    }
+  }, [firstLoaded])
 
   useEffect(() => {
     let {
@@ -69,7 +81,7 @@ const AttenderDetail = () => {
 
     if (!isLoading && isSuccess) {
       setShowDisplayAlert(false);
-      setAlertDetail({show: true, type: 'success', title: 'Display Comment', message: `<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Displayed</span>`, action: () => {
+      setAlertDetail({show: true, type: 'success', title: 'Display Comment', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Displayed</span>`, action: () => {
         dispatch(defaultAttenderDisplayed());
         dispatch(getAttenderDetail(id));
       }});
@@ -91,7 +103,7 @@ const AttenderDetail = () => {
 
     if (!isLoading && isSuccess) {
       setShowNotDisplayAlert(false);
-      setAlertDetail({show: true, type: 'success', title: 'Hide Comment', message: `<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Hidden</span>`, action: () => {
+      setAlertDetail({show: true, type: 'success', title: 'Hide Comment', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Hidden</span>`, action: () => {
         dispatch(defaultAttenderNotDisplayed());
         dispatch(getAttenderDetail(id));
       }});
@@ -109,12 +121,36 @@ const AttenderDetail = () => {
       isError,
       isSuccess,
       errorMessage,
+    } = attenderQr;
+
+    if (!isLoading && isSuccess) {
+      setShowLoader(false);
+      setShowRegenerateQrAlert(false);
+      setAlertDetail({show: true, type: 'success', title: 'Regenerate Qr', message: `<span>Successfully regenerate QR</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>`, action: () => {
+        dispatch(defaultAttenderQr());
+        dispatch(getAttenderDetail(id));
+      }});
+    }
+
+    if (!isLoading && isError) {
+      setShowLoader(false);
+      setShowRegenerateQrAlert(false);
+      setAlertDetail({show: true, type: 'danger', title: 'Delete', message: errorMessage, action: () => {dispatch(defaultAttenderQr())}});
+    }
+  }, [attenderQr])
+
+  useEffect(() => {
+    let {
+      isLoading,
+      isError,
+      isSuccess,
+      errorMessage,
     } = attenderRemove;
 
     if (!isLoading && isSuccess) {
       setShowLoader(false);
       setShowDeleteAlert(false);
-      setAlertDetail({show: true, type: 'success', title: 'Delete', message: `<span className="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span className="font-bold">Deleted</span>`, action: () => {
+      setAlertDetail({show: true, type: 'success', title: 'Delete', message: `<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>comment successfully</span>&nbsp;<span class="font-bold">Deleted</span>`, action: () => {
         dispatch(defaultAttenderRemove());
         navigate('/attenders');
       }});
@@ -151,6 +187,18 @@ const AttenderDetail = () => {
     }
   }
 
+  const customRenderStatusScan = () => {
+    if (attenderDetail?.data?.attendance) {
+      if (parseInt(attenderDetail?.data?.status_attend) === 2) {
+        return <div className="w-fit flex items-center justify-center"><span className="text-xs bg-green-600 rounded p-1 text-white text-center whitespace-nowrap">Scanned</span></div>
+      } else {
+        return <div className="w-fit flex items-center justify-center"><span className="text-xs bg-red-600 rounded p-1 text-white text-center whitespace-nowrap">Not Scan Yet</span></div>
+      }
+    } else {
+      return '-';
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col overflow-x-hidden hide-scroll">
       <BreadCrumb
@@ -162,7 +210,7 @@ const AttenderDetail = () => {
         ]}
       />
 
-      <div className="w-full h-fit tablet-md:h-full flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5">
+      <div className="w-full h-fit tablet-md:h-full flex flex-col bg-white shadow-lg rounded pb-16 p-5 tablet:p-10 desktop:pb-5 text-xs tablet:text-base">
         <table className="w-full">
           <tbody>
             <tr className="border-b border-b-gray-400">
@@ -186,41 +234,95 @@ const AttenderDetail = () => {
               <td className="py-5">{customRenderStatus()}</td>
             </tr>
             <tr className="border-b border-b-gray-400">
+              <td className="py-5">Scan QR</td>
+              <td className="py-5">:</td>
+              <td className="py-5">{customRenderStatusScan()}</td>
+            </tr>
+            <tr className="border-b border-b-gray-400">
               <td className="py-5">Comment</td>
               <td className="py-5">:</td>
               <td className="py-5">{attenderDetail?.data?.comment??'-'}</td>
             </tr>
             {auth?.data?.role === 'admin' ? (
               <tr>
-                <td className="py-5"></td>
-                <td className="py-5"></td>
-                <td className="py-5">
-                  <div className="w-full flex flex-row justify-end gap-2">
+                <td className="py-5" colSpan={3}>
+                  <div className="w-full flex flex-row justify-start tablet:justify-end gap-2">
                     {parseInt(attenderDetail?.data?.status) === 1 ? (
-                      <span
-                        className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
-                        onClick={() => setShowDisplayAlert(true)}
+                      <Tooltip
+                        className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                        content={"Display Comment"}
+                        placement="top"
+                        animate={{
+                          mount: { scale: 1, y: 0 },
+                          unmount: { scale: 0, y: 25 },
+                        }}
                       >
-                        <i className="fa-solid fa-toggle-on"></i>
-                      </span>
+                        <span
+                          className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
+                          onClick={() => setShowDisplayAlert(true)}
+                        >
+                          <i className="fa-solid fa-toggle-on"></i>
+                        </span>
+                      </Tooltip>
                     ): null}
 
                     {parseInt(attenderDetail?.data?.status) === 2 ? (
-                      <span
-                        className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
-                        onClick={() => setShowNotDisplayAlert(true)}
+                      <Tooltip
+                        className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                        content={"Hide Comment"}
+                        placement="top"
+                        animate={{
+                          mount: { scale: 1, y: 0 },
+                          unmount: { scale: 0, y: 25 },
+                        }}
                       >
-                        <i className="fa-solid fa-toggle-off"></i>
-                      </span>
+                        <span
+                          className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
+                          onClick={() => setShowNotDisplayAlert(true)}
+                        >
+                          <i className="fa-solid fa-toggle-off"></i>
+                        </span>
+                      </Tooltip>
                     ): null}
 
-                    {parseInt(attenderDetail?.data?.status) === 1 ? (
-                      <span
-                        className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                        onClick={() => setShowDeleteAlert(true)}
+                    {parseInt(attenderDetail?.data?.status_attend) === 1 ? (
+                      <Tooltip
+                        className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                        content={"Regenerate QR"}
+                        placement="top"
+                        animate={{
+                          mount: { scale: 1, y: 0 },
+                          unmount: { scale: 0, y: 25 },
+                        }}
                       >
-                        <i className="fa-solid fa-trash"></i>
-                      </span>
+                        <span
+                          className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-amber-600 text-white"
+                          onClick={() => {
+                            setShowRegenerateQrAlert(true);
+                          }}
+                        >
+                          <i className="fa-solid fa-qrcode"></i>
+                        </span>
+                      </Tooltip>
+                    ) : null}
+
+                    {parseInt(attenderDetail?.data?.status) === 1 ? (
+                      <Tooltip
+                        className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                        content={"Delete"}
+                        placement="top"
+                        animate={{
+                          mount: { scale: 1, y: 0 },
+                          unmount: { scale: 0, y: 25 },
+                        }}
+                      >
+                        <span
+                          className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
+                          onClick={() => setShowDeleteAlert(true)}
+                        >
+                          <i className="fa-solid fa-trash"></i>
+                        </span>
+                      </Tooltip>
                     ) : null}
                   </div>
                 </td>
@@ -272,6 +374,17 @@ const AttenderDetail = () => {
         showCancelButton={true}
         onCancel={() => setShowNotDisplayAlert(false)}
         onConfirm={() => dispatch(submitAttenderNotDisplay(id))}
+      />
+
+      <Alert
+        show={showRegenerateQrAlert}
+        isLoading={attenderQr?.isLoading}
+        type="info"
+        title="Regenerate Qr"
+        message={`<span>Will you regenerate</span>&nbsp;<span class="font-bold">${attenderDetail?.data?.name}</span>&nbsp;<span>QR</span>?`}
+        showCancelButton={true}
+        onCancel={() => setShowRegenerateQrAlert(false)}
+        onConfirm={() => dispatch(regenerateAttenderQr(id))}
       />
 
       <Alert

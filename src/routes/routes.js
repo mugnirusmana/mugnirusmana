@@ -1,10 +1,20 @@
 // imports authed pages
 import Dashboard from './../pages/dashboard';
+import User from './../pages/user';
+import UserCreate from './../pages/user-create';
+import UserDetail from './../pages/user-detail';
 import BlockDomain from '../pages/block-domain';
+import Broadcast from '../pages/broadcast';
+import BroadcastCreate from '../pages/broadcast-create';
+import BroadcastDetail from '../pages/broadcast-detail';
+import BroadcastEdit from '../pages/broadcast-edit';
 import Attenders from '../pages/attenders';
 import AttendersDetail from '../pages/attender-detail';
 import ScanQr from '../pages/scan-qr';
 import Settings from '../pages/settings';
+import Profile from '../pages/profile';
+import ChangePassword from '../pages/change-password';
+import UpdateUsername from '../pages/update-username';
 
 // imports unauthed pages
 import Login from './../pages/login';
@@ -21,6 +31,48 @@ const AuthedRoute = [
 	{
 		path: "/dashboard",
 		component: Dashboard,
+		exact: true,
+	},
+	{
+		path: "/user",
+		component: User,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: '/user/add',
+		component: UserCreate,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/user/detail/:id",
+		component: UserDetail,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/broadcast",
+		component: Broadcast,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/broadcast/create",
+		component: BroadcastCreate,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/broadcast/detail/:id",
+		component: BroadcastDetail,
+		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/broadcast/edit/:id",
+		component: BroadcastEdit,
+		accessRole: 'admin',
 		exact: true,
 	},
 	{
@@ -48,6 +100,21 @@ const AuthedRoute = [
 		path: "/settings",
 		component: Settings,
 		accessRole: 'admin',
+		exact: true,
+	},
+	{
+		path: "/profile",
+		component: Profile,
+		exact: true,
+	},
+	{
+		path: "/profile/change-password",
+		component: ChangePassword,
+		exact: true,
+	},
+	{
+		path: "/profile/update-username",
+		component: UpdateUsername,
 		exact: true,
 	},
 ];

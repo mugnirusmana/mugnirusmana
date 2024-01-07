@@ -66,14 +66,14 @@ const ResetPassword = () => {
     }
 
     if (!isLoading && isError) {
-      let message = errorMessage
+      let message = errorMessage;
       if (data?.errors && data?.errors?.length > 0) {
-        message = `<div>Someting wrong with your data<br /><span class="font-bold">${data?.error?.token}</span></div>`
+        message = `<div>Someting wrong with your data:`;
         data?.errors?.map((item, index) => {
           if (index === data?.errors?.length-1) {
-            message = `<br /><span class="font-bold">${data?.error?.message}</span></div>`;
+            message = message + `<br /><span class="font-bold text-xs">${item?.message}</span></div>`;
           } else {
-            message = `<br /><span class="font-bold">${data?.error?.message}</span>`;
+            message = message + `<br /><span class="font-bold text-xs">${item?.message}</span>`;
           }
           return item;
         });

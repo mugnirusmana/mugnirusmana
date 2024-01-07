@@ -3,7 +3,7 @@ const Modal = (props) => {
 
   return (
     <div className={`w-screen h-screen fixed top-0 left-0 z-[100] ${show ? 'flex' : 'hidden'} items-center justify-center text-sky-900`}>
-      <div className="w-full h-full flex items-center justify-center relative p-5">
+      <div className="w-full h-full flex items-start justify-start mobile-lg:items-center mobile-lg:justify-center relative p-5">
         <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50"></div>
           <div className="w-full desktop:w-1/2 bg-white rounded relative pt-10 shadow-lg px-5 pb-5 z-[1]">
             <div

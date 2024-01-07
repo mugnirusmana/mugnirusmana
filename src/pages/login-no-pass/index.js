@@ -185,14 +185,10 @@ const LoginEmail = () => {
       errorMessage: '',
     }
     let name = 'Email';
-    let emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if(!value) {
       result.isError = true;
       result.errorMessage = `${name} is required`;
-    } else if (!emailRegex.test(value)) {
-      result.isError = true;
-      result.errorMessage = `${name} format is invalid`;
     }
 
     return result;
@@ -223,7 +219,7 @@ const LoginEmail = () => {
               <input
                 type={field?.email?.type}
                 className={`h-[40px] rounded w-full outline-none bg-[#E8F0FF] px-2 borde ${field?.email?.isError ? 'border-red-400' : 'border-transparent'}`}
-                placeholder="Email"
+                placeholder="Email or Username"
                 value={field?.email?.value}
                 onChange={(e) => {
                   if (!disabledEmail) {
@@ -245,7 +241,7 @@ const LoginEmail = () => {
                   }
                 }}
               >
-                <i className="fa-solid fa-share"></i>
+                {loginNoPassSlice?.isLoading ? <i className="fa-solid fa-spinner animate-spin"></i> : <i className="fa-solid fa-share"></i>}
               </div>
             </div>
             <span className="text-red-400 text-xs">{field?.email?.isError ? field?.email?.errorMessage : ''}</span>
