@@ -14,6 +14,7 @@ import Envelope from "./components/envelope";
 import Alert from "./components/alert";
 import Menu from "./components/menu";
 import ScrollToTop from "./components/scrollToTop";
+import MusicPlayer from "./components/musicPlayer";
 import HomeSection from './components/home-section';
 import AboutUsSection from './components/about-us-section';
 import OurStorySection from './components/our-story-section';
@@ -25,13 +26,17 @@ import CommentSection from './components/comment-section';
 import EndSection from "./components/end-section";
 import Footer from "./components/footer";
 
-import { getWindowDimensions } from './../../helper';
+import { formatDateCoundown, getWindowDimensions } from './../../helper';
+import { useQueryParams } from "../../config/hook";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const queryParams = useQueryParams();
+  const [name, setName] = useState(queryParams?.name?.replaceAll('__', ' '));
   const reservationSlice = useSelector(({ reservation }) => reservation);
   const commentSlice = useSelector(({ comment }) => comment);
   const settingSlice = useSelector(({ setting }) => setting);
+  const [firstLoaded, setFirstLoaded] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [showUnvailable, setShowUnvailable] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
@@ -55,6 +60,7 @@ const Home = () => {
   const [showSubmitForm, setShowSubmitForm] = useState(false);
   const [dataForm, setDataForm] = useState(null);
   const [dataComment, setDataComment] = useState([]);
+  const [playMusic, setPlayMusic] = useState(false);
   const homeRef = useRef();
   const aboutUsRef = useRef();
   const ourStoryRef = useRef();
@@ -127,7 +133,7 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    dispatch(getSetting());
+    setFirstLoaded(true);
 
     const handleResize = () => {
       setWindowDimensions(getWindowDimensions());
@@ -139,6 +145,14 @@ const Home = () => {
       window.removeEventListener('resize', handleResize);
     }
   }, []);
+
+  useEffect(() => {
+    if (firstLoaded) {
+      setName(queryParams?.name?.replaceAll('__', ' '));
+      setFirstLoaded(false);
+      dispatch(getSetting());
+    }
+  }, [firstLoaded]);
 
   useEffect(() => {
     if (windowDimensions.width <= (desktopSize-1)) {
@@ -176,7 +190,7 @@ const Home = () => {
         show: true,
         title: 'Submit Form',
         type: 'success',
-        message: '<div class="w-full text-center flex flex-col items-center justify-center"><span class="text-md font-bold">Thanks for submitting the form</span><br class="hidden" /><span class="text-xs">We have send you a QR Code URL to your email</span><br class="hidden" /><span class="text-xs">and copy this QR Code URL</span><br class="hidden" /><span class="text-xs">You can use it for your attendance</span><br class="hidden" /><span class="text-xs">or you can manual sign by sign a signature book</span></div>',
+        message: '<div class="w-full text-center flex flex-col items-center justify-center"><span class="text-base font-bold">Thanks for submitting the form</span><br class="hidden" /><span class="text-xs">We have send you a QR Code URL to your email</span><br class="hidden" /><span class="text-xs">and copy this QR Code URL</span><br class="hidden" /><span class="text-xs">You can use it for your attendance</span><br class="hidden" /><span class="text-xs">or you can manual sign by sign a signature book</span></div>',
         confirmButtonText: 'Copy QR Url & Close',
         action: () => {
           navigator.clipboard.writeText(data?.link_qr);
@@ -209,7 +223,7 @@ const Home = () => {
           show: true,
           title: 'Submit Form',
           type: 'warning',
-          message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-md font-bold">Something went wrong with the data you send${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
+          message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-base font-bold">Something went wrong with the data you send${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
           confirmButtonText: 'Confirm',
           action: () => {
             setShowNotifGlobal({
@@ -422,6 +436,8 @@ const Home = () => {
       <Envelope
         show={showEnvelope}
         windowDimensions={windowDimensions}
+        onOpen={() => setPlayMusic(true)}
+        name={name}
       />
 
       <Alert
@@ -482,32 +498,67 @@ const Home = () => {
         }}
       />
 
+      <MusicPlayer
+        firstPlay={playMusic}
+      />
+
       <HomeSection
-        onClickDown={() => aboutUsRef?.current?.scrollIntoView({ behavior: 'smooth' })}
         ref={homeRef}
+        data={settingSlice?.data}
+        onClickDown={() => aboutUsRef?.current?.scrollIntoView({ behavior: 'smooth' })}
         onShowModalImage={(data) => setImageModal({show: true, data: data})}
       />
 
-      <AboutUsSection ref={aboutUsRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
+      <AboutUsSection
+        ref={aboutUsRef}
+        data={settingSlice?.data}
+        onShowModalImage={(data) => setImageModal({show: true, data: data})}
+      />
 
-      <OurStorySection ref={ourStoryRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
+      <OurStorySection
+        ref={ourStoryRef}
+        data={settingSlice?.data}
+        onShowModalImage={(data) => setImageModal({show: true, data: data})}
+      />
 
-      <EventsSection date={'12/31/2024 10:00'} ref={eventsRef} />
+      <EventsSection
+        ref={eventsRef}
+        data={settingSlice?.data}
+        date={formatDateCoundown(settingSlice?.data?.event_ceremonial_date, settingSlice?.data?.event_ceremonial_start_time)}
+     />
 
-      <BridesmaidsGroomsmanSection ref={bridesmaidsGroomsmanRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
+      <BridesmaidsGroomsmanSection
+        ref={bridesmaidsGroomsmanRef}
+        data={settingSlice?.data}
+        onShowModalImage={(data) => setImageModal({show: true, data: data})}
+      />
 
-      <GallerySection ref={galleryRef} onShowModalImage={(data) => setImageModal({show: true, data: data})} />
+      <GallerySection
+        ref={galleryRef}
+        data={settingSlice?.data}
+        onShowModalImage={(data) => setImageModal({show: true, data: data})}
+      />
 
-      <ReservationSection ref={reservationRef} onSubmit={(data) => {
-        if (!data?.isError) {
-          setDataForm(data?.data);
-          setShowSubmitForm(true);
-        }
-      }} />
+      <ReservationSection
+        ref={reservationRef}
+        data={settingSlice?.data}
+        name={name}
+        onSubmit={(data) => {
+          if (!data?.isError) {
+            setDataForm(data?.data);
+            setShowSubmitForm(true);
+          }
+        }}
+      />
 
-      <CommentSection data={dataComment} />
+      <CommentSection
+        data={dataComment}
+      />
 
-      <EndSection ref={endRef} />
+      <EndSection
+        ref={endRef}
+        data={settingSlice?.data}
+      />
 
       <Footer />
 

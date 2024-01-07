@@ -87,7 +87,7 @@ module.exports = {
         }
       },
       animation: {
-        'fly': 'flying 2s linear infinite',
+        fly: 'flying 2s linear infinite',
       },
     }
   },

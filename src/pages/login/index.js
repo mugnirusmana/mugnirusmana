@@ -129,7 +129,7 @@ const Login = () => {
           <input
             type="text"
             className={`h-[40px] rounded w-full outline-none bg-[#E8F0FF] px-2 borde ${field?.username?.isError ? 'border-red-400' : 'border-transparent'}`}
-            placeholder="Email"
+            placeholder="Email or Username"
             value={field?.username?.value}
             onChange={(e) => {
               let resultValidate = validateUsername(e?.currentTarget?.value);

@@ -33,11 +33,11 @@ const CommentSection = (props) => {
       return (
         <div key={index} className={`w-[80%] transition-all duration-[2000ms] ease-in-out tablet:w-[600px] flex flex-col items-center justify-between min-h-[250px] bg-light-pink rounded-md shadow-lg p-10 absolute bottom-10 ${index === activeIndex ? ' opacity-100' : 'opacity-0'}`}>
           <div className="w-full h-fit flex flex-col">
-            <span className="font-bold font-whisper text-2xl">{item?.name}</span>
+            <span className="font-bold font-dancing-script text-2xl">{item?.name}</span>
             <span className="text-xs">{item?.date}</span>
           </div>
           <div className="w-full h-fit border-l-4 border-l-dark-pink pt-1.5 pl-3">
-            <span className="text-justify text:xs tablet:text-md">{item?.comment}</span>
+            <span className="text-justify text:xs tablet:text-base">{item?.comment}</span>
           </div>
         </div>
       )

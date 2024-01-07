@@ -6,7 +6,6 @@ import DefaultImg from './../../assets/images/defaul-img.png';
 
 import CheckBox from './../../components/checkbox';
 import SelectOption from './../../components/select-option';
-import Loader from "./../../components/loader";
 import Alert from "./../../components/alert";
 
 import { defaultSettingDetail, getDetail } from "../../redux/settingDetailSlice";
@@ -42,6 +41,7 @@ const Settings = () => {
     bride_facebook: '',
     bride_instagram: '',
     bride_picture: '',
+    home_couple_picture: '',
     about_us_bg: '',
     first_meet_date: '',
     first_meet_picture: '',
@@ -387,6 +387,28 @@ const Settings = () => {
           </div>
 
           <div className="w-full flex flex-col gap-5 tablet:flex-row">
+            <div className="w-full h-full flex flex-col rounded gap-3 bg-white shadow-lg p-5">
+              <span className="font-bold">Home Section -</span>
+              <div className="w-full h-full flex flex-col gap-3">
+                <span>Couple Picture</span>
+                <div className="w-full h-full flex flex-col gap-3">
+                  <input type="file" accept=".jpeg,.jpg,.png" name="bg_about_us" className="w-fit bg-white outline-none" onChange={(e) => {
+                    let file = new FileReader();
+                    if (e?.target?.files[0]) {
+                      file.readAsDataURL(e.target.files[0]);
+                      file.onload = (response) => response?.target?.result ? setData({...data, home_couple_picture: response?.target?.result}) : {};
+                    } else {
+                      setData({...data, home_couple_picture: data?.home_couple_picture});
+                    }
+                    file.onerror = () => setData({...data, home_couple_picture: data?.home_couple_picture});
+                  }} />
+                  <div className="w-[120px] h-[100px] rounded">
+                    {data?.home_couple_picture ?  <img src={data?.home_couple_picture} className="w-full h-full object-cover rounded" alt="first-date"/> : <img src={DefaultImg} className="w-full h-full object-cover rounded" alt="about-us-bg"/>}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="w-full h-full flex flex-col rounded gap-3 bg-white shadow-lg p-5">
               <span className="font-bold">About Us Section -</span>
               <div className="w-full h-full flex flex-col gap-3">

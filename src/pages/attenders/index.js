@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { Tooltip } from "@material-tailwind/react";
 
 import { defaultAttenderList, getAttenderList } from "../../redux/attenderListSlice";
 import { defaultAttenderDisplayed, submitAttenderDisplay } from "../../redux/attenderDisplayedSlice";
@@ -250,9 +251,9 @@ const Attenders = () => {
   const onReset = () => {
     let resetParams = {
       keyword: null,
-      attendance: {},
-      status: {},
-      status_attend: {},
+      attendance: {value: '', label: ''},
+      status: {value: '', label: ''},
+      status_attend: {value: '', label: ''},
     }
     setCurrentPage('1');
     setFilter({...resetParams, keyword: ''});
@@ -294,56 +295,108 @@ const Attenders = () => {
           withAction={true}
           renderAction={(data) => (
             <div className="flex flex-row items-center justify-end gap-2">
-              <span
-                className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white"
-                onClick={() => navigate(`/attenders/${data?.id}`)}
+              <Tooltip
+                className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                content={"Open Detail"}
+                placement="top"
+                animate={{
+                  mount: { scale: 1, y: 0 },
+                  unmount: { scale: 0, y: 25 },
+                }}
               >
-                <i className="fa-solid fa-eye"></i>
-              </span>
+                <span
+                  className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-sky-600 text-white"
+                  onClick={() => navigate(`/attenders/${data?.id}`)}
+                >
+                  <i className="fa-solid fa-eye"></i>
+                </span>
+              </Tooltip>
               {auth?.data?.role === 'admin' ? (
                 <>
                   {parseInt(data?.status) === 1 ? (
-                    <span
-                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
-                      onClick={() => {
-                        setSelectData(data);
-                        setShowDisplayedAlert(true);
+                    <Tooltip
+                      className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                      content={"Display Comment"}
+                      placement="top"
+                      animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0, y: 25 },
                       }}
                     >
-                      <i className="fa-solid fa-toggle-on"></i>
-                    </span>
+                      <span
+                        className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-orange-400 text-white"
+                        onClick={() => {
+                          setSelectData(data);
+                          setShowDisplayedAlert(true);
+                        }}
+                      >
+                        <i className="fa-solid fa-toggle-on"></i>
+                      </span>
+                    </Tooltip>
                   ) : (
-                    <span
-                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
-                      onClick={() => {
-                        setSelectData(data);
-                        setShowNotDisplayedAlert(true);
+                    <Tooltip
+                      className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                      content={"Hide Comment"}
+                      placement="top"
+                      animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0, y: 25 },
                       }}
                     >
-                      <i className="fa-solid fa-toggle-off"></i>
-                    </span>
+                      <span
+                        className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-green-600 text-white"
+                        onClick={() => {
+                          setSelectData(data);
+                          setShowNotDisplayedAlert(true);
+                        }}
+                      >
+                        <i className="fa-solid fa-toggle-off"></i>
+                      </span>
+                    </Tooltip>
                   )}
                   {parseInt(data?.status_attend) === 1 ? (
-                    <span
-                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-amber-600 text-white"
-                      onClick={() => {
-                        setSelectData(data);
-                        setShowRegenerateQrAlert(true);
+                    <Tooltip
+                      className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                      content={"Regenerate QR"}
+                      placement="top"
+                      animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0, y: 25 },
                       }}
                     >
-                      <i className="fa-solid fa-qrcode"></i>
-                    </span>
+                      <span
+                        className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-amber-600 text-white"
+                        onClick={() => {
+                          setSelectData(data);
+                          setShowRegenerateQrAlert(true);
+                        }}
+                      >
+                        <i className="fa-solid fa-qrcode"></i>
+                      </span>
+                    </Tooltip>
                   ) : null}
                   {parseInt(data?.status) === 1 ? (
-                    <span
-                      className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
-                      onClick={() => {
-                        setSelectData(data);
-                        setShowDeleteAlert(true);
+                    <Tooltip
+                      className="rounded px-2 py-1 bg-white text-sky-900 border border-sky-900 text-xs font-bold shadow-lg"
+                      content={"Delete"}
+                      placement="top"
+                      animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0, y: 25 },
                       }}
                     >
-                      <i className="fa-solid fa-trash"></i>
-                    </span>
+                      <span
+                        className="w-fit h-fit px-2 py-1 rounded cursor-pointer bg-red-600 text-white"
+                        data-tooltip-target="tooltip-hover"
+                        data-tooltip-trigger="hover"
+                        onClick={() => {
+                          setSelectData(data);
+                          setShowDeleteAlert(true);
+                        }}
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </span>
+                    </Tooltip>
                   ) : null}
                 </>
               ) : null}
@@ -424,7 +477,7 @@ const Attenders = () => {
                       })
                     }}>Filter</div>
                 </div>
-                <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={onReset}>
+                <div className="w-full tablet:w-fit flex flex-col gap-1" onClick={() => onReset()}>
                   <span className="text-xs hidden tablet:block">&nbsp;</span>
                   <div className="cursor-pointer w-full tablet:w-fit h-full flex items-center justify-center text-sky-900 border border-sky-900 rounded px-4">Reset</div>
                 </div>

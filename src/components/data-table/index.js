@@ -130,7 +130,7 @@ const DataTable = (props) => {
     if (showInfo) {
       return (
         <div className="w-full flex flex-col tablet:flex-row mt-5 text-sm text-sky-900 gap-3">
-          <div className="w-full whitespace-nowrap flex justify-center tablet:justify-start">Total Data:&nbsp;<b>({data?.data?.length} / {paginate?.totalData})</b></div>
+          <div className="w-full whitespace-nowrap flex justify-center tablet:justify-start">Total Data:&nbsp;<b>({data?.data?.length??0} / {paginate?.totalData??0})</b></div>
           <div className="w-full tablet:w-fit whitespace-nowrap flex flex-col tablet:flex-row items-center gap-2">
             <div className="w-full flex flex-row justify-center items-center gap-2">
               <span>Per Page</span>
@@ -218,7 +218,7 @@ const DataTable = (props) => {
       return (
         <div className="w-full flex flex-row justify-end">
           <div
-            className="w-fit p-2 bg-sky-900 text-white cursor-pointer text-xs rounded"
+            className="w-full tablet:w-fit py-2 px-4 bg-sky-900 text-white cursor-pointer text-xs rounded text-center flex items-center justify-center mb-5 tablet:mb-0"
             onClick={() => {
               if (onAdd) {
                 return onAdd();

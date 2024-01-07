@@ -68,12 +68,15 @@ export const authSlice = createSlice({
     setTokenSlice: (state, action) => {
       state.token = action?.payload?.token;
       state.data = action?.payload?.data;
-    }
+    },
+    setDataSlice: (state, action) => {
+      state.data = action?.payload;
+    },
   },
 });
 
 // this is for dispatch
-export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed, removeTokenUnathorized, defaultRemoveTokenUnathorized, setTokenSlice } = authSlice.actions;
+export const { removeToken, defaultLogIn, logIn, logInSuccess, logInFailed, removeTokenUnathorized, defaultRemoveTokenUnathorized, setTokenSlice, setDataSlice } = authSlice.actions;
 
 export const signIn = (params, width, desktopSize) => {
   return async (dispatch, getState) => {
@@ -139,6 +142,12 @@ export const setToken = (data, width, desktopSize) => {
       dispatch(sideMenu(true));
     }
     dispatch(setTokenSlice(data))
+  }
+}
+
+export const setData = (data) => {
+  return async (dispatch, getState) => {
+    dispatch(setDataSlice(data));
   }
 }
 

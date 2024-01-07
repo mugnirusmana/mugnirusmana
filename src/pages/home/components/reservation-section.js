@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 
+import { formatDate } from './../../../helper';
+
 import Header from './header';
 
-import Bg from './../../../assets/images/bg-2.png';
+import Default from './../../../assets/images/defaul-img.png';
 
 import Right from './../../../assets/svgs/right.svg';
 
@@ -29,7 +31,7 @@ const useOutsideClick = (callback) => {
 };
 
 const ReservationSection = React.forwardRef((props, ref) => {
-  let { onSubmit } = props;
+  let { data, name, onSubmit } = props;
   const reservationSlice = useSelector(({ reservation }) => reservation);
   const fullNameRef = useRef();
   const emailRef = useRef();
@@ -50,7 +52,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
   const [valueParticipant, setValueParticipant] = useState(0);
   const [activeParticipantList, setActiveParticipantList] = useState(false);
 
-  const [fullname, setFullname] = useState('');
+  const [fullname, setFullname] = useState(name??'');
   const [email, setEmail] = useState('');
   const [participant, setParticipant] = useState({label: 'Select Participant', value: 0})
   const [attendance, setAttendance] = useState(0);
@@ -79,6 +81,10 @@ const ReservationSection = React.forwardRef((props, ref) => {
 
   }, [reservationSlice]);
 
+  useEffect(() => {
+    if(name && !fullname) setFullname(name);
+  }, [name]);
+
   const resetForm = () => {
     setErrorFullname(`&nbsp;`);
     setErrorEmail(`&nbsp;`);
@@ -86,7 +92,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
     setErrorAttendance(`&nbsp;`);
     setErrorComment(`&nbsp;`);
 
-    setFullname('');
+    setFullname(name??'');
     setEmail('');
     setParticipant({label: 'Select Participant', value: 0})
     setAttendance(0);
@@ -182,20 +188,25 @@ const ReservationSection = React.forwardRef((props, ref) => {
   }
 
   return (
-    <div ref={ref} className="w-full min-h-screen tablet-lg:h-screen desktop:h-auto flex flex-col items-center relative">
+    <div ref={ref} className={`w-full min-h-screen tablet-lg:h-screen desktop:h-auto flex flex-col items-center relative `}>
       <Header
         title={'Reservation'}
         textColor={'text-light-pink'}
         zIndex={'z-[1]'}
       />
 
-      <img src={Bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      {data?.reservation_bg ? (
+        <img src={data?.reservation_bg} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      ) : (
+        <img src={Default} className="w-full h-full absolute top-0 left-0 object-cover opacity-40" alt="bg"/>
+      )}
+
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-30" />
 
       <div className="w-full desktop:w-[750px] h-full flex flex-col px-5 pb-5 tablet:pb-20 tablet:mt-10 desktop:mt-0 tablet:px-20 desktop:px-5 z-[1]">
         <div className="w-full h-fit px-10 flex flex-col items-center text-center mb-10 tablet:mb-15 desktop:mb-10 text-light-pink font-bold text-sm desktop:text-lg">
           <span>Please Fill this form before</span>
-          <span className="mb-10 tablet:mb-15 desktop:mb-10">January 01, 2021</span>
+          <span className="mb-10 tablet:mb-15 desktop:mb-10">{formatDate(data?.event_ceremonial_date).month} {formatDate(data?.event_ceremonial_date).date}, {formatDate(data?.event_ceremonial_date).year}</span>
           <span>We are looking forward to your presence</span>
         </div>
         
@@ -267,7 +278,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
                 onClick={() => setAttendance(2)}
               >
                 <input type="radio" className="cursor-pointer" val={2} onChange={() => setAttendance(2)} checked={attendance===2}/>
-                <span className="mt-1 cursor-pointer">Sorry, I will attend</span>
+                <span className="mt-1 cursor-pointer">Sorry, I will not attend</span>
               </div>
             </div>
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorAttendance}}></span>

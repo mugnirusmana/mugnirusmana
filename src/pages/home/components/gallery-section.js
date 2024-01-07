@@ -2,11 +2,7 @@ import React from 'react';
 
 import Header from './header';
 
-import Gallery1 from './../../../assets/images/bg-2.png';
-import Gallery2 from './../../../assets/images/bg-1.png';
-import Gallery3 from './../../../assets/images/first-date.png';
-import Gallery4 from './../../../assets/images/first-meet.png';
-import Gallery5 from './../../../assets/images/engagement.png';
+import Default from './../../../assets/images/defaul-img.png';
 
 import Left from './../../../assets/svgs/left.svg';
 import Right from './../../../assets/svgs/right.svg';
@@ -14,7 +10,7 @@ import Shape8 from './../../../assets/svgs/shape8.svg';
 import Shape9 from './../../../assets/svgs/shape9.svg';
 
 const GallerySection = React.forwardRef((props, ref) => {
-  let { onShowModalImage } = props;
+  let { data, onShowModalImage } = props;
 
   return (
     <div ref={ref} className="w-screen min-h-screen tablet:h-screen flex flex-col bg-light-pink relative">
@@ -36,23 +32,43 @@ const GallerySection = React.forwardRef((props, ref) => {
       <div className="w-full h-full flex flex-row px-5 pb-5 tablet:px-20 desktop:px-32 z-[1]">
         <div className="w-full h-full flex flex-col desktop:flex-row rounded-md shadow-lg">
           <div className="w-full h-full">
-            <img src={Gallery1} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer rounded-tl-md rounded-tr-md desktop:rounded-tr-none desktop:rounded-bl-md" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            {data?.gallery_1 ? (
+              <img src={data?.gallery_1} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer rounded-tl-md rounded-tr-md desktop:rounded-tr-none desktop:rounded-bl-md" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            ) : (
+              <img src={Default} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer rounded-tl-md rounded-tr-md desktop:rounded-tr-none desktop:rounded-bl-md" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            )}
           </div>
           <div className="w-full h-full flex flex-col tablet:flex-col">
             <div className="w-full h-full flex flex-col tablet:flex-row">
               <div className="w-full h-full">
-                <img src={Gallery2} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              {data?.gallery_2 ? (
+                <img src={data?.gallery_2} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              ): (
+                <img src={Default} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              )}
               </div>
               <div className="w-full h-full">
-                <img src={Gallery3} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer desktop:rounded-tr-md" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              {data?.gallery_3 ? (
+                <img src={data?.gallery_3} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer desktop:rounded-tr-md" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              ) : (
+                <img src={Default} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer desktop:rounded-tr-md" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              )}
               </div>
             </div>
             <div className="w-full h-full flex flex-col tablet:flex-row">
               <div className="w-full h-full">
-                <img src={Gallery4} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer tablet:rounded-bl-md desktop:rounded-bl-none" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              {data?.gallery_4 ? (
+                <img src={data?.gallery_4} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer tablet:rounded-bl-md desktop:rounded-bl-none" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              ) : (
+                <img src={Default} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer tablet:rounded-bl-md desktop:rounded-bl-none" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              )}
               </div>
               <div className="w-full h-full">
-                <img src={Gallery5} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer rounded-bl-md rounded-br-md tablet:rounded-bl-none" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              {data?.gallery_5 ? (
+                <img src={data?.gallery_5} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer rounded-bl-md rounded-br-md tablet:rounded-bl-none" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              ) : (
+                <img src={Default} className="w-full h-[400px] grayscale hover:grayscale-0 tablet:h-full object-cover transition-all duration-300 ease-in-out cursor-pointer rounded-bl-md rounded-br-md tablet:rounded-bl-none" alt="gallery" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+              )}
               </div>
             </div>
           </div>
