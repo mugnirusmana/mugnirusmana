@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/static/css/main.923e0516.css",
+    "main.js": "/static/js/main.86a109f1.js",
+    "static/js/453.6a3543ef.chunk.js": "/static/js/453.6a3543ef.chunk.js",
+    "static/media/song4.mp3": "/static/media/song4.b26f7967162e4c2bdd91.mp3",
+    "static/media/song3.mp3": "/static/media/song3.e4dfb81d948c6bf3c818.mp3",
+    "static/media/song1.mp3": "/static/media/song1.9ef4e42151e9858a22a0.mp3",
+    "static/media/song2.mp3": "/static/media/song2.a1a777256a6d391b1294.mp3",
+    "static/media/shape7.svg": "/static/media/shape7.d642a4dbef0917f1cd4d88c19e8d29ee.svg",
+    "static/media/akad.jpg": "/static/media/akad.ac8bcc0a479f9e9c1304.jpg",
+    "static/media/resepsi.jpeg": "/static/media/resepsi.7a9feec1f43b098a7d40.jpeg",
+    "static/media/right.svg": "/static/media/right.08ad971938bcb9e752f611983314f784.svg",
+    "static/media/left.svg": "/static/media/left.317f45020b97d4e04f3912fba406b94c.svg",
+    "static/media/shape3-dark-pink.svg": "/static/media/shape3-dark-pink.97dad6feb7939a7f8184910ebe2dd1f3.svg",
+    "static/media/shape5-dark-pink.svg": "/static/media/shape5-dark-pink.5e13152a1e32419227d55cfd68258018.svg",
+    "static/media/shape10.svg": "/static/media/shape10.4265d274014175a193c2438b5e9e87d3.svg",
+    "static/media/mulung-mantu.jpg": "/static/media/mulung-mantu.5f603ac70a2465453739.jpg",
+    "static/media/shape2.svg": "/static/media/shape2.ef45565b64fba1ab89c58d03e3eaabaa.svg",
+    "static/media/broadcasts-import.xlsx": "/static/media/broadcasts-import.6cbb1ad6fa0f496e54a8.xlsx",
+    "static/media/shape11.svg": "/static/media/shape11.5c792fae45876cfd4d1596da88b11c6c.svg",
+    "index.html": "/index.html",
+    "static/media/shape9.svg": "/static/media/shape9.f687630a375c83c3d34098d612c71cb6.svg",
+    "static/media/shape8.svg": "/static/media/shape8.6f48544c25e303a0767f7951c45d47ae.svg",
+    "static/media/icon-dash-admin.svg": "/static/media/icon-dash-admin.799107fdecf67ea1b938b56b5dc5ddfc.svg",
+    "static/media/icon-dash.svg": "/static/media/icon-dash.55cdd8b860cefd4cafc7584ea668c500.svg",
+    "main.923e0516.css.map": "/static/css/main.923e0516.css.map",
+    "main.86a109f1.js.map": "/static/js/main.86a109f1.js.map",
+    "453.6a3543ef.chunk.js.map": "/static/js/453.6a3543ef.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.923e0516.css",
+    "static/js/main.86a109f1.js"
+  ]
+}
