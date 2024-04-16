@@ -11,7 +11,6 @@ import Shape9 from './../../../assets/svgs/shape9.svg';
 
 const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
   let { data, onShowModalImage } = props;
-
   return (
     <div ref={ref} className="w-screen min-h-screen relative bg-light-pink flex flex-col">
       <Header
@@ -31,8 +30,8 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
       <div className="w-full h-full flex flex-col gap-5 desktop:gap-10 px-5 pb-5 desktop:px-32 desktop:pb-20 z-[1]">
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            {data?.accompanist_pircue_1 ? (
-              <img src={data?.accompanist_pircue_1} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            {data?.accompanist_picture_1 ? (
+              <img src={data?.accompanist_picture_1} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             ) : (
               <img src={Default} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             )}
@@ -69,8 +68,8 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            {data?.accompanist_pircue_2 ? (
-              <img src={data?.accompanist_pircue_2} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            {data?.accompanist_picture_2 ? (
+              <img src={data?.accompanist_picture_2} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             ) : (
               <img src={Default} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             )}
@@ -107,8 +106,8 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            {data?.accompanist_pircue_3 ? (
-              <img src={data?.accompanist_pircue_3} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            {data?.accompanist_picture_3 ? (
+              <img src={data?.accompanist_picture_3} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             ) : (
               <img src={Default} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             )}
@@ -147,8 +146,8 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
         </div>
         <div className="w-full h-full flex flex-col tablet:flex-row gap-5 desktop:gap-10">
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            {data?.accompanist_pircue_4 ? (
-              <img src={data?.accompanist_pircue_4} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            {data?.accompanist_picture_4 ? (
+              <img src={data?.accompanist_picture_4} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             ) : (
               <img src={Default} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             )}
@@ -185,8 +184,8 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            {data?.accompanist_pircue_5 ? (
-              <img src={data?.accompanist_pircue_5} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            {data?.accompanist_picture_5 ? (
+              <img src={data?.accompanist_picture_5} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             ) : (
               <img src={Default} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             )}
@@ -223,8 +222,8 @@ const BridesmaidsGroomsmanSection = React.forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col bg-white rounded-md p-3 gap-3 items-center text-dark-pink shadow-lg">
-            {data?.accompanist_pircue_6 ? (
-              <img src={data?.accompanist_pircue_6} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
+            {data?.accompanist_picture_6 ? (
+              <img src={data?.accompanist_picture_6} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             ) : (
               <img src={Default} className="w-full h-[200px] mobile-md:h-[300px] desktop:h-[400px] object-cover rounded-md border border-dark-pink cursor-pointer" alt="bridesmaids-groomsman" onClick={(e) => onShowModalImage ? onShowModalImage(e.target.getAttribute('src')) : {}} />
             )}

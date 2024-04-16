@@ -37,10 +37,10 @@ const ReservationSection = React.forwardRef((props, ref) => {
   const emailRef = useRef();
   const commentRef = useRef();
   const participantOption = [
-    {label: 'Only Me (1 Person)', value: 1},
-    {label: '2 People', value: 2},
-    {label: '3 People', value: 3},
-    {label: 'More than 3 People', value: 4},
+    {label: 'Hanya saya saja', value: 1},
+    {label: '2 Orang', value: 2},
+    {label: '3 Orang', value: 3},
+    {label: 'Lebih dari 3 Orang', value: 4},
   ];
 
   const handleClickParticipantOutside = () => {
@@ -54,7 +54,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
 
   const [fullname, setFullname] = useState(name??'');
   const [email, setEmail] = useState('');
-  const [participant, setParticipant] = useState({label: 'Select Participant', value: 0})
+  const [participant, setParticipant] = useState({label: 'Pilih jumlah yang hadir', value: 0})
   const [attendance, setAttendance] = useState(0);
   const [comment, setComment] = useState('');
   const [errorFullname, setErrorFullname] = useState(`&nbsp;`);
@@ -122,42 +122,42 @@ const ReservationSection = React.forwardRef((props, ref) => {
 
     if (!fullname) {
       result.isError = true;
-      setErrorFullname('Fullname is required');
+      setErrorFullname('Nama lengkap wajib diisi');
     } else if (fullname?.length > 50) {
       result.isError = true;
-      setErrorFullname('Fullname max 50 characters');
+      setErrorFullname('Nama lengkap maksimal 50 karakter');
     } else if (!fullnameRegex.test(fullname)) {
       result.isError = true;
-      setErrorFullname('Fullname format is invalid (<span class="font-bold italic">Only aplhabet and space</span>)');
+      setErrorFullname('Format nama lengkap tidak valid (<span class="font-bold italic">Only huruf and spasi</span>)');
     }
 
     if (!email) {
       result.isError = true;
-      setErrorEmail('Email is required');
+      setErrorEmail('Email wajib diisi');
     } else if (email?.length > 50) {
       result.isError = true;
-      setErrorEmail('Email max 30 characters');
+      setErrorEmail('Email maksimal 30 karakter');
     } else if (!emailRegex.test(email)) {
       result.isError = true;
-      setErrorEmail('Email format is invalid');
+      setErrorEmail('Format email tidak valid');
     }
 
     if (!participant?.value) {
       result.isError = true;
-      setErrorParticipant('Participants is required');
+      setErrorParticipant('Jumlah yang hadir wajib diisi');
     }
 
     if (!attendance) {
       result.isError = true;
-      setErrorAttendance('Attendance is required');
+      setErrorAttendance('Kehadiran wajib diisi');
     }
 
     if (!comment) {
       result.isError = true;
-      setErrorComment('Comment is required');
+      setErrorComment('Komentar wajib diisi');
     }else if (comment?.length > 230) {
       result.isError = true;
-      setErrorComment('Comment max 230 character');
+      setErrorComment('Komenta maksimal 230 karakter');
     }
 
     return result;
@@ -205,21 +205,21 @@ const ReservationSection = React.forwardRef((props, ref) => {
 
       <div className="w-full desktop:w-[750px] h-full flex flex-col px-5 pb-5 tablet:pb-20 tablet:mt-10 desktop:mt-0 tablet:px-20 desktop:px-5 z-[1]">
         <div className="w-full h-fit px-10 flex flex-col items-center text-center mb-10 tablet:mb-15 desktop:mb-10 text-light-pink font-bold text-sm desktop:text-lg">
-          <span>Please Fill this form before</span>
+          <span>Harap isi form reservasi sebelum</span>
           <span className="mb-10 tablet:mb-15 desktop:mb-10">{formatDate(data?.event_ceremonial_date).month} {formatDate(data?.event_ceremonial_date).date}, {formatDate(data?.event_ceremonial_date).year}</span>
-          <span>We are looking forward to your presence</span>
+          <span>Kami sangat mengharapkan kehadiran anda</span>
         </div>
         
         <div className="w-full h-fit tablet:h-full flex flex-col items-center justify-between bg-light-pink rounded-md p-5 tablet:p-10 text-dark-pink shadow-lg gap-5 desktop:gap-5 relative">
           <img src={Right} className="h-full absolute right-0 top-0" alt="shape" />
-          <span className="font-bold text-xl z-[1]">FORM RESERVATION</span>
+          <span className="font-bold text-xl z-[1]">FORM RESERVASI</span>
 
           <div className="w-full flex flex-col z-[1]">
             <div
               className="font-bold cursor-pointer w-fit"
               onClick={() => fullNameRef?.current?.focus()}
-            >Full Name <span className="text-red-500">*</span></div>
-            <input ref={fullNameRef} name="full_name" type="text" className="h-[30px] px-2 outline-none rounded" placeholder="Fill your full name here" autoComplete="off" maxLength={50} value={fullname} onChange={(e) => setFullname(e?.currentTarget?.value)}/>
+            >Nama lengkap <span className="text-red-500">*</span></div>
+            <input ref={fullNameRef} name="full_name" type="text" className="h-[30px] px-2 outline-none rounded" placeholder="Isi nama lengkap anda disini" autoComplete="off" maxLength={50} value={fullname} onChange={(e) => setFullname(e?.currentTarget?.value)}/>
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorFullname}}></span>
           </div>
 
@@ -228,12 +228,12 @@ const ReservationSection = React.forwardRef((props, ref) => {
               className="font-bold cursor-pointer w-fit"
               onClick={() => emailRef?.current?.focus()}
             >Email <span className="text-red-500">*</span></div>
-            <input ref={emailRef} name="email" type="email" className="h-[30px] px-2 outline-none rounded" placeholder="Fill your email here" autoComplete="off" maxLength={50} value={email} onChange={(e) => setEmail(e?.currentTarget?.value)}/>
+            <input ref={emailRef} name="email" type="email" className="h-[30px] px-2 outline-none rounded" placeholder="Isi email anda disini" autoComplete="off" maxLength={50} value={email} onChange={(e) => setEmail(e?.currentTarget?.value)}/>
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorEmail}}></span>
           </div>
 
           <div className="w-full flex flex-col z-[2]">
-            <div className="font-bold w-fit" >Total Participants <span className="text-red-500">*</span></div>
+            <div className="font-bold w-fit" >Jumlah yang hadir <span className="text-red-500">*</span></div>
             <div className="w-full h-[30px] px-2 flex flex-row justify-center bg-white rounded cursor-pointer relative">
               <div
                 ref={selectRef}
@@ -264,21 +264,21 @@ const ReservationSection = React.forwardRef((props, ref) => {
             <div
               className="font-bold cursor-pointer w-fit"
               onClick={() => setAttendance(1)}
-            >Attendance <span className="text-red-500">*</span></div>
+            >Kehadiran <span className="text-red-500">*</span></div>
             <div className="w-full flex flex-col">
               <div
                 className="w-fit flex flex-row items-center gap-2"
                 onClick={() => setAttendance(1)}
               >
                 <input type="radio" className="cursor-pointer" val={1} onChange={() => setAttendance(1)} checked={attendance===1}/>
-                <span className="mt-1 cursor-pointer">Yes, I will attend</span>
+                <span className="mt-1 cursor-pointer">Ya, Saya akan hadir</span>
               </div>
               <div
                 className="w-fit flex flex-row items-center gap-2"
                 onClick={() => setAttendance(2)}
               >
                 <input type="radio" className="cursor-pointer" val={2} onChange={() => setAttendance(2)} checked={attendance===2}/>
-                <span className="mt-1 cursor-pointer">Sorry, I will not attend</span>
+                <span className="mt-1 cursor-pointer">Maaf, Saya tidak bisa hadir</span>
               </div>
             </div>
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorAttendance}}></span>
@@ -288,8 +288,8 @@ const ReservationSection = React.forwardRef((props, ref) => {
             <div
               className="font-bold cursor-pointer w-fit"
               onClick={() => commentRef?.current?.focus()}
-            >Comment <span className="text-red-500">*</span></div>
-            <textarea ref={commentRef} name="textarea" className="min-h-[90px] max-h-[90px] h-[90px] px-2 pt-1 outline-none rounded" placeholder="Fill your comment here" autoComplete="off" maxLength={230} value={comment} onChange={(e) => setComment(e?.currentTarget?.value)} />
+            >Komentar <span className="text-red-500">*</span></div>
+            <textarea ref={commentRef} name="textarea" className="min-h-[90px] max-h-[90px] h-[90px] px-2 pt-1 outline-none rounded" placeholder="Isi komentar anda disini" autoComplete="off" maxLength={230} value={comment} onChange={(e) => setComment(e?.currentTarget?.value)} />
             <span className="text-red-500 text-xs mt-1" dangerouslySetInnerHTML={{__html: errorComment}}></span>
           </div>
 
@@ -308,7 +308,7 @@ const ReservationSection = React.forwardRef((props, ref) => {
                   return {}
                 }
               }}
-            >SUBMIT</div>
+            >KIRIM</div>
           </div>
 
         </div>

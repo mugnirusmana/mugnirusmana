@@ -190,8 +190,8 @@ const Home = () => {
         show: true,
         title: 'Submit Form',
         type: 'success',
-        message: '<div class="w-full text-center flex flex-col items-center justify-center"><span class="text-base font-bold">Thanks for submitting the form</span><br class="hidden" /><span class="text-xs">We have send you a QR Code URL to your email</span><br class="hidden" /><span class="text-xs">and copy this QR Code URL</span><br class="hidden" /><span class="text-xs">You can use it for your attendance</span><br class="hidden" /><span class="text-xs">or you can manual sign by sign a signature book</span></div>',
-        confirmButtonText: 'Copy QR Url & Close',
+        message: '<div class="w-full text-center flex flex-col items-center justify-center"><span class="text-base font-bold">Terimakasih telah mengisi form</span><br class="hidden" /><span class="text-xs">Kita telah mengirimkan anda link QR Code ke email anda</span><br class="hidden" /><span class="text-xs">Anda bisa menggunakan QR tersebut untuk kehadiran anda</span><br class="hidden" /><span class="text-xs">ataupun manual tanda tangan pada buku tamu</span></div>',
+        confirmButtonText: 'Copy link QR & Tutup',
         action: () => {
           navigator.clipboard.writeText(data?.link_qr);
           setShowNotifGlobal({
@@ -223,7 +223,7 @@ const Home = () => {
           show: true,
           title: 'Submit Form',
           type: 'warning',
-          message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-base font-bold">Something went wrong with the data you send${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
+          message: `<span class="text-center flex flex-col w-full items-center justify-center"><span class="text-base font-bold">Terjadi kesalahan dengan data yang anda kirim${resultErrorList?':':''}</span>${resultErrorList ? `<br class="hidden" />${resultErrorList}` : ''}</span>`,
           confirmButtonText: 'Confirm',
           action: () => {
             setShowNotifGlobal({
@@ -444,15 +444,15 @@ const Home = () => {
         show={showSubmitForm}
         isLoading={reservationSlice?.isLoading}
         title={'Submit Form'}
-        message={'<span className="w-full text-center">Are you sure about the data you are going to submit?</span>'}
+        message={'<span className="w-full text-center">Apakah anda sudah yakin dengan data anda?</span>'}
         type={'question'}
         showCancelButton={true}
-        cancelButtonText={"No, I'll check again"}
+        cancelButtonText={"Tidak, Saya akan cek kembali"}
         cancelButtonAction={() => {
           setDataForm(null);
           setShowSubmitForm(false);
         }}
-        confirmButtonText={'Yes, I am'}
+        confirmButtonText={'Ya, Saya sudah yakin'}
         confirmButtonAction={submitReservationForm}
         windowDimensions={windowDimensions}
       />
@@ -471,7 +471,7 @@ const Home = () => {
       <Alert
         show={showCopyText}
         title={'Copy QR URL'}
-        message={'<div className="w-full flex items-center justify-center text-center">Successfully copy QR Code URL</div>'}
+        message={'<div className="w-full flex items-center justify-center text-center">Berhasil copy link QR Code</div>'}
         type={'success'}
         showCancelButton={false}
         confirmButtonAction={() => setShowCopyText(false)}

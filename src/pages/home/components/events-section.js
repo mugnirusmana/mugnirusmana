@@ -72,21 +72,21 @@ const EventsSection = React.forwardRef((props, ref) => {
         <div className="w-full h-fit flex flex-col gap-5 font-puppies text-lg desktop:text-2xl tablet:flex-row tablet:w-1/2 desktop:w-full desktop:gap-10 z-[1]">
           <div className={`w-full flex flex-row gap-5 desktop:gap-10`}>
             <div className="w-full h-[70px] bg-light-pink shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
-              <span className="font-bold">Days</span>
+              <span className="font-bold">Hari</span>
               <span className="desktop:text-lg font-bold">{countDown?.days}</span>
             </div>
             <div className="w-full h-[70px] bg-light-pink shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
-              <span className="font-bold">Hours</span>
+              <span className="font-bold">Jam</span>
               <span className="desktop:text-lg font-bold">{countDown?.hours}</span>
             </div>
           </div>
           <div className={`w-full flex flex-row gap-5 desktop:gap-10`}>
             <div className="w-full h-[70px] bg-light-pink shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
-              <span className="font-bold">Minutes</span>
+              <span className="font-bold">Menit</span>
               <span className="desktop:text-lg font-bold">{countDown?.minutes}</span>
             </div>
             <div className="w-full h-[70px] bg-light-pink shadow-lg rounded-md flex flex-col items-center justify-between p-2 desktop:px-10 desktop:flex-row">
-              <span className="font-bold">Seconds</span>
+              <span className="font-bold">Detik</span>
               <span className="desktop:text-lg font-bold">{countDown?.seconds}</span>
             </div>
           </div>

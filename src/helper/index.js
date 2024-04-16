@@ -47,7 +47,7 @@ export const formatDate = (date) => {
 
 export const formatDateCoundown = (date, time) => {
   let result = null;
-  if ((date && (date !== "" || date !== false)) && (time && (time !== "" || time !== false))) result = moment(`${date} ${time}`).format('DD/MM/YYYY H:i');
+  if ((date && (date !== "" || date !== false)) && (time && (time !== "" || time !== false))) result = moment(`${date} ${time}`).format('YYYY-MM-DD');
   return result;
 }
 
