@@ -75,6 +75,7 @@ const Settings = () => {
     accompanist_facebook_1: '',
     accompanist_instagram_1: '',
     accompanist_picture_1: '',
+    
     accompanist_fullname_2: '',
     accompanist_type_2: '',
     accompanist_status_2: '',
@@ -82,6 +83,7 @@ const Settings = () => {
     accompanist_facebook_2: '',
     accompanist_instagram_2: '',
     accompanist_picture_2: '',
+
     accompanist_fullname_3: '',
     accompanist_type_3: '',
     accompanist_status_3: '',
@@ -89,12 +91,15 @@ const Settings = () => {
     accompanist_facebook_3: '',
     accompanist_instagram_3: '',
     accompanist_picture_3: '',
+
     accompanist_fullname_4: '',
     accompanist_type_4: '',
     accompanist_status_4: '',
     accompanist_tiktok_4: '',
     accompanist_facebook_4: '',
     accompanist_instagram_4: '',
+    accompanist_picture_4: '',
+
     accompanist_fullname_5: '',
     accompanist_type_5: '',
     accompanist_status_5: '',
@@ -102,6 +107,7 @@ const Settings = () => {
     accompanist_facebook_5: '',
     accompanist_instagram_5: '',
     accompanist_picture_5: '',
+
     accompanist_fullname_6: '',
     accompanist_type_6: '',
     accompanist_status_6: '',
@@ -109,6 +115,7 @@ const Settings = () => {
     accompanist_facebook_6: '',
     accompanist_instagram_6: '',
     accompanist_picture_6: '',
+
     gallery_1: '',
     gallery_2: '',
     gallery_3: '',

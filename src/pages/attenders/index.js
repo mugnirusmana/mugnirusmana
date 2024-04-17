@@ -75,7 +75,7 @@ const Attenders = () => {
       }
     },
     {
-      label: 'Status',
+      label: 'Comment Status',
       object: 'status',
       customRender: (data) => {
         if (parseInt(data?.status) === 2) {

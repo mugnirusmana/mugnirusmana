@@ -175,6 +175,19 @@ const AttenderDetail = () => {
     }
   }
 
+  const customRenderParticipants = (participants) => {
+    if (participants) {
+      if (parseInt(participants) === 1) {
+        return `${participants} Person`
+      } else if (parseInt(participants) > 3) {
+        return `More than ${participants} People`
+      }
+      return `${participants} People`
+    }
+
+    return '-';
+  }
+
   const customRenderStatus = () => {
     if (attenderDetail?.data?.attendance) {
       if (parseInt(attenderDetail?.data?.status) === 2) {
@@ -229,7 +242,12 @@ const AttenderDetail = () => {
               <td className="py-5">{customRenderAttendance()}</td>
             </tr>
             <tr className="border-b border-b-gray-400">
-              <td className="py-5">Status</td>
+              <td className="py-5">Total Participant(s)</td>
+              <td className="py-5">:</td>
+              <td className="py-5">{customRenderParticipants(attenderDetail?.data?.participants)}</td>
+            </tr>
+            <tr className="border-b border-b-gray-400">
+              <td className="py-5">Comment Status</td>
               <td className="py-5">:</td>
               <td className="py-5">{customRenderStatus()}</td>
             </tr>
