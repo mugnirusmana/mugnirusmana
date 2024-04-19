@@ -50,8 +50,13 @@ const AuthedTemplate = ({ children }) => {
       icon: 'w-[20px] fa-solid fa-users',
     },
     {
-      title: 'Scan Qr',
+      title: 'Scan Qr (Desktop)',
       path: '/scan-qr',
+      icon: 'w-[20px] fa-solid fa-qrcode',
+    },
+    {
+      title: 'Scan Qr (Mobile)',
+      path: '/scan-qr-mobile',
       icon: 'w-[20px] fa-solid fa-qrcode',
     },
     {

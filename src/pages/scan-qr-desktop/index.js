@@ -3,9 +3,9 @@ import QrReader from 'react-qr-scanner';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { getWindowDimensions } from './../../helper';
+import { getWindowDimensions } from '../../helper';
 
-import { defaultAttenderAttend, submitAttenderAttend } from './../../redux/attenderAttendSlice';
+import { defaultAttenderAttend, submitAttenderAttend } from '../../redux/attenderAttendSlice';
 
 import BreadCrumb from "../../components/breadcrumb";
 import Alert from '../../components/alert';

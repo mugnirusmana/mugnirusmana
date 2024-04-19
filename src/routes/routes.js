@@ -10,7 +10,8 @@ import BroadcastDetail from '../pages/broadcast-detail';
 import BroadcastEdit from '../pages/broadcast-edit';
 import Attenders from '../pages/attenders';
 import AttendersDetail from '../pages/attender-detail';
-import ScanQr from '../pages/scan-qr';
+import ScanQrDesktop from '../pages/scan-qr-desktop';
+import ScanQrMobile from '../pages/scan-qr-mobile';
 import Settings from '../pages/settings';
 import Profile from '../pages/profile';
 import ChangePassword from '../pages/change-password';
@@ -92,8 +93,13 @@ const AuthedRoute = [
 		exact: true,
 	},
 	{
-		path: "/scan-qr",
-		component: ScanQr,
+		path: "/scan-qr-desktop",
+		component: ScanQrDesktop,
+		exact: true,
+	},
+	{
+		path: "/scan-qr-mobile",
+		component: ScanQrMobile,
 		exact: true,
 	},
 	{
