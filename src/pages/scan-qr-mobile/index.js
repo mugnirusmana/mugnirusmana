@@ -86,7 +86,7 @@ const ScanQr = () => {
             delay={5000}
             style={cameraStyle}
             constraints={{
-              facingMode: {exact: "environment" }
+              facingMode: "environment"
             }}
             onError={(error) => {
               if (canScan) {

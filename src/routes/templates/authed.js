@@ -51,7 +51,7 @@ const AuthedTemplate = ({ children }) => {
     },
     {
       title: 'Scan Qr (Desktop)',
-      path: '/scan-qr',
+      path: '/scan-qr-desktop',
       icon: 'w-[20px] fa-solid fa-qrcode',
     },
     {
